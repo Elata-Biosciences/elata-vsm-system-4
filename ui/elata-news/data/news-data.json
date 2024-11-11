@@ -1,0 +1,116 @@
+{
+  "categories": {
+    "Research News": [
+      {
+        "title": "Breakthrough in NMDA Receptor Research",
+        "author": "Dr. Jane Smith",
+        "date": "2024-02-05",
+        "source": "Nature",
+        "url": "https://nature.com/articles/nmda-2024"
+      },
+      {
+        "title": "New Study Links Gut Microbiome to Depression",
+        "author": "Prof. John Doe",
+        "date": "2024-02-04",
+        "source": "Science",
+        "url": "https://science.org/gut-depression"
+      }
+    ],
+    "Industry News": [
+      {
+        "title": "Elata Biosciences Secures $50M Funding",
+        "author": "Sarah Johnson",
+        "date": "2024-02-03",
+        "source": "TechCrunch",
+        "url": "https://techcrunch.com/elata-funding"
+      },
+      {
+        "title": "FDA Fast-Tracks Novel Antidepressant",
+        "author": "Michael Brown",
+        "date": "2024-02-02",
+        "source": "BioPharma Dive",
+        "url": "https://biopharmadive.com/fda-fast-track"
+      }
+    ],
+    "Biohacking Mental Health": [
+      {
+        "title": "Nootropics Show Promise in Anxiety Reduction",
+        "author": "Emma Wilson",
+        "date": "2024-02-01",
+        "source": "Quantified Self",
+        "url": "https://quantifiedself.com/nootropics-anxiety"
+      },
+      {
+        "title": "Meditation App Claims 30% Improvement in User Focus",
+        "author": "David Lee",
+        "date": "2024-01-31",
+        "source": "TechHealth Weekly",
+        "url": "https://techealth.com/meditation-focus"
+      }
+    ],
+    "Computational & Precision Psychiatry": [
+      {
+        "title": "AI Model Predicts Depression Patterns with 85% Accuracy",
+        "author": "Dr. Alex Chen",
+        "date": "2024-01-30",
+        "source": "MIT News",
+        "url": "https://news.mit.edu/ai-depression"
+      },
+      {
+        "title": "Machine Learning Identifies New Bipolar Disorder Subtypes",
+        "author": "Prof. Maria Garcia",
+        "date": "2024-01-29",
+        "source": "Stanford Medicine",
+        "url": "https://med.stanford.edu/ml-bipolar"
+      }
+    ],
+    "Hardware, Neuroimaging, BCIs": [
+      {
+        "title": "New fMRI Technique Offers 2x Resolution Improvement",
+        "author": "Dr. Robert Taylor",
+        "date": "2024-01-28",
+        "source": "Neuroscience News",
+        "url": "https://neurosciencenews.com/fmri-resolution"
+      },
+      {
+        "title": "Thought-to-Text BCI Achieves 95% Accuracy",
+        "author": "Emily White",
+        "date": "2024-01-27",
+        "source": "Brain-Computer Interfaces",
+        "url": "https://bci-journal.com/thought-to-text"
+      }
+    ],
+    "DeSci, DAOs, Crypto": [
+      {
+        "title": "Decentralized Science DAO Funds Groundbreaking PTSD Research",
+        "author": "Thomas Green",
+        "date": "2024-01-26",
+        "source": "CoinDesk",
+        "url": "https://coindesk.com/desci-ptsd"
+      },
+      {
+        "title": "Crypto-based Crowdfunding Platform Launches for Mental Health Startups",
+        "author": "Lisa Black",
+        "date": "2024-01-25",
+        "source": "DeSci Today",
+        "url": "https://desci.today/mental-health-crypto"
+      }
+    ],
+    "Off Topic Curiosities": [
+      {
+        "title": "Researchers Discover New Type of Synesthesia",
+        "author": "Dr. Olivia Brown",
+        "date": "2024-01-24",
+        "source": "Psychology Today",
+        "url": "https://psychologytoday.com/synesthesia-discovery"
+      },
+      {
+        "title": "Study Finds Link Between Favorite Color and Personality Traits",
+        "author": "James Wilson",
+        "date": "2024-01-23",
+        "source": "Scientific American",
+        "url": "https://scientificamerican.com/color-personality"
+      }
+    ]
+  }
+}

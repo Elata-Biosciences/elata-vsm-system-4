@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+@layer components {
+  .news-item {
+    @apply shadow-md hover:shadow-lg;
+  }
+
+  .tab {
+    @apply px-4 py-2 text-sm md:text-base hover:text-yellow-600 cursor-pointer border-b-4 border-transparent;
+  }
+
+  .tab.active {
+    @apply border-yellow-400;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes subtle-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(250, 204, 21, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+  }
+}
+
+.bg-neural-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(circle at center center, #f8fafc, #ffffff),
+    repeating-radial-gradient(
+      circle at center center, 
+      #f8fafc, 
+      #f8fafc, 
+      20px, 
+      transparent 40px, 
+      transparent 20px
+    );
+  background-blend-mode: multiply;
+  opacity: 0.95;
+}
