@@ -2,17 +2,26 @@ import puppeteer, { PuppeteerLaunchOptions } from 'puppeteer';
 import { processPageWithGPT } from "./gptProcessor.js";
 import os from 'os';
 import { SCRAPING_SOURCES } from '../config/scrapingSources.js';
+import { getYesterdayDate, readScrapedData, writeScrapedData } from './utils.js';
 
 /**
  * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
  * @returns {Promise<Array>} - The processed content
  */
 export async function scrapeWebsites() {
+    const yesterday = getYesterdayDate();
+    
+    // Check if we already have data for yesterday
+    const existingData = readScrapedData(yesterday);
+    if (existingData) {
+        console.log('Found existing scraped data for', yesterday);
+        return existingData;
+    }
+
     console.log('Launching browser...');
     
     // Configure browser options based on OS
     let options: PuppeteerLaunchOptions = {
-        // headless: "new",
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -67,6 +76,9 @@ export async function scrapeWebsites() {
     } finally {
         await browser.close();
     }
+
+    // After scraping, store the results
+    writeScrapedData(results, yesterday);
 
     return results;
 }
