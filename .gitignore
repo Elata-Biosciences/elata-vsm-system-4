@@ -1,0 +1,12 @@
+/node_modules
+/dist
+/build
+/coverage
+/docs
+/tmp
+/logs
+/scraper/node_modules/
+/scraper/node_modules/*
+/scraper/data/*
+/scraper/dist/*
+.env
