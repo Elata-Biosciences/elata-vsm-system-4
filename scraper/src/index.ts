@@ -27,8 +27,9 @@ const getAISummaryOfStoriesAndScrapingResults = async (
     ${scrapingResults.map((result) => result.analysis).join("\n")}
     `;
 
+
     const summary = await openAIClient.chat.completions.create({
-      model: config.openai.model,
+      model: 'chatgpt-4o-latest',
       messages: [{ role: "system", content: combinedPrompt }],
     });
 

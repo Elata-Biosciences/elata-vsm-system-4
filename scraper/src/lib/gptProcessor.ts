@@ -24,7 +24,7 @@ export async function processPageWithGPT(
   console.log(`Extracting articles from ${sourceUrl}`);
   try {
     const response = await openAIClient.chat.completions.create({
-      model: config.openai.model,
+      model: 'chatgpt-4o-latest',
       messages: [
         {
           role: "system",

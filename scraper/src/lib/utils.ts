@@ -96,14 +96,69 @@ export const doesDataDumpFileExist = (prefix = 'data'): boolean => {
 };
 
 /**
- * Writes a summary to a file
- * @param {string} summaryText - The summary to write to the file
+ * Writes a summary to a JSON file
+ * @param {string | object} summaryData - The summary to write to the file (can be string or object)
  * @returns {void}
  */
-export const writeSummaryToFile = (summaryText: string): void => {
-  const filePath = path.join(__dirname, "..", "data", `summary_${getYesterdayDate()}.txt`);
-  fs.writeFileSync(filePath, summaryText);
-  console.log(`Wrote summary to ${filePath}`);
+export const writeSummaryToFile = (summaryData: string | object): void => {
+  const filePath = path.join(__dirname, "..", "data", `summary_${getYesterdayDate()}.json`);
+  
+  // Parse the summary if it's a string
+  let parsedSummary;
+  if (typeof summaryData === 'string') {
+    try {
+      parsedSummary = JSON.parse(summaryData);
+    } catch (e) {
+      console.warn('Failed to parse summary as JSON, attempting to fix string format...');
+      // Try to clean up the string if it's not valid JSON
+      const cleanedString = summaryData.trim().replace(/^\`\`\`json\n|\`\`\`$/g, '');
+      try {
+        parsedSummary = JSON.parse(cleanedString);
+      } catch (e2) {
+        console.error('Could not parse summary as JSON:', e2);
+        throw new Error('Invalid summary format');
+      }
+    }
+  } else {
+    parsedSummary = summaryData;
+  }
+
+  const outputData = {
+    date: getYesterdayDate(),
+    summary: parsedSummary,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(outputData, null, 2));
+    console.log(`Wrote summary to ${filePath}`);
+  } catch (error) {
+    console.error('Error writing summary file:', error);
+    throw error;
+  }
+};
+
+/**
+ * Reads a summary from a JSON file for the specified date
+ * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
+ * @returns {Object|null} - Returns null if no summary exists for that date
+ */
+export const readSummary = (date: string = getYesterdayDate()): { date: string; summary: string; timestamp: string } | null => {
+  const filePath = path.join(__dirname, "..", "data", `summary_${date}.json`);
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+};
+
+/**
+ * Checks if a summary exists for the specified date
+ * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
+ * @returns {boolean}
+ */
+export const hasSummary = (date: string = getYesterdayDate()): boolean => {
+  const filePath = path.join(__dirname, "..", "data", `summary_${date}.json`);
+  return fs.existsSync(filePath);
 };
 
 /**

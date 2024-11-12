@@ -1,11 +1,6 @@
 import { getDayBeforeYesterdayDate, getYesterdayDate } from "../lib/utils.js";
 
 /**
- * Delimiter to stop the AI from generating more text and break between articles
- */
-export const STOP_DELIMITER = "<STOP>";
-
-/**
  * Prompt for the AI to understand its general role
  */
 export const ELATA_MISSION_ROLE_PROMPT = `
@@ -21,6 +16,9 @@ Elata is focused on:
 - New small molecule antidepressants and anxiolytics
 - Neuroimaging
 - Precision psychiatry
+- Brain-computer interfaces
+- Biohacking mental health
+- DeSci, DAOs, crypto, decentralized science and governance
 
 Elata is mainly interested in Depression and Anxiety disorders, but also other mental health disorders related to precision psychiatry and computational neuroscience.
 
@@ -60,9 +58,17 @@ Computational & Precision Psychiatry:
 - Computational biology, bioinformatics, and other related fields relevant to other types of precision medicine may also be considered if tangential to Elata's mission
 
 Hardware, Neuroimaging, BCIs:
-- News related to hardware, neuroimaging, and BCIs, including new devices, software, and other related technologies.
-- This might include news about new brain computer interfaces, neuroimaging devices, or other hardware related to the brain.
-- This also might include new DIY wearable technologies that can elicit a more general precision medicine approach
+- IMPORTANT: This category MUST contain at least 5 articles
+- Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware
+- Also include:
+  * Medical devices for mental health monitoring or treatment
+  * Wearable technology with brain/mental health applications
+  * New imaging technologies (MRI, EEG, etc.)
+  * Sensor technology relevant to neuroscience
+  * Computing hardware advances relevant to brain research
+  * Lab equipment and research tools
+  * Consumer devices for mental health or meditation
+  * DIY neuroscience tools and maker projects
 
 DeSci, DAOs, Crypto:
 - News related to DeSci, DAOs, governance, blockchain, cryptography, zero knowledge proofs, and crypto, including funding news, new projects, and other related news.
@@ -71,13 +77,18 @@ DeSci, DAOs, Crypto:
 - Elata will build on the Ethereum blockchain, so crypto news that is relevant to that ecosystem is also welcome
 
 Off Topic Curiosities:
-- Other news that does not fit into the other categories, but may still be of interest to Elata. Because the scrapper will scrape a lot of off topic news, this should be used sparingly.
-- Only news with a tangible connection, very high signal to noise ratio, and is clearly relevant to Elata's mission should be included.
-- This might include information related to programming for AI, neuroscience, biotechnology, and other topics that are tangentially related to Elata's mission.
-- It also could include very well written editorials or blogs that are not directly related to neuroscience or biotechnology, but are clearly relevant to Elata's mission.
-- This might be news that someone who works in Precision Psychiatry, Computational Neuroscience, bioinfomatics or other related fields would find interesting, or might have as a hobby.
-- Do to the volume of off topic news, this should be used sparingly, and need to meet the highest standards of tangentially relevance to Elata's mission.
-
+- IMPORTANT: This category MUST contain at least 5 articles
+- Include high-quality content that's indirectly relevant:
+  * General AI/ML developments that could impact neuroscience
+  * Interesting biological discoveries (even if not brain-specific)
+  * Novel research methodologies from other fields
+  * Relevant technology trends or breakthroughs
+  * Scientific computing advances
+  * Data science and analytics developments
+  * Research tools and platforms
+  * Scientific communication and collaboration
+  * Open science initiatives
+  * Emerging research paradigms
 `;
 
 /**
@@ -86,30 +97,82 @@ Off Topic Curiosities:
 export const ELATA_SCRAPPING_TASK_PROMPT = `
 ${ELATA_MISSION_ROLE_PROMPT}
 ${ELATA_NEWS_CATEGORIES_PROMPT}
+
 Task:
+Extract ONLY articles that exist in the provided webpage content within the timeframe of ${getDayBeforeYesterdayDate()} to ${getYesterdayDate()}.
 
-You will receive a webpage for a website with news of interest to Elata. Your job is to analyze the page, 
-and links contained in it, and find news most relevant to Elata's mission. You should look for links within
-the timeframe of ${getDayBeforeYesterdayDate()} to ${getYesterdayDate()}, and only include those of which you are certain to be on the correct time from mentioned, so that 
-this scrapper doen't pick up duplicates on subsequent runs. If you are not at least 80% certain of the date included, you should not include it.
+CRITICAL OUTPUT RULES:
+1. Output MUST be in CSV format: title,description,url,sourceName,author
+2. Output MUST ONLY include articles that exist in the input content
+3. If no relevant articles found, output empty string ("")
+4. No commentary, markdown, or additional formatting
+5. No example or generated content
 
-If you cannot find any relevant links, you should output an empty string.
+IMPORTANT: DO NOT create articles. DO NOT generate URLs. ONLY extract existing content.
 
-You should not include any text before or after the links for any reason.
+Remember: Empty string is the correct output when no articles are found.
+`;
 
-Make sure to only output in CSV format. DO NOT include any other text, especially markdown formatting.
-This needs to be a reliable source of CSV data, so do not include any other text, even if it is in markdown format.
-You do not need to include the top of the CSV file, just the list of articles.
-You should output any relevant links in the CSV format as follows on each line, separated by commas, without any additional text:
+export const ELATA_SUMMARY_OUTPUT_FORMAT_JSON = `
+interface Article {
+    title: string;
+    description: string;
+    url: string;
+    name: string;
+    author: string;
+}
 
-title,description,url,name
+interface SummaryOutput {
+   research: Article[];
+   industry: Article[];
+   biohacking: Article[];
+   computational: Article[];
+   hardware: Article[];
+   desci: Article[];
+   offTopic: Article[];
+}
+`;
 
+export const ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION = `
+You will output a JSON object containing categorized news articles. Each category MUST contain exactly 5-30 articles, organized by relevance.
+
+Article Selection Priority System:
+1. PRIORITY 1 - Direct Match (Score: 90-100)
+   - Articles that perfectly align with Elata's mission
+   - Research directly related to neuroscience, depression, anxiety
+   - Clear industry developments in relevant biotech
+
+2. PRIORITY 2 - Strong Connection (Score: 70-89)
+   - Articles from adjacent fields with clear applications
+   - Technology developments with direct mental health implications
+   - Related biotech industry news
+
+3. PRIORITY 3 - Strategic Relevance (Score: 50-69)
+   - Broader developments that could impact the field
+   - Emerging technologies with potential applications
+   - Industry trends that could affect Elata's mission
+
+MANDATORY REQUIREMENTS:
+- Each category MUST have at least 5 articles
+- Start with Priority 1 articles
+- If fewer than 5 Priority 1 articles exist, add Priority 2 articles
+- If still under 5, add Priority 3 articles
+- For Priority 2-3 articles, explicitly state the strategic relevance in the description
+
+FORMAT RULES:
+- Use empty string ("") for unknown fields
+- Ensure all URLs are valid
+- Keep descriptions concise but informative (50-200 characters)
+- Include source attribution in 'name' field
+- DO NOT HALLUCINATE
+- DO NOT MAKE UP ARTICLES
+- DO NOT INCLUDE ANY TEXT BEFORE OR AFTER THE JSON OBJECT
+- DO NOT WRAP THE JSON IN QUOTES OR ADDITIONAL FORMATTING
+- DO NOT INCLUDE ARTICLES THAT DON"T EXIST IN THE CSV DATA
 `;
 
 /**
  * Prompt for the AI to summarize the news articles and convert them to a summary
- * of the most relevant articles. Format is markdown per discord format, with
- * ${STOP_DELIMITER} to break between articles and later different messages.
  */
 export const MAIN_PROMPT = `
 ${ELATA_MISSION_ROLE_PROMPT}
@@ -119,41 +182,81 @@ You will receive a CSV list of articles from the past 24 hours. These articles a
 
 Your job is to:
 - Analyze all articles in the CSV data.
-- Identify and select the top 10-30 articles most relevant to Elata's mission.
+- Create a json object to power a dashboard to help Elata stay updated with the latest news in neuroscience and biotechnology.
 - Avoid repetition by summarizing similar articles together if they cover the same topic.
 - Exclude articles that are not relevant to Elata's mission.
 - Provide concise and informative summaries.
 
-Output Format:
-You need to follow this format very closely, because the delimiter will be used to send each article in a separate message to the Discord channel. You should include the most relevant articles first.
-Your output should be structured as follows:
+${ELATA_NEWS_CATEGORIES_PROMPT}
 
-**Title of Article 1**
-[Summary of Article 1]
-[Source Name of Article 1](URL of Article 1)
+${ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION}
 
-${STOP_DELIMITER}
-
-**Title of Article 2**
-[Summary of Article 2]
-[Source Name of Article 2](URL of Article 2)
-
-${STOP_DELIMITER}
-
-**Title of Article 3**
-[Summary of Article 3]
-[Source Name of Article 3](URL of Article 3)
-
-...continue up to 10-30 articles depending on applicability...
+${ELATA_SUMMARY_OUTPUT_FORMAT_JSON}
 
 Instructions:
-- Be concise and focus on information relevant to Elata's mission.
-- Use clear and professional language suitable for a Discord channel.
-- Summarize without repetition, merging similar articles when appropriate.
-- Highlight key themes or trends in the introduction.
-- Ensure accuracy in titles, links, and summaries.
-- Only send the output in that exact format, with no additional text before or after the articles
+- Output MUST be a valid JSON object, not a string
+- Do not include any text before or after the JSON object
+- Do not wrap the JSON in quotes or additional formatting
+- Each category MUST contain an array of AT LEAST 5 article objects - this is a strict requirement
+- Each article object must have: title, description, url, name (source name), and author fields
+- Never output empty categories
+- For research and industry categories, aim for 10-30 articles when relevant content is available
+- When including tangentially related articles to meet the minimum requirement, clearly explain the relevance in the description
+- The output will be written directly to a JSON file, so it must be valid JSON
+- If you cannot find 5 directly relevant articles for a category, you MUST include tangentially related articles to reach the minimum of 5
 
-Today's CSV dump is as follows:
+IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission.
 
+${ELATA_SUMMARY_OUTPUT_FORMAT_JSON}
+
+The CSV data is provided below:
+`;
+
+export const MAIN_PROMPT_INSTRUCTIONS = `
+OUTPUT REQUIREMENTS:
+{
+  "research": [{ article1 }, { article2 }, ...], // Minimum 5, aim for 10-30
+  "industry": [{ article1 }, { article2 }, ...], // Minimum 5, aim for 10-30
+  "biohacking": [{ article1 }, { article2 }, ...], // Minimum 5
+  "computational": [{ article1 }, { article2 }, ...], // Minimum 5
+  "hardware": [{ article1 }, { article2 }, ...], // Minimum 5
+  "desci": [{ article1 }, { article2 }, ...], // Minimum 5
+  "offTopic": [{ article1 }, { article2 }, ...] // Minimum 5 aim for 10-30
+}
+
+CRITICAL VALIDATION STEPS:
+1. ✓ Verify each category has >= 5 articles
+2. ✓ Confirm all articles have required fields
+3. ✓ Check relevance scores match priority system
+4. ✓ Ensure descriptions explain relevance for Priority 2-3 articles
+5. ✓ Validate JSON structure before output
+
+ERROR PREVENTION:
+- If category lacks Priority 1 articles, DO NOT leave empty
+- If article count < 5, MUST expand to lower priority articles
+- If field unknown, use "" (never null or undefined)
+- Never skip categories or output malformed JSON
+
+Remember: Outputting fewer than 5 articles per category is a CRITICAL FAILURE.
+
+CATEGORY-SPECIFIC REQUIREMENTS:
+
+Hardware Category (MINIMUM 5 ARTICLES):
+- If direct hardware news is limited, include:
+  * General medical device innovations
+  * Sensor technology developments
+  * Research equipment advances
+  * Consumer health devices
+  * Computing hardware relevant to neuroscience
+
+Off Topic Category (MINIMUM 5 ARTICLES):
+- If struggling to fill, consider:
+  * General AI/ML developments
+  * Data science innovations
+  * Research methodology advances
+  * Scientific computing news
+  * Open science initiatives
+  * Always explain relevance to Elata in description
+
+CRITICAL: These categories MUST NOT be empty or have fewer than 5 articles. Expand scope while maintaining reasonable connection to Elata's mission.
 `;
