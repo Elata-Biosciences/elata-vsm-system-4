@@ -47,6 +47,7 @@ export default function Header() {
       icon: FaDiscord,
       href: "https://discord.gg/pzG7YsmTjC",
       label: "Discord",
+      isSpecialButton: true,
     },
   ];
 
@@ -70,8 +71,9 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          {socialLinks.map(({ icon: Icon, href, label, onClick, isButton }) =>
-            isButton ? (
+          {socialLinks.map(
+            ({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) =>
+              isButton ? (
               <button
                 key={label}
                 onClick={onClick}
@@ -80,6 +82,28 @@ export default function Header() {
               >
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
+            ) : isSpecialButton ? (
+              <Link
+                key={label}
+                href={href!}
+                className="group inline-flex items-center bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-1.5 rounded-full font-medium text-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_15px_rgba(250,204,21,0.5)] transform-gpu"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+              >
+                Join Community
+                <svg 
+                  className="w-4 h-4 ml-1.5 animate-none group-hover:animate-bounce-x"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </Link>
             ) : (
               <Link
                 key={label}
@@ -90,8 +114,8 @@ export default function Header() {
                 aria-label={label}
               >
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-              </Link>
-            )
+                </Link>
+              )
           )}
         </div>
       </header>
