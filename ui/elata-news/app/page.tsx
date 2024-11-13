@@ -2,12 +2,15 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import Header from '@/components/Header'
 import NewsCategories from '@/components/NewsCategories'
-import { NewsData } from '@/lib/types'
+import type { NewsData } from '@/lib/types'
 
 async function getData(): Promise<NewsData> {
   const jsonDirectory = path.join(process.cwd(), 'data')
   const fileContents = await fs.readFile(jsonDirectory + '/news-data.json', 'utf8')
-  return JSON.parse(fileContents)
+  const data = JSON.parse(fileContents) as NewsData
+  
+  // Transform data to match expected format
+  return data
 }
 
 export default async function Home() {
@@ -18,7 +21,7 @@ export default async function Home() {
       <Header />
       <main className="flex-grow">
         <div className="container mx-auto px-4 py-8">
-          <NewsCategories initialData={data.categories} />
+          <NewsCategories initialData={data.summary} />
         </div>
       </main>
     </div>

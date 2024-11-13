@@ -1,116 +1,265 @@
 {
-  "categories": {
-    "Research News": [
+  "date": "2024-11-11",
+  "summary": {
+    "research": [
       {
-        "title": "Breakthrough in NMDA Receptor Research",
-        "author": "Dr. Jane Smith",
-        "date": "2024-02-05",
-        "source": "Nature",
-        "url": "https://nature.com/articles/nmda-2024"
+        "title": "Breathing modulates network activity in frontal brain regions during anxiety",
+        "description": "Study explores how breathing influences frontal brain activity during anxiety, offering potential new insights for treatment strategies.",
+        "url": "https://doi.org/10.1523/JNEUROSCI.1191-24.2024",
+        "name": "Journal of Neuroscience",
+        "author": "Ana L.A. Dias, Davi Drieskens, Joseph A. Belo, Elis H. Duarte, Diego A. Laplagne, Adriano B.L. Tort"
       },
       {
-        "title": "New Study Links Gut Microbiome to Depression",
-        "author": "Prof. John Doe",
-        "date": "2024-02-04",
-        "source": "Science",
-        "url": "https://science.org/gut-depression"
+        "title": "Central mechanisms of muscle tone regulation: implications for pain and performance",
+        "description": "HYPOTHESIS AND THEORY addressing muscle tone regulation, its neurological mechanisms, and implications for pain management and performance improvements.",
+        "url": "https://doi.org/10.3389/fnins.2024.1511783",
+        "name": "Frontiers in Neuroscience",
+        "author": "Timothy W Cacciatore, David Ian Anderson, Rajal G Cohen"
+      },
+      {
+        "title": "Palmitoylethanolamide (PEA) causes dose-dependent changes in brain function and the brain and plasma lipidome",
+        "description": "Original research on how PEA influences brain function and plasma lipidomic composition, promising implications for mental health and neuroprotection.",
+        "url": "https://doi.org/10.3389/fnins.2024.1506352",
+        "name": "Frontiers in Neuroscience",
+        "author": "Shreyas Balaji, Taylor Joel Woodward, Emily Richter, Arnold Chang, Richard Otiz, Praveen Kulkarni, Heather B Bradshaw, Kaashyap Balaji, Craig F Ferris"
+      },
+      {
+        "title": "A distributed brain response predicting the facial expression of acute nociceptive pain",
+        "description": "Study shows that facial expressions of nociceptive pain activate distinct brain regions, helping understand objective measures of pain.",
+        "url": "https://elifesciences.org/articles/87962",
+        "name": "Elifesciences.org",
+        "author": "Marie-Eve Picard, Miriam Kunz, Pierre Rainville"
+      },
+      {
+        "title": "Effects of short-term isolation on social behaviors in prairie voles",
+        "description": "Examines the influence of social isolation on brain behavior, showing how isolation impacts affiliative social behaviors in prairie voles.",
+        "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0313172",
+        "name": "Plos.org",
+        "author": "Various"
       }
     ],
-    "Industry News": [
+    "industry": [
       {
-        "title": "Elata Biosciences Secures $50M Funding",
-        "author": "Sarah Johnson",
-        "date": "2024-02-03",
-        "source": "TechCrunch",
-        "url": "https://techcrunch.com/elata-funding"
+        "title": "AbbVie Tumbles After New Schizophrenia Drug Fails Two Trials",
+        "description": "AbbVie shares plummet following the failure of two trials for its schizophrenia drug, raising doubts about its $9 billion investment in Cerevel Therapeutics.",
+        "url": "https://finance.yahoo.com/news/abbvie-tumbles-schizophrenia-drug-fails-143627223.html",
+        "name": "Yahoo Entertainment",
+        "author": ""
       },
       {
-        "title": "FDA Fast-Tracks Novel Antidepressant",
-        "author": "Michael Brown",
-        "date": "2024-02-02",
-        "source": "BioPharma Dive",
-        "url": "https://biopharmadive.com/fda-fast-track"
+        "title": "AbbVie’s Emraclidine Fails to Reduce Schizophrenia Symptoms Compared to Placebo",
+        "description": "AbbVie revealed disappointing results from its emraclidine Phase II trial for schizophrenia, with the drug failing to reduce symptoms better than a placebo.",
+        "url": "https://www.pharmexec.com/view/abbvie-emraclidine-fails-to-reduce-schizophrenia-symptoms",
+        "name": "Pharmaceutical Executive",
+        "author": "Don Tracy"
+      },
+      {
+        "title": "HC Wainwright Reaffirms “Buy” Rating for ACADIA Pharmaceuticals (NASDAQ:ACAD)",
+        "description": "HC Wainwright maintains a Buy rating for ACADIA Pharmaceuticals, projecting growth fueled by its existing drug pipeline.",
+        "url": "https://www.etfdailynews.com/2024/11/11/hc-wainwright-reaffirms-buy-rating-for-acadia-pharmaceuticals-nasdaqacad/",
+        "name": "ETF Daily News",
+        "author": ""
+      },
+      {
+        "title": "Robeco Institutional Asset Management B.V. Buys 45,857 Shares of Alkermes plc (NASDAQ:ALKS)",
+        "description": "Investment by Robeco boosts confidence in Alkermes as focus on biotech investments in large pharmaceutical companies continue to grow.",
+        "url": "https://www.etfdailynews.com/2024/11/10/robeco-institutional-asset-management-b-v-buys-45857-shares-of-alkermes-plc-nasdaqalks/",
+        "name": "ETF Daily News",
+        "author": ""
+      },
+      {
+        "title": "Axsome Therapeutics (AXSM) to Release Quarterly Earnings on Tuesday",
+        "description": "Axsome, widely known for its psychiatric therapies, remains under financial scrutiny ahead of its quarterly earnings announcement.",
+        "url": "https://www.etfdailynews.com/2024/11/11/axsome-therapeutics-axsm-to-release-quarterly-earnings-on-tuesday/",
+        "name": "ETF Daily News",
+        "author": ""
       }
     ],
-    "Biohacking Mental Health": [
+    "biohacking": [
       {
-        "title": "Nootropics Show Promise in Anxiety Reduction",
-        "author": "Emma Wilson",
-        "date": "2024-02-01",
-        "source": "Quantified Self",
-        "url": "https://quantifiedself.com/nootropics-anxiety"
+        "title": "HRT, Stem Cells, & Nitric Oxide: What This Longevity Expert Wants You To Know",
+        "description": "An in-depth look into hormone replacement, stem cells, and the role of nitric oxide in biohacking to enhance longevity.",
+        "url": "https://www.mindbodygreen.com/articles/hrt-stem-cells-and-nitric-oxide-what-this-longevity-expert-wants-you-to-know",
+        "name": "mindbodygreen.com",
+        "author": ""
       },
       {
-        "title": "Meditation App Claims 30% Improvement in User Focus",
-        "author": "David Lee",
-        "date": "2024-01-31",
-        "source": "TechHealth Weekly",
-        "url": "https://techealth.com/meditation-focus"
+        "title": "5 Easy Biohacks to Boost Your Longevity Right Now",
+        "description": "From supplements to lifestyle techniques, this article covers simple biohacks to increase longevity in daily life.",
+        "url": "http://thechalkboardmag.com/5-easy-biohacks-to-boost-your-longevity-right-now/",
+        "name": "thechalkboardmag.com",
+        "author": ""
+      },
+      {
+        "title": "How Much Exercise Is Too Much?",
+        "description": "Discusses the biohacking notion that moderate exercise holds longevity benefits, while chronic strenuous activity may decrease lifespan.",
+        "url": "https://nutritionfacts.org/video/how-much-exercise-is-too-much/",
+        "name": "Nutritionfacts.org",
+        "author": ""
+      },
+      {
+        "title": "TikTokers Have Found A Fix For Better Skin AND Easing Anxiety — And Pros Say It's Legit",
+        "description": "TikTokers rave about the benefits of skin-care tools like ice rollers, which help reduce anxiety and improve skin health, proving legit according to professionals.",
+        "url": "https://www.huffpost.com/entry/benefits-of-ice-rollers_l_672a76ade4b0ffe83cf1da16",
+        "name": "HuffPost",
+        "author": ""
+      },
+      {
+        "title": "I Got a Cortisol Blood Stress Test. Here's What I Learned and How It Affected My Lifestyle",
+        "description": "Cortisol levels affect everything from skin health to anxiety, and this personal account dives into the results of a hormone biohack test.",
+        "url": "https://www.cnet.com/health/medical/i-got-a-cortisol-blood-stress-test-heres-what-i-learned-and-how-it-affected-my-lifestyle/",
+        "name": "CNET",
+        "author": ""
       }
     ],
-    "Computational & Precision Psychiatry": [
+    "computational": [
       {
-        "title": "AI Model Predicts Depression Patterns with 85% Accuracy",
-        "author": "Dr. Alex Chen",
-        "date": "2024-01-30",
-        "source": "MIT News",
-        "url": "https://news.mit.edu/ai-depression"
+        "title": "Deep-learning models reveal how context and listener attention shape electrophysiological correlates of speech-to-language transformation",
+        "description": "A study leverages deep learning models to explore how our brain transforms spoken language under different listener attention conditions.",
+        "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1012537",
+        "name": "Plos.org",
+        "author": ""
       },
       {
-        "title": "Machine Learning Identifies New Bipolar Disorder Subtypes",
-        "author": "Prof. Maria Garcia",
-        "date": "2024-01-29",
-        "source": "Stanford Medicine",
-        "url": "https://med.stanford.edu/ml-bipolar"
+        "title": "Exploring machine learning algorithms in sickle cell disease patient data: A systematic review",
+        "description": "A review exploring the application of machine learning in sickle cell diagnostics and prediction, with potential crossover methods applicable to mental health.",
+        "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0313315",
+        "name": "Plos.org",
+        "author": ""
+      },
+      {
+        "title": "Kernel machine tests of association using extrinsic and intrinsic cluster evaluation metrics",
+        "description": "A novel kernel method implements machine learning algorithms that may eventually apply to complex brain clustering processes including psychiatric evaluations.",
+        "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1012524",
+        "name": "Plos.org",
+        "author": ""
+      },
+      {
+        "title": "Teaching deep networks to see shape: Lessons from a simplified visual world",
+        "description": "By simplifying inputs, researchers teach deep neural networks how complex visual tasks mirror brain function knowledge that may assist computational psychiatry approaches.",
+        "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1012019",
+        "name": "Plos.org",
+        "author": ""
+      },
+      {
+        "title": "How Anthony Zador thinks neuroscience can help improve AI",
+        "description": "Profound insight into the connection between neuroscience discoveries and their computational impact accelerating the development of Artificial Intelligence.",
+        "url": "https://www.thetransmitter.org/open-neuroscience-and-data-sharing/",
+        "name": "The Transmitter",
+        "author": "Anthony Zador"
       }
     ],
-    "Hardware, Neuroimaging, BCIs": [
+    "hardware": [
       {
-        "title": "New fMRI Technique Offers 2x Resolution Improvement",
-        "author": "Dr. Robert Taylor",
-        "date": "2024-01-28",
-        "source": "Neuroscience News",
-        "url": "https://neurosciencenews.com/fmri-resolution"
+        "title": "Brain-Computer Interface (BCI) Industry Report 2024-2029, with Patent Activity and Key Patent Grants/Publications Related to BCI Technology",
+        "description": "Industry report reviews the Brain-Computer Interface (BCI) market, analyzing USD 4.5B future projections. It includes patents and developments.",
+        "url": "https://www.globenewswire.com/news-release/2024/11/11/2978204/28124/en/Brain-Computer-Interface-BCI-Industry-Report-2024-2029-with-Patent-Activity-and-Key-Patent-Grants-Publications-Related-to-BCI-Technology.html",
+        "name": "GlobeNewswire",
+        "author": ""
       },
       {
-        "title": "Thought-to-Text BCI Achieves 95% Accuracy",
-        "author": "Emily White",
-        "date": "2024-01-27",
-        "source": "Brain-Computer Interfaces",
-        "url": "https://bci-journal.com/thought-to-text"
+        "title": "Raspberry Pi Based AR Glasses",
+        "description": "New DIY wearable augmented-reality glasses using Raspberry Pi Zero that may be adapted for studies or BCIs.",
+        "url": "https://blog.adafruit.com/2024/11/11/raspberry-pi-based-ar-glasses/",
+        "name": "Adafruit.com",
+        "author": ""
+      },
+      {
+        "title": "New patch adds support for Apple's latest Magic Trackpad to Linux",
+        "description": "This new Linux patch enhances hardware usability, adding support for Apple's Magic Trackpad 2024 version, extending hardware function in BCI systems.",
+        "url": "https://www.neowin.net/news/new-patch-adds-support-for-apples-latest-magic-trackpad-to-linux/",
+        "name": "Neowin",
+        "author": ""
+      },
+      {
+        "title": "Inside M4 chips: P cores",
+        "description": "Detailed review of Apple's M4 chip P-cores, which have potential applications in high-performance BCI hardware and neuroimaging devices.",
+        "url": "https://eclecticlight.co/2024/11/11/inside-m4-chips-p-cores/",
+        "name": "Eclecticlight.co",
+        "author": ""
+      },
+      {
+        "title": "Bjorn: A powerful network scanning and offensive security tool for Raspberry Pi",
+        "description": "Bjorn is a new offensive security tool, adaptable for signal processing in brain-computer interfaces through its Raspberry Pi platform.",
+        "url": "https://github.com/infinition/Bjorn",
+        "name": "Github.com",
+        "author": ""
       }
     ],
-    "DeSci, DAOs, Crypto": [
+    "desci": [
       {
-        "title": "Decentralized Science DAO Funds Groundbreaking PTSD Research",
-        "author": "Thomas Green",
-        "date": "2024-01-26",
-        "source": "CoinDesk",
-        "url": "https://coindesk.com/desci-ptsd"
+        "title": "Sowing seeds of trust: How blockchain is cultivating a new era of digital farming",
+        "description": "Blockchain explores the future of secure smart contracts within the agricultural space, notable for its implications in scientific collaboration infrastructure.",
+        "url": "https://www.thehindubusinessline.com/economy/agri-business/sowing-seeds-of-trust-how-blockchain-is-cultivating-a-new-era-of-digital-farming/article68848881.ece",
+        "name": "BusinessLine",
+        "author": ""
       },
       {
-        "title": "Crypto-based Crowdfunding Platform Launches for Mental Health Startups",
-        "author": "Lisa Black",
-        "date": "2024-01-25",
-        "source": "DeSci Today",
-        "url": "https://desci.today/mental-health-crypto"
+        "title": "Nansen scales analytics beyond Ethereum with Bitcoin L2 integration",
+        "description": "Nansen expands to Layer 2 solutions while exploring Ethereum scaling, a critical step for decentralized scientific governance efforts.",
+        "url": "https://cointelegraph.com/news/nansen-bitcoin-layer-2-bitlayer-analytics",
+        "name": "Cointelegraph",
+        "author": ""
+      },
+      {
+        "title": "Growing DeFi on Bitcoin: Rooch Network joins Cointelegraph Accelerator",
+        "description": "Rooch Network joins Cointelegraph’s accelerator to expand decentralized finance, with the potential to impact decentralized scientific funding.",
+        "url": "https://cointelegraph.com/news/growing-defi-on-bitcoin-rooch-network-joins-cointelegraph-accelerator",
+        "name": "Cointelegraph",
+        "author": ""
+      },
+      {
+        "title": "VentureX: Pioneering the Future of Cryptocurrency Investment with AI-Powered Blockchain Solutions",
+        "description": "VentureX showcases AI-powered algorithms evolving in the blockchain investment sector, with crossover potential for decentralized science DAO frameworks.",
+        "url": "https://www.globenewswire.com/news-release/2024/11/11/2978034/0/en/VentureX-Pioneering-the-Future-of-Cryptocurrency-Investment-with-AI-Powered-Blockchain-Solutions.html",
+        "name": "GlobeNewswire",
+        "author": ""
+      },
+      {
+        "title": "Altcoin Pundit Confirms 18600% Price Explosion for New Token Threatening to Overtake Dogecoin (DOGE) and Tron (TRX)",
+        "description": "This case study of meme-coin surge focuses on the rapid-growth landscape of new crypto tokens, parallel to Ethereum’s emergent infrastructure for DeSci.",
+        "url": "https://punchng.com/altcoin-pundit-confirms-18600-price-explosion-for-new-token-threatening-to-overtake-dogecoin-doge-and-tron-trx-in-the-top-10/",
+        "name": "The Punch",
+        "author": ""
       }
     ],
-    "Off Topic Curiosities": [
+    "offTopic": [
       {
-        "title": "Researchers Discover New Type of Synesthesia",
-        "author": "Dr. Olivia Brown",
-        "date": "2024-01-24",
-        "source": "Psychology Today",
-        "url": "https://psychologytoday.com/synesthesia-discovery"
+        "title": "How Webb Stays in Focus",
+        "description": "NASA’s JWST optical system realigns and maintains focus capabilities critical for long-term space exploration and high-precision research value.",
+        "url": "https://www.universetoday.com/169235/how-webb-stays-in-focus/",
+        "name": "Universe Today",
+        "author": ""
       },
       {
-        "title": "Study Finds Link Between Favorite Color and Personality Traits",
-        "author": "James Wilson",
-        "date": "2024-01-23",
-        "source": "Scientific American",
-        "url": "https://scientificamerican.com/color-personality"
+        "title": "The Nightly Habit Cardiologists Are Begging You to Never, Ever Do",
+        "description": "A cardiologist unravels the significant health risks involved in irregular bedtime routines, especially for cardiovascular health improvement efforts.",
+        "url": "https://parade.com/health/irregular-sleep-routine-hurts-heart-health-according-to-cardiologist-study-november-2024",
+        "name": "Parade",
+        "author": ""
+      },
+      {
+        "title": "Optimizing a WebGPU Kernel to 1TFLOP of Performance",
+        "description": "A deep dive into Surfgrad, WebGPU optimization leads to high-efficiency kernels and advancements for hobbyist neuroscience computational workloads.",
+        "url": "https://zanussbaum.substack.com/p/optimizing-a-webgpu-matmul-kernel",
+        "name": "Substack.com",
+        "author": ""
+      },
+      {
+        "title": "NanoPi Zero2: A Rockchip RK3528A SBC",
+        "description": "The Rockchip RK3528A is a value-based single-board computer offering promising performance for makers and neurohardware researchers exploring cost-effective tools.",
+        "url": "https://www.electronics-lab.com/nanopi-zero2-a-rockchip-rk3528a-sbc/",
+        "name": "Electronics-lab.com",
+        "author": ""
+      },
+      {
+        "title": "Ubuntu Security Notice USN-7100-1",
+        "description": "Security vulnerability disclosure relevant to computational biology infrastructure security, highlighting potential weaknesses in open-source frameworks.",
+        "url": "https://packetstormsecurity.com/files/182565/USN-7100-1.txt",
+        "name": "Packetstormsecurity.com",
+        "author": ""
       }
     ]
-  }
+  },
+  "timestamp": "2024-11-12T23:42:12.014Z"
 }

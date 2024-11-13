@@ -1,13 +1,21 @@
-export interface NewsItem {
-  title: string;
-  author: string;
-  date: string;
-  url: string;
-  source: string;
+export interface Article {
+  title: string
+  description: string
+  url: string
+  name: string
+  author: string
 }
 
 export interface NewsData {
-  categories: {
-    [key: string]: NewsItem[];
-  };
+  date: string
+  summary: {
+    research: Article[]
+    industry: Article[]
+    biohacking: Article[]
+    computational: Article[]
+    hardware: Article[]
+    desci: Article[]
+    offTopic: Article[]
+  }
+  timestamp: string
 }

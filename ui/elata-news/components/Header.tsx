@@ -1,49 +1,60 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { FaDiscord, FaReddit, FaQuestionCircle, FaGithub } from 'react-icons/fa'
-import { FaXTwitter } from 'react-icons/fa6'
-import InfoModal from './InfoModal'
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  FaDiscord,
+  FaReddit,
+  FaQuestionCircle,
+  FaGithub,
+  FaLinkedin,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import InfoModal from "./InfoModal";
 
 export default function Header() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const socialLinks = [
     {
       icon: FaQuestionCircle,
       onClick: () => setIsModalOpen(true),
-      label: 'About Elata',
-      isButton: true
+      label: "About Elata",
+      isButton: true,
     },
     {
       icon: FaGithub,
-      href: 'https://github.com/elata-dev',
-      label: 'GitHub',
+      href: "https://github.com/Elata-Biosciences",
+      label: "GitHub",
+    },
+    {
+      icon: FaLinkedin,
+      href: "https://www.linkedin.com/company/elata-biosciences/posts/?feedView=all",
+      label: "LinkedIn",
     },
     {
       icon: FaXTwitter,
-      href: 'https://x.com/elata',
-      label: 'Twitter',
+      href: "https://x.com/Elata_Bio",
+      label: "Twitter",
     },
     {
       icon: FaReddit,
-      href: 'https://reddit.com/r/elata',
-      label: 'Reddit',
+      href: "https://www.reddit.com/r/HappyDAO/",
+      label: "Reddit",
     },
     {
       icon: FaDiscord,
-      href: 'https://discord.gg/your-elata-discord-invite',
-      label: 'Discord',
+      href: "https://discord.gg/pzG7YsmTjC",
+      label: "Discord",
     },
-  ]
+  ];
 
   return (
     <>
       <header className="sticky top-0 z-50 bg-black text-white px-3 py-2 sm:p-4 flex justify-between items-center shadow-xl">
-        <Link 
-          href="https://elata.bio" 
+        <Link
+          href="https://elata.bio"
           className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-opacity"
           target="_blank"
           rel="noopener noreferrer"
@@ -57,9 +68,9 @@ export default function Header() {
           />
           <div className="text-xl sm:text-2xl font-bold">ELATA NEWS</div>
         </Link>
-        
+
         <div className="flex items-center gap-2 sm:gap-4">
-          {socialLinks.map(({ icon: Icon, href, label, onClick, isButton }) => 
+          {socialLinks.map(({ icon: Icon, href, label, onClick, isButton }) =>
             isButton ? (
               <button
                 key={label}
@@ -86,5 +97,5 @@ export default function Header() {
       </header>
       <InfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
-  )
+  );
 }

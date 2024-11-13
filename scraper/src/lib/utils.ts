@@ -101,8 +101,6 @@ export const doesDataDumpFileExist = (prefix = 'data'): boolean => {
  * @returns {void}
  */
 export const writeSummaryToFile = (summaryData: string | object): void => {
-  const filePath = path.join(__dirname, "..", "data", `summary_${getYesterdayDate()}.json`);
-  
   // Parse the summary if it's a string
   let parsedSummary;
   if (typeof summaryData === 'string') {
@@ -110,7 +108,6 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
       parsedSummary = JSON.parse(summaryData);
     } catch (e) {
       console.warn('Failed to parse summary as JSON, attempting to fix string format...');
-      // Try to clean up the string if it's not valid JSON
       const cleanedString = summaryData.trim().replace(/^\`\`\`json\n|\`\`\`$/g, '');
       try {
         parsedSummary = JSON.parse(cleanedString);
@@ -130,10 +127,47 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
   };
 
   try {
-    fs.writeFileSync(filePath, JSON.stringify(outputData, null, 2));
-    console.log(`Wrote summary to ${filePath}`);
+    // 1. Write to scraper's data directory
+    const scraperDataDir = path.join(__dirname, "..", "data");
+    if (!fs.existsSync(scraperDataDir)) {
+      fs.mkdirSync(scraperDataDir, { recursive: true });
+    }
+
+    // Write dated file
+    const datedFilePath = path.join(scraperDataDir, `summary_${getYesterdayDate()}.json`);
+    fs.writeFileSync(datedFilePath, JSON.stringify(outputData, null, 2));
+    console.log(`Wrote summary to ${datedFilePath}`);
+
+    // Write current.json
+    const currentFilePath = path.join(scraperDataDir, "current.json");
+    fs.writeFileSync(currentFilePath, JSON.stringify(outputData, null, 2));
+    console.log(`Wrote current summary to ${currentFilePath}`);
+
+    // 2. Write to UI directory
+    const projectRoot = path.join(__dirname, "..", "..", "..");
+    const uiDataPaths = [
+      path.join(projectRoot, "ui", "elata-news", "data", "news-data.json"),
+      path.join(projectRoot, "ui", "data", "news-data.json"),
+      path.join(projectRoot, "data", "news-data.json")
+    ];
+
+    for (const uiPath of uiDataPaths) {
+      try {
+        const uiDir = path.dirname(uiPath);
+        if (!fs.existsSync(uiDir)) {
+          fs.mkdirSync(uiDir, { recursive: true });
+        }
+        fs.writeFileSync(uiPath, JSON.stringify(outputData, null, 2));
+        console.log(`Successfully wrote to ${uiPath}`);
+      } catch (err) {
+        console.warn(`Failed to write to ${uiPath}:`, err);
+        // Continue to next path if one fails
+      }
+    }
+
   } catch (error) {
-    console.error('Error writing summary file:', error);
+    console.error('Error writing summary files:', error);
+    console.error('Current directory:', __dirname);
     throw error;
   }
 };
