@@ -18,6 +18,7 @@ import {
   FaLine,
   FaHackerNews,
   FaGetPocket,
+  FaTimes,
 } from "react-icons/fa";
 import {
   SiWechat,
@@ -283,10 +284,10 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
             <h2 className="text-2xl sm:text-3xl font-bold">Share This Story!</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="text-gray-400 hover:text-gray-500 transition-colors duration-200 p-2 hover:bg-gray-200 rounded-none"
               aria-label="Close"
             >
-              ✕
+              <FaTimes className="text-2xl" />
             </button>
           </div>
 
