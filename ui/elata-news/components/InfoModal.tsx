@@ -45,7 +45,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
                   target="_blank"
                   className="text-blue-600 hover:text-blue-800 underline decoration-2 decoration-blue-200 hover:decoration-blue-500 transition-all"
                 >
-                  Stafford Beer's Cybernetic Model of Governance
+                  Stafford Beer&apos;s Cybernetic Model of Governance
                 </Link>
                 {' '}as it applies to Elata DAO.
               </p>
@@ -71,7 +71,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
 
             <h3 className="text-xl font-semibold text-gray-800 mb-3">Join Our Mission</h3>
             <p className="text-gray-700 mb-3 leading-relaxed">
-              We're actively seeking contributors with expertise in:
+              We&apos;re actively seeking contributors with expertise in:
             </p>
             <ul className="list-none pl-0 mb-6 grid gap-2">
               {[
@@ -90,7 +90,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               <p className="text-gray-800 mb-0 leading-relaxed">
                 Our vision is to bootstrap our DAO through open-source contributions in computational neuroscience,
                 brain imaging, AI applications in medicine, and modern bioinformatics tools. Post-token launch,
-                we'll channel these capabilities into funding early-stage R&D for innovative psychiatric medicines
+                we&apos;ll channel these capabilities into funding early-stage R&D for innovative psychiatric medicines
                 and advancing precision psychiatry.
               </p>
             </div>
