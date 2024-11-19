@@ -8,24 +8,25 @@ const DATA_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2345/data"
  */
 export async function loadCurrentData(): Promise<NewsData> {
   try {
-    const response = await fetch(DATA_URL);
+    const response = await fetch(DATA_URL, {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const json = await response.json();
     return json as NewsData;
   } catch (error) {
-    console.error('Failed to fetch data:', error);
-    // Return empty data structure
-    return {
-      date: new Date().toISOString(),
-      summary: {
-        research: [],
-        industry: [],
-        biohacking: [],
-        computational: [],
-        hardware: [],
-        desci: [],
-        offTopic: []
-      },
-      timestamp: new Date().toISOString()
-    };
+    console.error('Failed to fetch data:', {
+      error,
+      url: DATA_URL,
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+    throw error;
   }
 }
