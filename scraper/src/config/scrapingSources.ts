@@ -96,10 +96,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     name: "Frontiers",
   },
   {
-    url: "https://www.thetransmitter.org/news/",
-    name: "The Transmitter",
-  },
-  {
     url: "https://www.nature.com/tp/",
     name: "Nature Translational Psychiatry",
   },
@@ -238,34 +234,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://www.astralcodexten.com/",
     name: "Astral Codex Ten",
-  },
-  {
-    url: "https://www.reddit.com/r/Nootropics/top/?t=day",
-    name: "Reddit Nootropics",
-  },
-  {
-    url: "https://www.reddit.com/r/Biohackers/top/",
-    name: "Reddit Biohackers",
-  },
-  {
-    url: "https://www.reddit.com/r/biotech/top/",
-    name: "Reddit Biotech",
-  },
-  {
-    url: "https://www.reddit.com/r/bioinformatics/top/",
-    name: "Reddit Bioinformatics",
-  },
-  {
-    url: "https://www.reddit.com/r/dao/top/",
-    name: "Reddit DAO",
-  },
-  {
-    url: "https://www.reddit.com/r/DeSci/top/",
-    name: "Reddit DeSci",
-  },
-  {
-    url: "https://www.reddit.com/r/Biohacking/top/",
-    name: "Reddit Biohacking",
   },
   {
     url: "https://vitalik.eth.limo/",
@@ -677,7 +645,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/Vitalik%20Buterin?searching=all_posts&language=en",
-    name: "Substack Vitalia",
+    name: "Substack Vitalik",
   },
   {
     url: "https://substack.com/search/blockchain?searching=all_posts&language=en",
@@ -710,5 +678,289 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://substack.com/search/Computer%20Vision?searching=all_posts&language=en",
     name: "Substack Computer Vision",
+  },
+  {
+    url: "https://substack.com/search/solidity?searching=all_posts",
+    name: "Substack Solidity",
+  },
+  {
+    url: "https://substack.com/search/cryptography?searching=all_posts",
+    name: "Substack Cryptography",
+  },
+  {
+    url: "https://substack.com/search/NIH?searching=all_posts",
+    name: "Substack NIH",
+  },
+  {
+    url: "https://substack.com/search/Longevity?searching=all_posts",
+    name: "Substack Longevity",
+  },
+  {
+    url: "https://substack.com/search/stem%20cell?searching=all_posts",
+    name: "Substack Stem Cell",
+  },
+  {
+    url: "https://www.asimov.press/",
+    name: "Asimov Press",
+  },
+  {
+    url: "https://substack.com/search/hyperbaric?searching=all_posts",
+    name: "Substack Hyperbaric",
+  },
+  {
+    url: "https://substack.com/search/RFK?searching=all_posts",
+    name: "Substack RFK",
+  },
+  {
+    url: "https://substack.com/search/diffusion%20model?searching=all_posts",
+    name: "Substack Diffusion Model",
+  },
+  {
+    url: "https://substack.com/search/prediction%20market?searching=all_posts&language=en",
+    name: "Substack Prediction Market",
+  },
+  {
+    url: "https://substack.com/search/Raspberry%20Pi?searching=all_posts&language=en",
+    name: "Substack Raspberry Pi",
+  },
+  {
+    url: "https://substack.com/search/Arduino?searching=all_posts&language=en",
+    name: "Substack Arduino",
+  },
+  {
+    url: "https://wublock.substack.com/",
+    name: "Wu Blockchain",
+  },
+  {
+    url: "https://substack.com/search/healthcare?searching=all_posts&language=en",
+    name: "Substack Healthcare",
+  },
+  {
+    url: "https://substack.com/search/Biopharma?searching=all_posts&language=en",
+    name: "Substack Biopharma",
+  },
+  {
+    url: "https://substack.com/search/Open%20Source?searching=all_posts&language=en",
+    name: "Substack Open Source",
+  },
+  {
+    url: "https://substack.com/search/web3?searching=all_posts&language=en",
+    name: "Substack Web3",
+  },
+  {
+    url: "https://substack.com/search/cognitive%20behavioral%20therapy?searching=all_posts&language=en",
+    name: "Substack Cognitive Behavioral Therapy",
+  },
+  {
+    url: "https://substack.com/search/breathwork?searching=all_posts&language=en",
+    name: "Substack Breathwork",
+  },
+  {
+    url: "https://substack.com/search/biomarker?searching=all_posts&language=en",
+    name: "Substack Biomarker",
+  },
+  {
+    url: "https://substack.com/search/Solana?searching=all_posts&language=en",
+    name: "Substack Solana",
+  },
+  {
+    url: "https://substack.com/search/zkSync?searching=all_posts&language=en",
+    name: "Substack zkSync",
+  },
+  {
+    url: "https://substack.com/search/DeFi?searching=all_posts&language=en",
+    name: "Substack DeFi",
+  },
+  {
+    url: "https://substack.com/search/Bitcoin?searching=all_posts&language=en",
+    name: "Substack Bitcoin",
+  },
+  {
+    url: "https://substack.com/search/Coinbase?searching=all_posts&language=en",
+    name: "Substack Coinbase",
+  },
+  {
+    url: "https://substack.com/search/Eliptic%20Curve?searching=all_posts&language=en",
+    name: "Substack Eliptic Curve",
+  },
+  {
+    url: "https://substack.com/search/LLM?searching=all_posts&language=en ",
+    name: "Substack LLM",
+  },
+  {
+    url: "https://substack.com/search/alphafold?searching=all_posts&language=en",
+    name: "Substack Alphafold",
+  },
+  {
+    url: "https://substack.com/search/Decentralized?searching=all_posts&language=en",
+    name: "Substack Decentralized",
+  },
+  {
+    url: "https://substack.com/search/Consensus%20?searching=all_posts&language=en",
+    name: "Substack Consensus",
+  },
+  {
+    url: "https://substack.com/search/IP-NFT%20?searching=all_posts&language=en",
+    name: "Substack IP-NFT",
+  },
+  {
+    url: "https://substack.com/search/NFT%20?searching=all_posts&language=en",
+    name: "Substack NFT",
+  },
+  {
+    url: "https://substack.com/search/ERC?searching=all_posts&language=en",
+    name: "Substack ERC",
+  },
+  {
+    url: "https://substack.com/search/Personalized%20Medicine%20?searching=all_posts&language=en",
+    name: "Substack Personalized Medicine",
+  },
+  {
+    url: "https://substack.com/search/Deep%20Learning?searching=all_posts&language=en",
+    name: "Substack Deep Learning",
+  },
+  {
+    url: "https://www.lesswrong.com/allPosts",
+    name: "Less Wrong",
+  },
+  {
+    url: "https://www.lesswrong.com/allPosts?sortedBy=new",
+    name: "Less Wrong New",
+  },
+  {
+    url: "https://gwern.net/doc/newest/index",
+    name: "Gwern",
+  },
+  {
+    url: "https://aeon.co/_next/data/CWBEclwNd3H3XV68vOOEv/index.json",
+    name: "Aeon",
+  },
+  {
+    url: "https://www.newyorker.com/latest",
+    name: "New Yorker",
+  },
+  {
+    url: "https://www.psych.ox.ac.uk/news",
+    name: "Oxford Psychology",
+  },
+  {
+    url: "https://www.neurologylive.com/",
+    name: "Neurology Live",
+  },
+  {
+    url: "https://news.ycombinator.com/",
+    name: "Hacker News",
+  },
+  {
+    url: "https://philosophyofbrains.com",
+    name: "Philosophy of Brains",
+  },
+  {
+    url: "https://braininitiative.nih.gov/news-events/blog",
+    name: "NIH Brain Initiative",
+  },
+  {
+    url: "https://3quarksdaily.com/",
+    name: "3 Quarks Daily",
+  },
+  {
+    url: "https://www.the-scientist.com/news",
+    name: "The Scientist",
+  },
+  {
+    url: "https://stackoverflow.blog/ai",
+    name: "Stack Overflow AI",
+  },
+  {
+    url: "https://machinelearningmastery.com/blog/",
+    name: "Machine Learning Mastery",
+  },
+  {
+    url: "https://bair.berkeley.edu/blog/",
+    name: "Berkeley AI Research",
+  },
+  {
+    url: "https://www.kaggle.com/discussions?sort=hotness",
+    name: "Kaggle",
+  },
+  {
+    url: "https://substack.com/search/Bio?searching=all_posts",
+    name: "Substack Bio",
+  },
+  {
+    url: "https://www.alignmentforum.org/allPosts",
+    name: "Alignment Forum",
+  },
+  {
+    url: "https://www.overcomingbias.com",
+    name: "Overcoming Bias",
+  },
+  {
+    url: "https://www.exponentialview.co/?utm_source=homepage_recommendations&utm_campaign=995836",
+    name: "Exponential View",
+  },
+  {
+    url: "https://kevinmd.com",
+    name: "KevinMD",
+  },
+  {
+    url: "https://www.insideprecisionmedicine.com",
+    name: "Inside Precision Medicine",
+  },
+  {
+    url: "https://www.precisionformedicine.com/blog",
+    name: "Precision Medicine",
+  },
+  {
+    url: "https://litfl.com",
+    name: "Life in the Fast Lane",
+  },
+  {
+    url: "https://outliyr.com/blog",
+    name: "Outliyr",
+  },
+  {
+    url: "https://chrismasterjohnphd.substack.com",
+    name: "Chris Masterjohn PhD",
+  },
+  {
+    url: "https://high-fat-nutrition.blogspot.com",
+    name: "Petro Dobromylskyj, PhD",
+  },
+  {
+    url: "https://lowtoxinforum.com/whats-new/posts/6008101/",
+    name: "Low Toxin Forum",
+  },
+  {
+    url: "https://tim.blog",
+    name: "tim.blog",
+  },
+  {
+    url: "https://www.palladiummag.com",
+    name: "Palladium Magazine",
+  },
+  {
+    url: "https://marginalrevolution.com",
+    name: "Marginal Revolution",
+  },
+  {
+    url: "https://www.overcomingbias.com",
+    name: "Overcoming Bias",
+  },
+  {
+    url: "https://statmodeling.stat.columbia.edu",
+    name: "Statistical Modeling",
+  },
+  {
+    url: "https://blog.cryptographyengineering.com",
+    name: "Cryptography Engineering",
+  },
+  {
+    url: "https://storopoli.io/blog/",
+    name: "Jose Storopoli, PhD",
+  },
+  {
+    url: "https://forum.mysensors.org/#google_vignette",
+    name: "MySensors",
   },
 ];

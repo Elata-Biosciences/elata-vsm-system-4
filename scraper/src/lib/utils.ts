@@ -127,7 +127,7 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
   };
 
   try {
-    // 1. Write to scraper's data directory
+    // Write to scraper's data directory only
     const scraperDataDir = path.join(__dirname, "..", "data");
     if (!fs.existsSync(scraperDataDir)) {
       fs.mkdirSync(scraperDataDir, { recursive: true });
@@ -142,28 +142,6 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
     const currentFilePath = path.join(scraperDataDir, "current.json");
     fs.writeFileSync(currentFilePath, JSON.stringify(outputData, null, 2));
     console.log(`Wrote current summary to ${currentFilePath}`);
-
-    // 2. Write to UI directory
-    const projectRoot = path.join(__dirname, "..", "..", "..");
-    const uiDataPaths = [
-      path.join(projectRoot, "ui", "elata-news", "data", "news-data.json"),
-      path.join(projectRoot, "ui", "data", "news-data.json"),
-      path.join(projectRoot, "data", "news-data.json")
-    ];
-
-    for (const uiPath of uiDataPaths) {
-      try {
-        const uiDir = path.dirname(uiPath);
-        if (!fs.existsSync(uiDir)) {
-          fs.mkdirSync(uiDir, { recursive: true });
-        }
-        fs.writeFileSync(uiPath, JSON.stringify(outputData, null, 2));
-        console.log(`Successfully wrote to ${uiPath}`);
-      } catch (err) {
-        console.warn(`Failed to write to ${uiPath}:`, err);
-        // Continue to next path if one fails
-      }
-    }
 
   } catch (error) {
     console.error('Error writing summary files:', error);

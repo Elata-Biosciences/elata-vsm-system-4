@@ -154,6 +154,7 @@ Article Selection Priority System:
 
 MANDATORY REQUIREMENTS:
 - Each category MUST have at least 5 articles
+- Each category may have a maximum of 10 articles
 - Start with Priority 1 articles
 - If fewer than 5 Priority 1 articles exist, add Priority 2 articles
 - If still under 5, add Priority 3 articles

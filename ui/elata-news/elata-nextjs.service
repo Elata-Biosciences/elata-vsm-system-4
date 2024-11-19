@@ -1,0 +1,16 @@
+[Unit]
+Description=Elata Next.js Application
+After=network.target
+
+[Service]
+Type=simple
+User=root  # Or your preferred user
+WorkingDirectory=/root/elata-vsm-system-4/ui/elata-news  # Adjust this path
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target
