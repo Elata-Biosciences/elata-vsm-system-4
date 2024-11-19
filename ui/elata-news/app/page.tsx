@@ -2,6 +2,9 @@ import Header from "@/components/Header";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
   const data = await loadCurrentData();
 
