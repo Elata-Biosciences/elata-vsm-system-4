@@ -19,6 +19,7 @@ import {
   FaHackerNews,
   FaGetPocket,
   FaTimes,
+  FaDiscord,
 } from "react-icons/fa";
 import {
   SiWechat,
@@ -309,16 +310,34 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
             )}
           </div>
 
-          <Link
-            href={item?.url || ""}
-            className="w-full group flex items-center justify-center gap-2 bg-black text-white py-3.5 px-6 rounded-xl mb-8
-              hover:bg-gray-800 transition-all duration-200 text-base font-bold"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaExternalLinkAlt className="w-4 h-4 transition-transform group-hover:rotate-12" />
-            Read Full Article
-          </Link>
+          <div className="w-full grid sm:grid-cols-2 gap-3 mb-8">
+            <Link
+              href={item?.url || ""}
+              className="w-full inline-flex justify-center items-center gap-2 
+                bg-black text-white px-4 py-2.5 rounded-md
+                transform transition-all duration-200 ease-out
+                hover:shadow-md hover:bg-gray-800 hover:scale-102
+                active:scale-98"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" />
+              Read Full Article
+            </Link>
+            <Link
+              href="https://discord.gg/your-elata-discord-invite"
+              className="w-full inline-flex justify-center items-center gap-2 
+                bg-yellow-400 text-black px-4 py-2.5 rounded-md
+                transform transition-all duration-200 ease-out
+                hover:shadow-md hover:bg-yellow-500 hover:scale-102
+                active:scale-98"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaDiscord className="w-4 h-4" />
+              Discuss
+            </Link>
+          </div>
 
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
             {shareOptions.slice(0, 6).map((option) => (
