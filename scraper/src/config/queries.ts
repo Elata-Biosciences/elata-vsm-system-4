@@ -27,10 +27,13 @@ export const QUERIES = [
     // Biomarkers & Mechanisms (Specific to psychiatric mechanisms)
     `"GABA depression" OR "Serotonin anxiety" OR "Dopamine anhedonia" OR "HPA axis stress" OR "Neuroinflammation depression" OR "Gut-brain psychiatry" OR "Microbiome depression" OR "Synaptic plasticity depression" OR "Neural oscillations anxiety" OR "Default mode network" OR "Salience network psychiatry"`,
 
-    // Off Topic Curiosities (Fixed syntax and quotes)
+    // Off Topic Curiosities 1
     `"Dont die" OR "Biohacking" OR "Zuzalu" OR "Oxytocin" OR "Lions Mane" OR "Methylene blue" OR "infrared" OR "Quadratic Voting" OR "Tokenized research" OR "Smart Contracts" OR "Smart Drugs" OR "On-chain governance" OR "Red light therapy" OR "Mitochondrial function" OR "Near infrared" OR "Sauna" OR "Cold exposure" OR "Circadian rhythm" OR "Peak performance" OR "Flow state"`,
 
-    // Off Topic Curiosities 2 (Fixed syntax and quotes)
-    `"solidity" OR "cryptography" OR "HIPAA" OR "NIH" OR "NIMH" OR "Vitalik" OR "Zuzalu" OR "Don’t Die" OR "Longevity" OR "nootropic" OR "peptides" OR "Brain Computer Interface" OR "fNIRS" OR "Psycedelics" OR "weight lighting" OR "exercise" OR "stem cells" OR "hyperbaric" OR "diffusion model" OR "DIY" OR "Raspberry Pi" OR "Arduino"  OR "Remote Viewing" OR "Meditation" OR "blockchain" OR "healthcare" OR "Biotech" OR "Open Source" OR "web3" OR "Mental health" OR "cognitive behavioral therapy" OR "APA" OR "DSM-5" OR "breakthwork" OR "biomarker" OR "Solana" OR "zkSync" OR "Base" OR "Eliptic Curve"`,
+    // Off Topic Curiosities 2 
+    `"solidity" OR "cryptography" OR "HIPAA" OR "NIH" OR "NIMH" OR "Vitalik" OR "Zuzalu" OR "Don’t Die" OR "Longevity" OR "nootropic" OR "peptides" OR "Brain Computer Interface" OR "fNIRS" OR "Psycedelics" OR "weight lighting" OR "exercise" OR "stem cells" OR "hyperbaric" OR "diffusion model" OR "DIY" OR "Raspberry Pi" OR "Arduino"  OR "Remote Viewing" OR "Meditation"`,
+
+    // Off Topic Curiousities 3
+    `"healthcare" OR "Biotech" OR "Open Source" OR "web3" OR "Mental health" OR "cognitive behavioral therapy" OR "APA" OR "DSM-5" OR "breakthwork" OR "biomarker" OR "Solana" OR "zkSync" OR "Base" OR "Eliptic Curve"`
 
 ];
