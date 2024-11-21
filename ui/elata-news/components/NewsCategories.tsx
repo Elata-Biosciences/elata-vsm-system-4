@@ -73,8 +73,8 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
             key={index}
             className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 
               hover:border-yellow-400 hover:shadow-xl hover:-translate-y-1
-              transition-all duration-300 ease-out rounded-lg
-              animate-fadeIn"
+              transition-all duration-500 ease-in-out rounded-lg
+              transform-gpu animate-fadeIn"
           >
             <h2 className="text-lg sm:text-xl font-bold mb-3">{item.title}</h2>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600 mb-4">

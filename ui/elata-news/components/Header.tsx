@@ -9,12 +9,15 @@ import {
   FaQuestionCircle,
   FaGithub,
   FaLinkedin,
+  FaTelegramPlane,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import InfoModal from "./InfoModal";
+import { HiMenu } from "react-icons/hi";
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const socialLinks = [
     {
@@ -40,8 +43,13 @@ export default function Header() {
     },
     {
       icon: FaReddit,
-      href: "https://www.reddit.com/r/HappyDAO/",
+      href: "https://www.reddit.com/r/elata/",
       label: "Reddit",
+    },
+    {
+      icon: FaTelegramPlane,
+      href: "https://t.me/Elata_Biosciences",
+      label: "Telegram",
     },
     {
       icon: FaDiscord,
@@ -63,17 +71,17 @@ export default function Header() {
           <Image
             src="/logo.jpeg"
             alt="Elata Logo"
-            width={28}
-            height={28}
-            className="sm:w-8 sm:h-8 rounded-full shadow-md border-2 border-gray-700 hover:border-yellow-400 transition-colors ring-2 ring-yellow-400/70 ring-offset-2 ring-offset-black hover:ring-yellow-400/90 animate-[subtle-pulse_2s_ease-in-out_infinite]"
+            width={24}
+            height={24}
+            className="w-6 h-6 sm:w-8 sm:h-8 rounded-full shadow-md border-2 border-gray-700 hover:border-yellow-400 transition-colors ring-2 ring-yellow-400/70 ring-offset-2 ring-offset-black hover:ring-yellow-400/90 animate-[subtle-pulse_2s_ease-in-out_infinite]"
           />
-          <div className="text-xl sm:text-2xl font-bold">ELATA NEWS</div>
+          <div className="text-lg sm:text-2xl font-bold">ELATA NEWS</div>
         </Link>
 
-        <div className="flex items-center gap-2 sm:gap-4">
-          {socialLinks.map(
-            ({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) =>
-              isButton ? (
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-2 sm:gap-4">
+          {socialLinks.map(({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) => (
+            isButton ? (
               <button
                 key={label}
                 onClick={onClick}
@@ -116,9 +124,66 @@ export default function Header() {
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Link>
               )
-          )}
+          ))}
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 hover:bg-gray-800 rounded-full"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <HiMenu className="w-6 h-6" />
+        </button>
       </header>
+
+      {/* Mobile Menu Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed top-[56px] right-0 w-full bg-black border-t border-gray-800 shadow-xl z-40">
+          <div className="p-4 flex flex-col gap-4">
+            {socialLinks.map(({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) =>
+              isButton ? (
+                <button
+                  key={label}
+                  onClick={() => {
+                    onClick?.();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-lg w-full"
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{label}</span>
+                </button>
+              ) : isSpecialButton ? (
+                <Link
+                  key={label}
+                  href={href!}
+                  className="flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-medium w-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Icon className="w-5 h-5" />
+                  Join Community
+                </Link>
+              ) : (
+                <Link
+                  key={label}
+                  href={href!}
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-lg w-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{label}</span>
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+      )}
+
       <InfoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );

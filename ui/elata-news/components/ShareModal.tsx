@@ -243,7 +243,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       },
     },
     {
-      name: "Substack Notes",
+      name: "Substack",
       icon: SiSubstack,
       action: () => {
         window.open(
