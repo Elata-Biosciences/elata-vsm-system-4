@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { FaExternalLinkAlt, FaDiscord, FaShare } from "react-icons/fa";
 import ShareModal from "./ShareModal";
 import { Article } from "@/lib/types";
+import { useState, useEffect } from "react";
 
 interface NewsCategoriesProps {
   initialData: {
@@ -26,28 +27,40 @@ const formatCategoryName = (category: string): string => {
 };
 
 export default function NewsCategories({ initialData }: NewsCategoriesProps) {
-  console.log(initialData);
   const categories = Object.keys(initialData);
-  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [shareItem, setShareItem] = useState<Article | null>(null);
+  
+  // Get category from URL or default to first category
+  const category = searchParams.get('category');
+  const activeCategory = categories.includes(category || '') ? category : categories[0];
 
+  // Add this useEffect to handle share modal on page load
   useEffect(() => {
-    // Check URL parameters on mount
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("share") === "true") {
-      const sharedItem: Article = {
-        title: params.get("title") || "",
-        description: params.get("description") || "",
-        author: params.get("author") || "",
-        name: params.get("name") || "",
-        url: params.get("url") || "",
+    if (searchParams.get('share') === 'true') {
+      const title = searchParams.get('title') || '';
+      const author = searchParams.get('author') || '';
+      const url = searchParams.get('url') || '';
+      const description = searchParams.get('description') || '';
+      
+      // Create a temporary Article object from URL parameters
+      const sharedArticle: Article = {
+        title,
+        author,
+        url,
+        description,
+        name: '', // Add any default values needed for other Article properties
       };
-      setShareItem(sharedItem);
+      
+      setShareItem(sharedArticle);
     }
-  }, []);
+  }, [searchParams]);
 
-  const handleCategoryClick = (category: string) => {
-    setActiveCategory(category);
+  const handleCategoryClick = (newCategory: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('category', newCategory);
+    router.push(`?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -68,7 +81,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
         ))}
       </div>
       <div className="w-full grid gap-6">
-        {initialData[activeCategory].map((item, index) => (
+        {initialData[activeCategory as keyof typeof initialData].map((item, index) => (
           <article
             key={index}
             className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 

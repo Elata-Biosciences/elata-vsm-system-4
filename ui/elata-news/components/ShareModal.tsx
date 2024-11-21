@@ -40,7 +40,7 @@ interface ShareModalProps {
 export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
   useEffect(() => {
     if (isOpen) {
-      // Update URL with story metadata
+      // Preserve existing parameters (like category) while adding share parameters
       const params = new URLSearchParams(window.location.search);
       params.set("share", "true");
       params.set("title", item?.title || "");
@@ -50,9 +50,22 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       window.history.pushState({}, "", `${window.location.pathname}?${params}`);
     }
 
-    // Cleanup function to reset URL when modal closes
+    // Cleanup function to remove only share-related parameters
     return () => {
-      window.history.pushState({}, "", window.location.pathname);
+      const params = new URLSearchParams(window.location.search);
+      params.delete("share");
+      params.delete("title");
+      params.delete("author");
+      params.delete("url");
+      params.delete("description");
+      
+      // If there are remaining parameters (like category), keep them
+      const remainingParams = params.toString();
+      const newUrl = remainingParams 
+        ? `${window.location.pathname}?${remainingParams}`
+        : window.location.pathname;
+        
+      window.history.pushState({}, "", newUrl);
     };
   }, [isOpen, item]);
 
