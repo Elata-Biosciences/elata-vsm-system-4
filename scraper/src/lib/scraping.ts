@@ -5,8 +5,11 @@ import { SCRAPING_SOURCES } from "../config/scrapingSources.js";
 import {
   getYesterdayDate,
   readScrapedData,
+  wait,
   writeScrapedData,
 } from "./utils.js";
+
+const DELAY_BETWEEN_SOURCES = 2000;
 
 /**
  * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
@@ -41,15 +44,19 @@ export async function scrapeWebsites() {
     options.executablePath = "/usr/bin/google-chrome";
   }
 
-  const browser = await puppeteer.launch(options);
   const results = [];
+  let activeBrowsers = [];
 
   try {
     for (const source of SCRAPING_SOURCES) {
-      console.log(`Scraping ${source.name} (${source.url})`);
+      let browser;
       let page;
       try {
+        console.log(`Scraping ${source.name} (${source.url})`);
+        browser = await puppeteer.launch(options);
+        activeBrowsers.push(browser);
         page = await browser.newPage();
+
         await page.goto(source.url, {
           waitUntil: "networkidle0",
           timeout: 60000, // Increased timeout to 60 seconds
@@ -79,20 +86,34 @@ export async function scrapeWebsites() {
         );
         results.push(processedData);
 
+        await wait(DELAY_BETWEEN_SOURCES); // 2 second delay between sources so memory is not overloaded
       } catch (error) {
         console.error(`Error scraping page for ${source.name}:`, error);
       } finally {
-        await page?.close();
+        if (page) await page.close();
+        if (browser)
+          await browser
+            ?.close()
+            .catch((err) =>
+              console.error(`Error closing browser for ${source.name}:`, err)
+            );
       }
     }
   } catch (error) {
     console.error("Scraping error:", error);
-  } finally {
-    await browser.close();
   }
 
   // After scraping, store the results
   writeScrapedData(results, yesterday);
+
+  process.on("SIGINT", async () => {
+    for (const browser of activeBrowsers) {
+      if (browser && browser.connected) {
+        await browser?.close()?.catch(console.error);
+      }
+    }
+    process.exit();
+  });
 
   return results;
 }

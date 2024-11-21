@@ -261,3 +261,19 @@ Off Topic Category (MINIMUM 5 ARTICLES):
 
 CRITICAL: These categories MUST NOT be empty or have fewer than 5 articles. Expand scope while maintaining reasonable connection to Elata's mission.
 `;
+
+export const CLEAN_SUMMARY_PROMPT = `
+You must lean up the following summary. There is an error somewhere in the JSON format of this file. 
+
+You must make sure that the string that you send back is a valid JSON file. 
+
+Remove any additional characters like \`\`\`json or \`\`\` if they are present.
+
+The JSON also may be missing a comma or mis shaped. 
+
+Preserve the content that is there, but fix the formatting errors.
+
+Remember to provide your response as only a plain string, with no markup. 
+
+This is the JSON that you need to clean up:
+`;

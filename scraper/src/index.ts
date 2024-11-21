@@ -29,7 +29,7 @@ const getAISummaryOfStoriesAndScrapingResults = async (
 
 
     const summary = await openAIClient.chat.completions.create({
-      model: 'chatgpt-4o-latest',
+      model: 'chatgpt-o1-preview',
       messages: [{ role: "system", content: combinedPrompt }],
     });
 
@@ -63,8 +63,8 @@ const onClientReady = async () => {
       scrapingResults
     );
 
-    writeSummaryToFile(summary);
-    await postSummaryToDiscord(channel as TextChannel, summary);
+    const cleanSummary = await writeSummaryToFile(summary);
+    await postSummaryToDiscord(channel as TextChannel, cleanSummary.summary);
 
     // Give 5 minute grace period for messages to send before terminating process
     await wait(5 * 60 * 1000);

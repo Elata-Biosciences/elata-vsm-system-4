@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { openAIClient } from "./../lib/openai.js";
+import { CLEAN_SUMMARY_PROMPT } from "../config/prompt.js";
 
 /**
  * The filename of the current file
@@ -96,11 +98,24 @@ export const doesDataDumpFileExist = (prefix = 'data'): boolean => {
 };
 
 /**
+ * Sends summary back to GPT to clean up formatting
+ * @param {string} summary - The summary to clean
+ * @returns {string}
+ */
+export async function getCleanedSummaryFromGpt(summary: string): Promise<string> {
+  const cleanedSummary = await openAIClient.chat.completions.create({
+    model: 'chatgpt-o1-preview',
+    messages: [{ role: "system", content: `${CLEAN_SUMMARY_PROMPT} ${summary}` }],
+  });
+  return cleanedSummary.choices[0].message.content ?? "";
+}
+
+/**
  * Writes a summary to a JSON file
  * @param {string | object} summaryData - The summary to write to the file (can be string or object)
  * @returns {void}
  */
-export const writeSummaryToFile = (summaryData: string | object): void => {
+export const writeSummaryToFile = async (summaryData: string | object): Promise<{ date: string; summary: string; timestamp: string }> => {
   // Parse the summary if it's a string
   let parsedSummary;
   if (typeof summaryData === 'string') {
@@ -113,7 +128,13 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
         parsedSummary = JSON.parse(cleanedString);
       } catch (e2) {
         console.error('Could not parse summary as JSON:', e2);
-        throw new Error('Invalid summary format');
+
+        try {
+          parsedSummary = await getCleanedSummaryFromGpt(summaryData);
+        } catch (e3) {
+          console.error('Could not clean summary:', e3);
+          throw new Error('Invalid summary format');
+        }
       }
     }
   } else {
@@ -148,6 +169,8 @@ export const writeSummaryToFile = (summaryData: string | object): void => {
     console.error('Current directory:', __dirname);
     throw error;
   }
+
+  return outputData;
 };
 
 /**
