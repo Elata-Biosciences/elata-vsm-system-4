@@ -338,7 +338,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
               Read Full Article
             </Link>
             <Link
-              href="https://discord.gg/your-elata-discord-invite"
+              href="https://discord.gg/4CZ7RCwEvb"
               className="w-full inline-flex justify-center items-center gap-2 
                 bg-yellow-400 text-black px-4 py-2.5 rounded-md
                 transform transition-all duration-200 ease-out

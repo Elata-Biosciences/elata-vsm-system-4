@@ -116,7 +116,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                 Read More
               </Link>
               <Link
-                href="https://discord.gg/your-elata-discord-invite"
+                href="https://discord.gg/4CZ7RCwEvb"
                 className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
                 target="_blank"
                 rel="noopener noreferrer"

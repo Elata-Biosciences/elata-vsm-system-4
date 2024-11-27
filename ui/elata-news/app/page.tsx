@@ -1,5 +1,6 @@
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Header from "@/components/Header";
+import JsonLd from "@/components/JsonLd";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
 
@@ -22,7 +23,35 @@ export default async function Home() {
 async function AsyncNewsContent() {
   try {
     const data = await loadCurrentData();
-    return <NewsCategories initialData={data.summary} />;
+
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Elata Biosciences News",
+      "url": "https://news.elata.bio",
+      "description": "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Elata Biosciences",
+        "url": "https://elata.bio"
+      },
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://news.elata.bio?category={search_term}",
+        "query-input": "required name=search_term"
+      },
+      "sameAs": [
+        "https://discord.gg/4CZ7RCwEvb" // Assuming this is your Discord link based on the FaDiscord import
+      ]
+    }
+
+    return (
+      <>
+        <JsonLd data={jsonLd} />
+        <NewsCategories initialData={data.summary} />
+      </>
+    );
   } catch  {
     return (
       <div className="text-red-500">
