@@ -100,6 +100,5 @@ export const postSummaryToDiscord = async (
   } catch (error) {
     console.error("Error processing summary:", error);
     console.error("Summary string received:", summaryString);
-    await channel.send("Error: Summary data is missing or malformed.");
   }
 };
