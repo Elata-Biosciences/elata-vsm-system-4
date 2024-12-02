@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { ScrapingOutput, SummaryOutput } from "@elata/shared-types";
+import type {
+  Article,
+  ScrapingOutput,
+  SummaryOutput,
+} from "@elata/shared-types";
 import type { Story } from "../types/newsapi.types.js";
 
 /**
@@ -95,7 +99,6 @@ export const readDataDumpFromFile = (prefix = "data"): any => {
 export const doesDataDumpFileExist = (prefix = "data"): boolean => {
   return fs.existsSync(getFilePathForDataDump(prefix));
 };
-
 
 /**
  * Writes a summary to a JSON file
@@ -225,7 +228,7 @@ export const convertScrappingSummariesToCSV = (
   let output = "";
 
   summaries.map((summary) => {
-    summary.articles.map((article) => {
+    summary.articles.map((article: Article) => {
       output += `${article.title},${article.description},${article.url},${article.source},${article.author},${article.publishedAt}`;
     });
   });

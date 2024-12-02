@@ -17,6 +17,7 @@ import type {
   ScrapingOutput,
   SummaryOutput,
   SummaryList,
+  Article,
 } from "@elata/shared-types";
 import { SummaryOutputSchema, SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
@@ -48,21 +49,31 @@ const getAISummaryOfStoriesAndScrapingResults = async (
     const content = summaryResponse.choices[0].message.content;
     const parsedContent =
       typeof content === "string" ? JSON.parse(content) : content;
-    const summaryList = SummaryListSchema.parse(parsedContent);
+    const summaryList: SummaryList = SummaryListSchema.parse(parsedContent);
 
     // Transform the flat list into categorized output
     const summaryOutput: SummaryOutput = {
-      research: summaryList.articles.filter((a) => a.category === "research"),
-      industry: summaryList.articles.filter((a) => a.category === "industry"),
+      research: summaryList.articles.filter(
+        (a: Article) => a.category === "research"
+      ),
+      industry: summaryList.articles.filter(
+        (a: Article) => a.category === "industry"
+      ),
       biohacking: summaryList.articles.filter(
-        (a) => a.category === "biohacking"
+        (a: Article) => a.category === "biohacking"
       ),
       computational: summaryList.articles.filter(
-        (a) => a.category === "computational"
+        (a: Article) => a.category === "computational"
       ),
-      hardware: summaryList.articles.filter((a) => a.category === "hardware"),
-      desci: summaryList.articles.filter((a) => a.category === "desci"),
-      offTopic: summaryList.articles.filter((a) => a.category === "offTopic"),
+      hardware: summaryList.articles.filter(
+        (a: Article) => a.category === "hardware"
+      ),
+      desci: summaryList.articles.filter(
+        (a: Article) => a.category === "desci"
+      ),
+      offTopic: summaryList.articles.filter(
+        (a: Article) => a.category === "offTopic"
+      ),
       timestamp: new Date().toISOString(),
     };
 
