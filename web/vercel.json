@@ -1,5 +1,5 @@
 {
   "buildCommand": "cd ../shared-types && npm install && npm run build && cd ../web && npm install && npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install"
+  "installCommand": "npm install --include=dev"
 } 
