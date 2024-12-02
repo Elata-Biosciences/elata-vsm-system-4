@@ -1,15 +1,19 @@
 {
-  "name": "@elata/elata-vsm-system-4",
+  "name": "elata-vsm-system",
+  "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "shared-types",
-    "scraper",
-    "web"
+    "./shared-types",
+    "./scraper",
+    "./web"
   ],
   "scripts": {
-    "build": "npm run build --workspace @elata/shared-types && npm run build --workspaces --if-present",
+    "build": "npm run build --workspace shared-types && npm run build --workspaces --if-present",
     "dev": "npm run dev --workspace web",
     "scrape": "npm run start --workspace scraper",
     "serve": "npm run serve --workspace scraper"
+  },
+  "resolutions": {
+    "@elata/shared-types": "1.0.0"
   }
 }

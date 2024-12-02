@@ -71,26 +71,28 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-8">
       <div className="flex flex-wrap gap-2 mb-8">
-        {categories.map((category) => (
-          <button
-            key={category}
-            type="button"
-            className={`px-3 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:scale-105 ${
-              activeCategory === category
-                ? "bg-yellow-400 text-black font-bold shadow-md hover:shadow-lg"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-            onClick={() => handleCategoryClick(category)}
-          >
-            {formatCategoryName(category as SummaryOutputCategoriesKey)}
-          </button>
-        ))}
+        {categories
+          .filter((category) => category !== "timestamp")
+          .map((category) => (
+            <button
+              key={category}
+              type="button"
+              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:scale-105 ${
+                activeCategory === category
+                  ? "bg-yellow-400 text-black font-bold shadow-md hover:shadow-lg"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              onClick={() => handleCategoryClick(category)}
+            >
+              {formatCategoryName(category as SummaryOutputCategoriesKey)}
+            </button>
+          ))}
       </div>
       <div className="w-full grid gap-6">
         {initialData[activeCategory as SummaryOutputCategoriesKey].map(
           (item) => (
             <article
-              key={item.url}
+              key={`${item.title}-${item.source}-${item.url}`}
               className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 
               hover:border-yellow-400 hover:shadow-xl hover:-translate-y-1
               transition-all duration-500 ease-in-out rounded-lg

@@ -1,7 +1,6 @@
 import type { SummaryOutput } from "@elata/shared-types";
 
-const DATA_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:2345/data";
+const DATA_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2345";
 
 /**
  * Loads the current news data from the server
@@ -9,7 +8,7 @@ const DATA_URL =
  */
 export async function loadCurrentData(): Promise<SummaryOutput> {
   try {
-    const response = await fetch(DATA_URL, {
+    const response = await fetch(`${DATA_URL}/data`, {
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
