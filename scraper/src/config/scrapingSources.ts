@@ -1,7 +1,7 @@
 /**
  * Sources to scrape for news articles.
  */
-type ScrapingSource = { 
+type ScrapingSource = {
   url: string;
   name: string;
 };
@@ -963,4 +963,137 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://forum.mysensors.org/#google_vignette",
     name: "MySensors",
   },
+
+
+
+  // Add sources from list above in correct format
+  {
+    url: "https://warpcast.com/~/search/recent?q=DeSci",
+    name: "Warpcast DeSci",
+  },
+  {
+    url: "https://warpcast.com/~/channel/desci",
+    name: "Warpcast DeSci",
+  },
+  {
+    url: "https://warpcast.com/~/channel/engineering",
+    name: "Warpcast Engineering",
+  },
+  {
+    url: "https://warpcast.com/~/channel/dev",
+    name: "Warpcast Dev",
+  },
+  {
+    url: "https://www.construction-physics.com/",
+    name: "Construction Physics",
+  },
+  {
+    url: "https://warpcast.com/~/channel/rust",
+    name: "Warpcast Rust",
+  },
+  {
+    url: "https://warpcast.com/~/channel/zk",
+    name: "Warpcast ZK",
+  },
+  {
+    url: "https://warpcast.com/~/channel/network-states",
+    name: "Warpcast Network States",
+  },
+  {
+    url: "https://warpcast.com/~/channel/paragraph",
+    name: "Warpcast Paragraph",
+  },
+  {
+    url: "https://warpcast.com/~/channel/science",
+    name: "Warpcast Science",
+  },
+  {
+    url: "https://warpcast.com/~/channel/papers-please",
+    name: "Warpcast Papers Please",
+  },
+  {
+    url: "https://warpcast.com/~/channel/venturecapital",
+    name: "Warpcast Venture Capital",
+  },
+  {
+    url: "https://warpcast.com/~/channel/ai",
+    name: "Warpcast AI",
+  },
+  {
+    url: "https://warpcast.com/~/channel/founders",
+    name: "Warpcast Founders",
+  },
+  {
+    url: "https://paragraph.xyz/",
+    name: "Paragraph",
+  },
+  {
+    url: "https://mirror.xyz/",
+    name: "Mirror",
+  },
+  {
+    url: "https://paragraph.xyz/@exmachina",
+    name: "Paragraph Ex Machina",
+  },
+  {
+    url: "https://a16zcrypto.com/",
+    name: "A16Z Crypto",
+  },
+  {
+    url: "https://open.spotify.com/search/Decentralized%20Science/podcastAndEpisodes",
+    name: "Decentralized Science Podcasts",
+  },
+  {
+    url: "https://www.youtube.com/results?search_query=DeSci",
+    name: "YouTube DeSci",
+  },
+  {
+    url: "https://podcasts.apple.com/us/search?term=Decentralized",
+    name: "Decentralized Science Podcasts",
+  },
+  {
+    url: "https://warpcast.com/vitalik.eth",
+    name: "Warpcast Vitalik",
+  },
+  {
+    url: "https://warpcast.com/accountless.eth",
+    name: "Warpcast Accountless",
+  },
+  {
+    url: "https://warpcast.com/proxystudio.eth",
+    name: "Warpcast Proxy Studio",
+  },
+  {
+    url: "https://warpcast.com/fbi",
+    name: "Warpcast FBI",
+  },
+  {
+    url: "https://warpcast.com/ethereum",
+    name: "Warpcast Ethereum",
+  },
+
+  {
+    url: "https://open.spotify.com/show/41TNnXSv5ExcQSzEGLlGhy",
+    name: "Ben Greenfield",
+  },
+  {
+    url: "https://open.spotify.com/show/0BzTvU6TsW7uvPMpZAsf3X",
+    name: "Spotify",
+  },
+  {
+    url: "https://open.spotify.com/show/0AVTHjV1Vat2v3OKVw7QbE",
+    name: "Spotify",
+  },
+  {
+    url: "https://open.spotify.com/search/Decentralized%20Science/podcastAndEpisodes",
+    name: "Decentralized Science Podcasts",
+  
+  {
+    url: "https://www.youtube.com/results?search_query=Decentralized+Science",
+    name: "YouTube Decentralized Science",
+  },
+  {
+    url: "https://podcasts.apple.com/us/podcast/the-human-upgrade-with-dave-asprey/id451295014",
+    name: "The Human Upgrade with Dave Asprey",
+  }
 ];
