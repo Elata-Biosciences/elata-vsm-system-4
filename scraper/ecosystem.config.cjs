@@ -14,7 +14,10 @@ module.exports = {
             },
             env_production: {
                 NODE_ENV: 'production'
-            }
+            },
+            cwd: "./scraper",
+            interpreter: "node",
+            interpreter_args: "--experimental-specifier-resolution=node"
         },
         {
             name: "elata-newsbot-server",
@@ -31,7 +34,10 @@ module.exports = {
             env_production: {
                 NODE_ENV: 'production',
                 PORT: 2345
-            }
+            },
+            cwd: "./scraper",
+            interpreter: "node",
+            interpreter_args: "--experimental-specifier-resolution=node"
         }
     ]
 }

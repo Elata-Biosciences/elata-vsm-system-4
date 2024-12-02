@@ -964,8 +964,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     name: "MySensors",
   },
 
-
-
   // Add sources from list above in correct format
   {
     url: "https://warpcast.com/~/search/recent?q=DeSci",
@@ -1071,7 +1069,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://warpcast.com/ethereum",
     name: "Warpcast Ethereum",
   },
-
   {
     url: "https://open.spotify.com/show/41TNnXSv5ExcQSzEGLlGhy",
     name: "Ben Greenfield",
@@ -1087,7 +1084,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://open.spotify.com/search/Decentralized%20Science/podcastAndEpisodes",
     name: "Decentralized Science Podcasts",
-  
+  },
   {
     url: "https://www.youtube.com/results?search_query=Decentralized+Science",
     name: "YouTube Decentralized Science",
@@ -1095,5 +1092,5 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://podcasts.apple.com/us/podcast/the-human-upgrade-with-dave-asprey/id451295014",
     name: "The Human Upgrade with Dave Asprey",
-  }
+  },
 ];

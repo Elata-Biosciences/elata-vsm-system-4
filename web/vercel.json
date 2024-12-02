@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd .. && npm install && npm run build --workspace @elata/shared-types && npm run build --workspace @elata/web",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install"
+} 

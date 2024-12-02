@@ -70,8 +70,8 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
         // Get the entire rendered page content
         const content = await page.evaluate(() => {
           // Remove script and style elements to clean up the content
-          const scripts = document.getElementsByTagName("script");
-          const styles = document.getElementsByTagName("style");
+          const scripts = Array.from(document.getElementsByTagName("script"));
+          const styles = Array.from(document.getElementsByTagName("style"));
 
           for (const element of scripts) {
             element.remove();

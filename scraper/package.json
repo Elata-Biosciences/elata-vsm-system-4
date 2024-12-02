@@ -1,9 +1,9 @@
 {
-  "name": "elata-newsbot",
+  "name": "@elata/scraper",
   "version": "1.0.0",
-  "description": "Newsbot for Elata mental health news",
   "main": "index.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
@@ -11,8 +11,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "tsc && node dist/server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@elata/shared-types": "file:../shared-types",
     "cors": "^2.8.5",
