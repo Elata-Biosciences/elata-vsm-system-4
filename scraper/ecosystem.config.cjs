@@ -15,7 +15,7 @@ module.exports = {
             env_production: {
                 NODE_ENV: 'production'
             },
-            cwd: "./scraper",
+            cwd: "./",
             interpreter: "node",
             interpreter_args: "--experimental-specifier-resolution=node"
         },
@@ -35,7 +35,7 @@ module.exports = {
                 NODE_ENV: 'production',
                 PORT: 2345
             },
-            cwd: "./scraper",
+            cwd: "./",
             interpreter: "node",
             interpreter_args: "--experimental-specifier-resolution=node"
         }
