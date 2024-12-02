@@ -128,10 +128,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     name: "molocule.xyz",
   },
   {
-    url: "https://www.vitadao.com/blog",
-    name: "VitaDAO Blog",
-  },
-  {
     url: "https://arxiv.org/list/q-bio.NC/new",
     name: "arXiv Neurons and Cognition",
   },

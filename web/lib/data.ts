@@ -2,6 +2,7 @@ import type { SummaryOutput } from "@elata/shared-types";
 
 const DATA_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2345";
 
+
 /**
  * Loads the current news data from the server
  * @returns {Promise<NewsData>}

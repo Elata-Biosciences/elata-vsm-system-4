@@ -1,6 +1,5 @@
 import puppeteer, {
   type Browser,
-  type Page,
   type PuppeteerLaunchOptions,
 } from "puppeteer";
 import { processPageWithGPT } from "./gptProcessor.js";
@@ -15,6 +14,8 @@ import {
 import type { ScrapingOutput } from "@elata/shared-types";
 
 const DELAY_BETWEEN_SOURCES = 2000;
+const SOURCE_TIMEOUT = 60_000; // 1 minute timeout per source
+const IDLE_TIMEOUT = 30_000; // 30 seconds timeout for idle browser
 
 /**
  * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
@@ -32,7 +33,6 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
 
   console.log("Launching browser...");
 
-  // Configure browser options based on OS
   const options: PuppeteerLaunchOptions = {
     args: [
       "--no-sandbox",
@@ -44,43 +44,45 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
     ],
   };
 
-  // Only set executablePath on Linux (production server)
   if (os.platform() === "linux") {
     options.executablePath = "/usr/bin/google-chrome";
   }
 
   const results: ScrapingOutput[] = [];
-  const activeBrowsers: Browser[] = [];
 
-  try {
-    for (const source of SCRAPING_SOURCES) {
-      let browser: Browser | undefined;
-      let page: Page | undefined;
-      try {
-        console.log(`Scraping ${source.name} (${source.url})`);
+  for (const source of SCRAPING_SOURCES) {
+    let browser: Browser | null = null;
+    try {
+      console.log(`Scraping ${source.name} (${source.url})`);
+
+      // Create a promise that rejects after timeout
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(
+            new Error(`Timeout after ${SOURCE_TIMEOUT}ms for ${source.name}`)
+          );
+        }, SOURCE_TIMEOUT);
+      });
+
+      // Create the actual scraping promise
+      const scrapingPromise = (async () => {
         browser = await puppeteer.launch(options);
-        activeBrowsers.push(browser);
-        page = await browser.newPage();
+        const page = await browser.newPage();
 
         await page.goto(source.url, {
           waitUntil: "networkidle0",
-          timeout: 60000, // Increased timeout to 60 seconds
+          timeout: IDLE_TIMEOUT,
         });
 
-        // Get the entire rendered page content
         const content = await page.evaluate(() => {
-          // Remove script and style elements to clean up the content
           const scripts = Array.from(document.getElementsByTagName("script"));
           const styles = Array.from(document.getElementsByTagName("style"));
-
-          for (const element of scripts) {
-            element.remove();
+          for (const s of scripts) {
+            s.remove();
           }
-          for (const element of styles) {
-            element.remove();
+          for (const s of styles) {
+            s.remove();
           }
-
-          // Get the cleaned body content
           return document.body.innerText;
         });
 
@@ -89,36 +91,50 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
           source.url,
           source.name
         );
-        results.push(processedData);
 
-        await wait(DELAY_BETWEEN_SOURCES); // 2 second delay between sources so memory is not overloaded
-      } catch (error) {
-        console.error(`Error scraping page for ${source.name}:`, error);
-      } finally {
-        if (page) await page.close();
-        if (browser)
-          await browser
-            ?.close()
-            .catch((err) =>
-              console.error(`Error closing browser for ${source.name}:`, err)
-            );
+        await page.close();
+        await browser.close();
+        browser = null;
+
+        return processedData;
+      })();
+
+      // Race between timeout and scraping
+      const processedData = await Promise.race([
+        scrapingPromise,
+        timeoutPromise,
+      ]);
+      results.push(processedData as ScrapingOutput);
+    } catch (error) {
+      console.error(`Error scraping ${source.name}:`, error);
+      results.push({
+        sourceUrl: source.url,
+        sourceName: source.name,
+        articles: [],
+        timestamp: new Date().toISOString(),
+        error: `Failed to scrape: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
+      });
+      if (browser) {
+        try {
+          await (browser as Browser)?.close();
+        } catch (err) {
+          console.error(`Error closing browser for ${source.name}:`, err);
+        }
       }
+    } finally {
+      if (browser) {
+        try {
+          await (browser as Browser)?.close();
+        } catch (err) {
+          console.error(`Error closing browser for ${source.name}:`, err);
+        }
+      }
+      await wait(DELAY_BETWEEN_SOURCES);
     }
-  } catch (error) {
-    console.error("Scraping error:", error);
   }
 
-  // After scraping, store the results
   writeScrapedData(results, yesterday);
-
-  process.on("SIGINT", async () => {
-    for (const browser of activeBrowsers) {
-      if (browser?.connected) {
-        await browser?.close()?.catch(console.error);
-      }
-    }
-    process.exit();
-  });
-
   return results;
 }
