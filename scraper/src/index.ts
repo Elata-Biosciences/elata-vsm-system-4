@@ -1,13 +1,25 @@
-import { Events, TextChannel } from "discord.js";
+import { Events, type TextChannel } from "discord.js";
 import { config } from "./config/config.js";
 import { MAIN_PROMPT } from "./config/prompt.js";
-import { wait, writeSummaryToFile } from "./lib/utils.js";
+import {
+  convertScrappingSummariesToCSV,
+  convertStoriesToCSV,
+  wait,
+  writeSummaryToFile,
+} from "./lib/utils.js";
 import { scrapeWebsites } from "./lib/scraping.js";
 import { openAIClient } from "./lib/openai.js";
 import { QUERIES } from "./config/queries.js";
-import { getStoriesFromQueries, convertStoriesToCSV } from "./lib/newsApi.js";
+import { getStoriesFromQueries } from "./lib/newsApi.js";
 import { discordClient, postSummaryToDiscord } from "./lib/discord.js";
-import { Story } from "./types/newsapi.types.js";
+import type { Story } from "./types/newsapi.types.js";
+import type {
+  ScrapingOutput,
+  SummaryOutput,
+  SummaryList,
+} from "@elata/shared-types";
+import { SummaryOutputSchema, SummaryListSchema } from "@elata/shared-types";
+import { zodResponseFormat } from "openai/helpers/zod.js";
 
 /**
  * Gets a summary of the stories from the AI
@@ -16,30 +28,57 @@ import { Story } from "./types/newsapi.types.js";
  */
 const getAISummaryOfStoriesAndScrapingResults = async (
   stories: Story[],
-  scrapingResults: { sourceUrl: string; sourceName: string; analysis: string }[]
-): Promise<string> => {
+  scrapingResults: ScrapingOutput[]
+): Promise<SummaryOutput> => {
   try {
     const combinedPrompt = `
     ${MAIN_PROMPT}
 
     ${convertStoriesToCSV(stories)}
     
-    ${scrapingResults.map((result) => result.analysis).join("\n")}
+    ${convertScrappingSummariesToCSV(scrapingResults)}
     `;
 
-
-    const summary = await openAIClient.chat.completions.create({
-      model: 'chatgpt-o1-preview',
+    const summaryResponse = await openAIClient.chat.completions.create({
+      model: "gpt-4o",
       messages: [{ role: "system", content: combinedPrompt }],
+      response_format: zodResponseFormat(SummaryListSchema, "SummaryList"),
     });
 
-    console.log("Final summary ");
-    console.log(summary.choices[0].message.content);
+    const content = summaryResponse.choices[0].message.content;
+    const parsedContent =
+      typeof content === "string" ? JSON.parse(content) : content;
+    const summaryList = SummaryListSchema.parse(parsedContent);
 
-    return summary.choices[0].message.content ?? "";
+    // Transform the flat list into categorized output
+    const summaryOutput: SummaryOutput = {
+      research: summaryList.articles.filter((a) => a.category === "research"),
+      industry: summaryList.articles.filter((a) => a.category === "industry"),
+      biohacking: summaryList.articles.filter(
+        (a) => a.category === "biohacking"
+      ),
+      computational: summaryList.articles.filter(
+        (a) => a.category === "computational"
+      ),
+      hardware: summaryList.articles.filter((a) => a.category === "hardware"),
+      desci: summaryList.articles.filter((a) => a.category === "desci"),
+      offTopic: summaryList.articles.filter((a) => a.category === "offTopic"),
+      timestamp: new Date().toISOString(),
+    };
+
+    return summaryOutput;
   } catch (error) {
     console.error("Error loading AI summary of stories: ", error);
-    return "";
+    return {
+      research: [],
+      industry: [],
+      biohacking: [],
+      computational: [],
+      hardware: [],
+      desci: [],
+      offTopic: [],
+      timestamp: new Date().toISOString(),
+    };
   }
 };
 
@@ -63,8 +102,8 @@ const onClientReady = async () => {
       scrapingResults
     );
 
-    const cleanSummary = await writeSummaryToFile(summary);
-    await postSummaryToDiscord(channel as TextChannel, cleanSummary.summary);
+    await writeSummaryToFile(summary);
+    await postSummaryToDiscord(channel as TextChannel, summary);
 
     // Give 5 minute grace period for messages to send before terminating process
     await wait(5 * 60 * 1000);

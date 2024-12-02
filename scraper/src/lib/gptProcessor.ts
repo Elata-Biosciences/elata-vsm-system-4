@@ -1,53 +1,57 @@
 import { openAIClient } from "./openai.js";
 import { ELATA_SCRAPPING_TASK_PROMPT } from "../config/prompt.js";
-import { config } from "../config/config.js";
-
-export type GPTProcessingResult = {
-  sourceUrl: string;
-  sourceName: string;
-  analysis: string;
-  timestamp: string;
-};
+import type { ScrapingOutput } from "@elata/shared-types";
+import { ScrapingOutputSchema } from "@elata/shared-types";
+import { zodResponseFormat } from "openai/helpers/zod.js";
 
 /**
  * Processes the content from a source and returns a CSV of the most relevant articles.
  * @param {string} content - The content to process
  * @param {string} sourceUrl - The URL of the source
  * @param {string} sourceName - The name of the source
- * @returns {Promise<{sourceUrl: string, sourceName: string, analysis: string, timestamp: string}>} - The processed content
+ * @returns {Promise<ScrapingOutput>} - The processed content
  */
 export async function processPageWithGPT(
   content: string,
   sourceUrl: string,
   sourceName: string
-): Promise<GPTProcessingResult> {
+): Promise<ScrapingOutput> {
   console.log(`Extracting articles from ${sourceUrl}`);
   try {
     const response = await openAIClient.chat.completions.create({
-      model: 'chatgpt-4o-latest',
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
           content: `${ELATA_SCRAPPING_TASK_PROMPT}\n\nContent from ${sourceName} (${sourceUrl}):\n\n${content}`,
         },
       ],
+      response_format: zodResponseFormat(
+        ScrapingOutputSchema,
+        "ScrapingOutput"
+      ),
     });
 
     console.log(response.choices[0].message.content);
 
-    return {
-      sourceUrl,
-      sourceName,
-      analysis: response.choices[0].message.content ?? "",
-      timestamp: new Date().toISOString(),
-    };
+    const messageContent = response.choices[0].message.content;
+    console.log(messageContent);
+
+    // Parse the JSON string into an object before passing to Zod
+    const parsedContent =
+      typeof messageContent === "string"
+        ? JSON.parse(messageContent)
+        : messageContent;
+
+    return ScrapingOutputSchema.parse(parsedContent);
   } catch (error) {
     console.error("GPT processing error:", error);
     return {
       sourceUrl,
       sourceName,
-      analysis: "",
+      articles: [],
       timestamp: new Date().toISOString(),
+      error: error instanceof Error ? error.message : String(error),
     };
   }
 }

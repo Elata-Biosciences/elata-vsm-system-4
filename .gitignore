@@ -10,3 +10,5 @@
 /scraper/data/*
 /scraper/dist/*
 .env
+shared-types/node_modules/*
+shared-types/dist/*

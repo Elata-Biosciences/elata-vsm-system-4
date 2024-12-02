@@ -1,6 +1,10 @@
-import puppeteer, { PuppeteerLaunchOptions } from "puppeteer";
+import puppeteer, {
+  type Browser,
+  type Page,
+  type PuppeteerLaunchOptions,
+} from "puppeteer";
 import { processPageWithGPT } from "./gptProcessor.js";
-import os from "os";
+import os from "node:os";
 import { SCRAPING_SOURCES } from "../config/scrapingSources.js";
 import {
   getYesterdayDate,
@@ -8,14 +12,15 @@ import {
   wait,
   writeScrapedData,
 } from "./utils.js";
+import type { ScrapingOutput } from "@elata/shared-types";
 
 const DELAY_BETWEEN_SOURCES = 2000;
 
 /**
  * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
- * @returns {Promise<Array>} - The processed content
+ * @returns {Promise<ScrapingOutput[]>} - The processed content
  */
-export async function scrapeWebsites() {
+export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
   const yesterday = getYesterdayDate();
 
   // Check if we already have data for yesterday
@@ -28,7 +33,7 @@ export async function scrapeWebsites() {
   console.log("Launching browser...");
 
   // Configure browser options based on OS
-  let options: PuppeteerLaunchOptions = {
+  const options: PuppeteerLaunchOptions = {
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -44,13 +49,13 @@ export async function scrapeWebsites() {
     options.executablePath = "/usr/bin/google-chrome";
   }
 
-  const results = [];
-  let activeBrowsers = [];
+  const results: ScrapingOutput[] = [];
+  const activeBrowsers: Browser[] = [];
 
   try {
     for (const source of SCRAPING_SOURCES) {
-      let browser;
-      let page;
+      let browser: Browser | undefined;
+      let page: Page | undefined;
       try {
         console.log(`Scraping ${source.name} (${source.url})`);
         browser = await puppeteer.launch(options);
@@ -108,7 +113,7 @@ export async function scrapeWebsites() {
 
   process.on("SIGINT", async () => {
     for (const browser of activeBrowsers) {
-      if (browser && browser.connected) {
+      if (browser?.connected) {
         await browser?.close()?.catch(console.error);
       }
     }

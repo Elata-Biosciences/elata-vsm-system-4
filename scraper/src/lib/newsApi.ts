@@ -6,9 +6,9 @@ import {
   readDataDumpFromFile,
   writeDataDumpToFile,
 } from "./utils.js";
-import { Story } from "../types/newsapi.types.js";
+import type { Story } from "../types/newsapi.types.js";
+import type { NewsAPIResponse } from "../types/newsapi.types.js";
 import { config } from "../config/config.js";
-import { NewsAPIResponse } from "../types/newsapi.types.js";
 
 export const newsApiClient = new NewsAPI(config.newsApi.key);
 
@@ -31,7 +31,9 @@ export const getStories = async (q: string): Promise<NewsAPIResponse> => {
  * @param {Array} queries - Array of queries to search for
  * @returns {Promise<Array>}
  */
-export const getStoriesFromQueries = async (queries: string[]): Promise<Story[]> => {
+export const getStoriesFromQueries = async (
+  queries: string[]
+): Promise<Story[]> => {
   // First check if the data dump file exists
   if (doesDataDumpFileExist()) {
     console.log("Data dump file exists, loading from file...");
@@ -53,22 +55,4 @@ export const getStoriesFromQueries = async (queries: string[]): Promise<Story[]>
 
   writeDataDumpToFile(stories);
   return stories;
-};
-
-/**
- * Converts an array of stories to a CSV string
- * @param {Array} stories - Array of stories to convert
- * @returns {string}
- */
-export const convertStoriesToCSV = (stories: Story[]): string => {
-  let str = "title,description,url,source";
-
-  str += "\n";
-
-  for (const story of stories) {
-    str += `${story.title},${story.description},${story.url},${story.source.name}`;
-    str += "\n";
-  }
-
-  return str;
 };

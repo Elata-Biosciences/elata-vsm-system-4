@@ -28,7 +28,7 @@ import {
   SiSubstack,
   SiDiscord,
 } from "react-icons/si";
-import { Article } from "@/lib/types";
+import type { Article } from "@elata/shared-types";
 import Link from "next/link";
 
 interface ShareModalProps {
@@ -58,13 +58,13 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       params.delete("author");
       params.delete("url");
       params.delete("description");
-      
+
       // If there are remaining parameters (like category), keep them
       const remainingParams = params.toString();
-      const newUrl = remainingParams 
+      const newUrl = remainingParams
         ? `${window.location.pathname}?${remainingParams}`
         : window.location.pathname;
-        
+
       window.history.pushState({}, "", newUrl);
     };
   }, [isOpen, item]);
@@ -295,8 +295,11 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
         <div className="p-6 sm:p-8">
           <div className="flex justify-between items-start mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold">Share This Story!</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Share This Story!
+            </h2>
             <button
+              type="button"
               onClick={onClose}
               className="text-gray-400 hover:text-gray-500 transition-colors duration-200 p-2 hover:bg-gray-200 rounded-none"
               aria-label="Close"
@@ -306,13 +309,17 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
           </div>
 
           <div className="space-y-4 mb-8">
-            <h3 className="text-lg sm:text-xl font-semibold leading-snug">{item?.title}</h3>
+            <h3 className="text-lg sm:text-xl font-semibold leading-snug">
+              {item?.title}
+            </h3>
             <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-600 gap-1 sm:gap-2">
-              <span className="font-medium">{item?.name}</span>
+              <span className="font-medium">{item?.source}</span>
               {item?.author && (
                 <div className="flex items-center gap-2">
                   <span className="hidden sm:inline">•</span>
-                  <span className="italic">by {item?.author.split(',')[0]} et al.</span>
+                  <span className="italic">
+                    by {item?.author.split(",")[0]} et al.
+                  </span>
                 </div>
               )}
             </div>
@@ -357,13 +364,16 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
               <button
                 key={option.name}
                 onClick={option.action}
+                type="button"
                 className="flex flex-col items-center gap-2 p-2 rounded-xl
                   hover:bg-gray-50 active:bg-gray-100 transition-colors group"
               >
                 <span className="p-2.5 rounded-full bg-gray-100 group-hover:bg-white transition-colors">
                   <option.icon className="w-5 h-5 text-gray-700" />
                 </span>
-                <span className="text-xs text-gray-600 text-center">{option.name}</span>
+                <span className="text-xs text-gray-600 text-center">
+                  {option.name}
+                </span>
               </button>
             ))}
           </div>
@@ -374,13 +384,16 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
                 <button
                   key={option.name}
                   onClick={option.action}
+                  type="button"
                   className="flex flex-col items-center gap-2 p-2 rounded-lg
                     hover:bg-gray-50 active:bg-gray-100 transition-colors group"
                 >
                   <span className="p-2 rounded-full bg-gray-100 group-hover:bg-white transition-colors">
                     <option.icon className="w-4 h-4 text-gray-600" />
                   </span>
-                  <span className="text-xs text-gray-500 text-center whitespace-nowrap">{option.name}</span>
+                  <span className="text-xs text-gray-500 text-center whitespace-nowrap">
+                    {option.name}
+                  </span>
                 </button>
               ))}
             </div>

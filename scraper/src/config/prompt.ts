@@ -101,36 +101,11 @@ ${ELATA_NEWS_CATEGORIES_PROMPT}
 Task:
 Extract ONLY articles that exist in the provided webpage content within the timeframe of ${getDayBeforeYesterdayDate()} to ${getYesterdayDate()}.
 
-CRITICAL OUTPUT RULES:
-1. Output MUST be in CSV format: title,description,url,sourceName,author
-2. Output MUST ONLY include articles that exist in the input content
-3. If no relevant articles found, output empty string ("")
-4. No commentary, markdown, or additional formatting
-5. No example or generated content
+Make sure to extract the URL of the article from the webpage content.
 
-IMPORTANT: DO NOT create articles. DO NOT generate URLs. ONLY extract existing content.
+Make sure to fill in the URL, author, and other fields as needed with correct links and other values.
 
-Remember: Empty string is the correct output when no articles are found.
-`;
-
-export const ELATA_SUMMARY_OUTPUT_FORMAT_JSON = `
-interface Article {
-    title: string;
-    description: string;
-    url: string;
-    name: string;
-    author: string;
-}
-
-interface SummaryOutput {
-   research: Article[];
-   industry: Article[];
-   biohacking: Article[];
-   computational: Article[];
-   hardware: Article[];
-   desci: Article[];
-   offTopic: Article[];
-}
+IMPORTANT: DO NOT create articles. ONLY extract existing content.
 `;
 
 export const ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION = `
@@ -192,14 +167,8 @@ ${ELATA_NEWS_CATEGORIES_PROMPT}
 
 ${ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION}
 
-${ELATA_SUMMARY_OUTPUT_FORMAT_JSON}
-
 Instructions:
-- Output MUST be a valid JSON object, not a string
-- Do not include any text before or after the JSON object
-- Do not wrap the JSON in quotes or additional formatting
 - Each category MUST contain an array of AT LEAST 5 article objects - this is a strict requirement
-- Each article object must have: title, description, url, name (source name), and author fields
 - Never output empty categories
 - For research and industry categories, aim for 10-30 articles when relevant content is available
 - When including tangentially related articles to meet the minimum requirement, clearly explain the relevance in the description
@@ -208,23 +177,10 @@ Instructions:
 
 IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission.
 
-${ELATA_SUMMARY_OUTPUT_FORMAT_JSON}
-
 The CSV data is provided below:
 `;
 
 export const MAIN_PROMPT_INSTRUCTIONS = `
-OUTPUT REQUIREMENTS:
-{
-  "research": [{ article1 }, { article2 }, ...], // Minimum 5, aim for 10-30
-  "industry": [{ article1 }, { article2 }, ...], // Minimum 5, aim for 10-30
-  "biohacking": [{ article1 }, { article2 }, ...], // Minimum 5
-  "computational": [{ article1 }, { article2 }, ...], // Minimum 5
-  "hardware": [{ article1 }, { article2 }, ...], // Minimum 5
-  "desci": [{ article1 }, { article2 }, ...], // Minimum 5
-  "offTopic": [{ article1 }, { article2 }, ...] // Minimum 5 aim for 10-30
-}
-
 CRITICAL VALIDATION STEPS:
 1. ✓ Verify each category has >= 5 articles
 2. ✓ Confirm all articles have required fields
@@ -260,20 +216,4 @@ Off Topic Category (MINIMUM 5 ARTICLES):
   * Always explain relevance to Elata in description
 
 CRITICAL: These categories MUST NOT be empty or have fewer than 5 articles. Expand scope while maintaining reasonable connection to Elata's mission.
-`;
-
-export const CLEAN_SUMMARY_PROMPT = `
-You must lean up the following summary. There is an error somewhere in the JSON format of this file. 
-
-You must make sure that the string that you send back is a valid JSON file. 
-
-Remove any additional characters like \`\`\`json or \`\`\` if they are present.
-
-The JSON also may be missing a comma or mis shaped. 
-
-Preserve the content that is there, but fix the formatting errors.
-
-Remember to provide your response as only a plain string, with no markup. 
-
-This is the JSON that you need to clean up:
 `;

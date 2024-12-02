@@ -6,6 +6,7 @@ export type Story = {
     name: string;
   };
   description: string;
+  author: string;
 };
 
 export type NewsAPIResponse = {

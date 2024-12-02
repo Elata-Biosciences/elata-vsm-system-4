@@ -4,6 +4,8 @@ import JsonLd from "@/components/JsonLd";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
 
+// Make rendering of whole pages cached
+export const revalidate = 3600; // revalidate at most every hour
 
 export default async function Home() {
   return (
@@ -27,32 +29,33 @@ async function AsyncNewsContent() {
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Elata Biosciences News",
-      "url": "https://news.elata.bio",
-      "description": "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry",
-      "publisher": {
+      name: "Elata Biosciences News",
+      url: "https://news.elata.bio",
+      description:
+        "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry",
+      publisher: {
         "@type": "Organization",
-        "name": "Elata Biosciences",
-        "url": "https://elata.bio"
+        name: "Elata Biosciences",
+        url: "https://elata.bio",
       },
-      "inLanguage": "en",
-      "potentialAction": {
+      inLanguage: "en",
+      potentialAction: {
         "@type": "SearchAction",
-        "target": "https://news.elata.bio?category={search_term}",
-        "query-input": "required name=search_term"
+        target: "https://news.elata.bio?category={search_term}",
+        "query-input": "required name=search_term",
       },
-      "sameAs": [
-        "https://discord.gg/4CZ7RCwEvb" // Assuming this is your Discord link based on the FaDiscord import
-      ]
-    }
+      sameAs: [
+        "https://discord.gg/4CZ7RCwEvb", // Assuming this is your Discord link based on the FaDiscord import
+      ],
+    };
 
     return (
       <>
         <JsonLd data={jsonLd} />
-        <NewsCategories initialData={data.summary} />
+        <NewsCategories initialData={data} />
       </>
     );
-  } catch  {
+  } catch {
     return (
       <div className="text-red-500">
         Failed to load data. Please try again later.

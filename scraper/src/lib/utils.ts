@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { openAIClient } from "./../lib/openai.js";
-import { CLEAN_SUMMARY_PROMPT } from "../config/prompt.js";
+import fs from "node:fs";
+import path from "node:path";
+import type { ScrapingOutput, SummaryOutput } from "@elata/shared-types";
+import type { Story } from "../types/newsapi.types.js";
 
 /**
  * The filename of the current file
@@ -50,7 +49,7 @@ export function getDayBeforeYesterdayDate(): string {
  * @param {string} prefix - Optional prefix for the filename (e.g., 'news', 'scrape')
  * @returns {string}
  */
-export const getFileNameForDataDump = (prefix = 'data'): string => {
+export const getFileNameForDataDump = (prefix = "data"): string => {
   return `${prefix}_dump_${getYesterdayDate()}.json`;
 };
 
@@ -59,7 +58,7 @@ export const getFileNameForDataDump = (prefix = 'data'): string => {
  * @param {string} prefix - Optional prefix for the filename
  * @returns {string}
  */
-export const getFilePathForDataDump = (prefix = 'data'): string => {
+export const getFilePathForDataDump = (prefix = "data"): string => {
   const dataDir = path.join(__dirname, "..", "data");
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
@@ -73,7 +72,7 @@ export const getFilePathForDataDump = (prefix = 'data'): string => {
  * @param {string} prefix - Optional prefix for the filename
  * @returns {void}
  */
-export const writeDataDumpToFile = (data: any, prefix = 'data'): void => {
+export const writeDataDumpToFile = (data: any, prefix = "data"): void => {
   const filePath = getFilePathForDataDump(prefix);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   console.log(`Wrote ${prefix} dump to ${filePath}`);
@@ -84,8 +83,8 @@ export const writeDataDumpToFile = (data: any, prefix = 'data'): void => {
  * @param {string} prefix - Optional prefix for the filename
  * @returns {Array}
  */
-export const readDataDumpFromFile = (prefix = 'data'): any => {
-  return JSON.parse(fs.readFileSync(getFilePathForDataDump(prefix), 'utf8'));
+export const readDataDumpFromFile = (prefix = "data"): any => {
+  return JSON.parse(fs.readFileSync(getFilePathForDataDump(prefix), "utf8"));
 };
 
 /**
@@ -93,60 +92,19 @@ export const readDataDumpFromFile = (prefix = 'data'): any => {
  * @param {string} prefix - Optional prefix for the filename
  * @returns {boolean}
  */
-export const doesDataDumpFileExist = (prefix = 'data'): boolean => {
+export const doesDataDumpFileExist = (prefix = "data"): boolean => {
   return fs.existsSync(getFilePathForDataDump(prefix));
 };
 
-/**
- * Sends summary back to GPT to clean up formatting
- * @param {string} summary - The summary to clean
- * @returns {string}
- */
-export async function getCleanedSummaryFromGpt(summary: string): Promise<string> {
-  const cleanedSummary = await openAIClient.chat.completions.create({
-    model: 'chatgpt-o1-preview',
-    messages: [{ role: "system", content: `${CLEAN_SUMMARY_PROMPT} ${summary}` }],
-  });
-  return cleanedSummary.choices[0].message.content ?? "";
-}
 
 /**
  * Writes a summary to a JSON file
  * @param {string | object} summaryData - The summary to write to the file (can be string or object)
  * @returns {void}
  */
-export const writeSummaryToFile = async (summaryData: string | object): Promise<{ date: string; summary: string; timestamp: string }> => {
-  // Parse the summary if it's a string
-  let parsedSummary;
-  if (typeof summaryData === 'string') {
-    try {
-      parsedSummary = JSON.parse(summaryData);
-    } catch (e) {
-      console.warn('Failed to parse summary as JSON, attempting to fix string format...');
-      const cleanedString = summaryData.trim().replace(/^\`\`\`json\n|\`\`\`$/g, '');
-      try {
-        parsedSummary = JSON.parse(cleanedString);
-      } catch (e2) {
-        console.error('Could not parse summary as JSON:', e2);
-
-        try {
-          parsedSummary = await getCleanedSummaryFromGpt(summaryData);
-        } catch (e3) {
-          console.error('Could not clean summary:', e3);
-          throw new Error('Invalid summary format');
-        }
-      }
-    }
-  } else {
-    parsedSummary = summaryData;
-  }
-
-  const outputData = {
-    date: getYesterdayDate(),
-    summary: parsedSummary,
-    timestamp: new Date().toISOString()
-  };
-
+export const writeSummaryToFile = async (
+  summaryData: SummaryOutput
+): Promise<void> => {
   try {
     // Write to scraper's data directory only
     const scraperDataDir = path.join(__dirname, "..", "data");
@@ -155,22 +113,22 @@ export const writeSummaryToFile = async (summaryData: string | object): Promise<
     }
 
     // Write dated file
-    const datedFilePath = path.join(scraperDataDir, `summary_${getYesterdayDate()}.json`);
-    fs.writeFileSync(datedFilePath, JSON.stringify(outputData, null, 2));
+    const datedFilePath = path.join(
+      scraperDataDir,
+      `summary_${getYesterdayDate()}.json`
+    );
+    fs.writeFileSync(datedFilePath, JSON.stringify(summaryData, null, 2));
     console.log(`Wrote summary to ${datedFilePath}`);
 
     // Write current.json
     const currentFilePath = path.join(scraperDataDir, "current.json");
-    fs.writeFileSync(currentFilePath, JSON.stringify(outputData, null, 2));
+    fs.writeFileSync(currentFilePath, JSON.stringify(summaryData, null, 2));
     console.log(`Wrote current summary to ${currentFilePath}`);
-
   } catch (error) {
-    console.error('Error writing summary files:', error);
-    console.error('Current directory:', __dirname);
+    console.error("Error writing summary files:", error);
+    console.error("Current directory:", __dirname);
     throw error;
   }
-
-  return outputData;
 };
 
 /**
@@ -178,12 +136,14 @@ export const writeSummaryToFile = async (summaryData: string | object): Promise<
  * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
  * @returns {Object|null} - Returns null if no summary exists for that date
  */
-export const readSummary = (date: string = getYesterdayDate()): { date: string; summary: string; timestamp: string } | null => {
+export const readSummary = (
+  date: string = getYesterdayDate()
+): { date: string; summary: string; timestamp: string } | null => {
   const filePath = path.join(__dirname, "..", "data", `summary_${date}.json`);
   if (!fs.existsSync(filePath)) {
     return null;
   }
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 };
 
 /**
@@ -215,7 +175,10 @@ export const getScrapedDataFilePath = (date: string): string => {
  * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
  * @returns {void}
  */
-export const writeScrapedData = (data: any[], date: string = getYesterdayDate()): void => {
+export const writeScrapedData = (
+  data: ScrapingOutput[],
+  date: string = getYesterdayDate()
+): void => {
   const filePath = getScrapedDataFilePath(date);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   console.log(`Wrote scraped data to ${filePath}`);
@@ -226,12 +189,14 @@ export const writeScrapedData = (data: any[], date: string = getYesterdayDate())
  * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
  * @returns {Array|null} - Returns null if no data exists for that date
  */
-export const readScrapedData = (date: string = getYesterdayDate()): any[] | null => {
+export const readScrapedData = (
+  date: string = getYesterdayDate()
+): ScrapingOutput[] | null => {
   const filePath = getScrapedDataFilePath(date);
   if (!fs.existsSync(filePath)) {
     return null;
   }
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 };
 
 /**
@@ -241,4 +206,29 @@ export const readScrapedData = (date: string = getYesterdayDate()): any[] | null
  */
 export const hasScrapedData = (date: string = getYesterdayDate()): boolean => {
   return fs.existsSync(getScrapedDataFilePath(date));
+};
+
+export const CSV_HEADER = "title,description,url,source,author,publishedAt";
+
+export const convertStoriesToCSV = (stories: Story[]): string => {
+  return stories
+    .map(
+      (story) =>
+        `${story.title},${story.description},${story.url},${story.source.name},${story.author},${story.publishedAt}`
+    )
+    .join("\n");
+};
+
+export const convertScrappingSummariesToCSV = (
+  summaries: ScrapingOutput[]
+): string => {
+  let output = "";
+
+  summaries.map((summary) => {
+    summary.articles.map((article) => {
+      output += `${article.title},${article.description},${article.url},${article.source},${article.author},${article.publishedAt}`;
+    });
+  });
+
+  return output;
 };
