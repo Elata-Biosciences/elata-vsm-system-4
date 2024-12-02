@@ -19,7 +19,7 @@ import type {
   SummaryList,
   Article,
 } from "@elata/shared-types";
-import { SummaryOutputSchema, SummaryListSchema } from "@elata/shared-types";
+import { SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
 
 /**
