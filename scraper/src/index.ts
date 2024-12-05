@@ -8,6 +8,7 @@ import {
   isValidUrl,
   wait,
   writeSummaryToFile,
+  canIncludeUrlInSummary
 } from "./lib/utils.js";
 import { scrapeWebsites } from "./lib/scraping.js";
 import { openAIClient } from "./lib/openai.js";
@@ -87,7 +88,7 @@ const getAISummaryOfStoriesAndScrapingResults = async (
           summaryOutput[key as keyof SummaryOutput] as Article[]
         )
         .sort((a, b) => b.relevanceScore - a.relevanceScore)
-        .filter((article) => isValidUrl(article.url));
+        .filter((article) => canIncludeUrlInSummary(article.url));
     }
 
     return summaryOutput;

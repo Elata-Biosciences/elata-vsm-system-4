@@ -320,3 +320,21 @@ const URL_REGEX =
 export const isValidUrl = (url: string): boolean => {
   return URL_REGEX.test(url);
 };
+
+/**
+ * Checks if a URL is an HTTP URL
+ * @param {string} url - The URL to check
+ * @returns {boolean}
+ */
+export const isHttpUrl = (url: string): boolean => {
+  return url.startsWith("http://") || url.startsWith("https://");
+};
+
+/**
+ * Checks if a URL is a valid HTTP URL
+ * @param {string} url - The URL to check
+ * @returns {boolean}
+ */
+export const canIncludeUrlInSummary = (url: string): boolean => {
+  return isValidUrl(url) && isHttpUrl(url);
+};
