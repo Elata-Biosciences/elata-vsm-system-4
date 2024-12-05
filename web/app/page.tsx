@@ -3,9 +3,60 @@ import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
+import type { Metadata } from "next";
 
 // Make rendering of whole pages cached
 export const revalidate = 3600; // revalidate at most every hour
+
+export const dynamic = "force-static";  
+
+// Add metadata for better SEO
+export const metadata: Metadata = {
+  title: "Elata Biosciences News",
+  description:
+    "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry from Elata Biosciences.",
+    openGraph: {
+      title: "Elata Biosciences News | Neuroscience & Mental Health Updates",
+      description:
+        "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry from Elata Biosciences.",
+      url: "https://news.elata.bio",
+      siteName: "Elata Biosciences News",
+      images: [
+        {
+          url: "/og-image.jpg", // Make sure to add this image to your public folder
+          width: 1200,
+          height: 630,
+          alt: "Elata Biosciences News",
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    keywords:
+      "neuroscience, mental health, biohacking, computational psychiatry, research news",
+
+    twitter: {
+      card: "summary_large_image",
+      title: "Elata Biosciences News",
+      description:
+        "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry.",
+      creator: "@Elata_Bio",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    alternates: {
+      canonical: "https://news.elata.bio",
+    },
+};
 
 export default async function Home() {
   return (
@@ -37,6 +88,10 @@ async function AsyncNewsContent() {
         "@type": "Organization",
         name: "Elata Biosciences",
         url: "https://elata.bio",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://news.elata.bio/logo.jpeg"
+        }
       },
       inLanguage: "en",
       potentialAction: {
@@ -45,8 +100,14 @@ async function AsyncNewsContent() {
         "query-input": "required name=search_term",
       },
       sameAs: [
-        "https://discord.gg/4CZ7RCwEvb", // Assuming this is your Discord link based on the FaDiscord import
+        "https://discord.gg/4CZ7RCwEvb",
+        "https://github.com/Elata-Biosciences",
+        "https://www.linkedin.com/company/elata-biosciences",
+        "https://x.com/Elata_Bio",
+        "https://www.reddit.com/r/elata/",
+        "https://t.me/Elata_Biosciences"
       ],
+      dateModified: new Date().toISOString(),
     };
 
     return (

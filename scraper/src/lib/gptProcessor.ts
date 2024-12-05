@@ -18,12 +18,25 @@ export async function processPageWithGPT(
 ): Promise<ScrapingOutput> {
   console.log(`Extracting articles from ${sourceUrl}`);
   try {
+    const userPrompt = `
+    Content from ${sourceName} (${sourceUrl}):
+    
+    ${content}
+    `;
+
+    console.log("User prompt:");
+    console.log(userPrompt);
+
     const response = await openAIClient.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: `${ELATA_SCRAPPING_TASK_PROMPT}\n\nContent from ${sourceName} (${sourceUrl}):\n\n${content}`,
+          content: ELATA_SCRAPPING_TASK_PROMPT,
+        },
+        {
+          role: "user",
+          content: userPrompt,
         },
       ],
       response_format: zodResponseFormat(

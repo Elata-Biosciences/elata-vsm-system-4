@@ -4,6 +4,8 @@ import { MAIN_PROMPT } from "./config/prompt.js";
 import {
   convertScrappingSummariesToCSV,
   convertStoriesToCSV,
+  getDedupedArticles,
+  isValidUrl,
   wait,
   writeSummaryToFile,
 } from "./lib/utils.js";
@@ -36,8 +38,6 @@ const getAISummaryOfStoriesAndScrapingResults = async (
     ${MAIN_PROMPT}
 
     ${convertStoriesToCSV(stories)}
-    
-    ${convertScrappingSummariesToCSV(scrapingResults)}
     `;
 
     const summaryResponse = await openAIClient.chat.completions.create({
@@ -51,31 +51,44 @@ const getAISummaryOfStoriesAndScrapingResults = async (
       typeof content === "string" ? JSON.parse(content) : content;
     const summaryList: SummaryList = SummaryListSchema.parse(parsedContent);
 
-    // Transform the flat list into categorized output
     const summaryOutput: SummaryOutput = {
-      research: summaryList.articles.filter(
-        (a: Article) => a.category === "research"
-      ),
-      industry: summaryList.articles.filter(
-        (a: Article) => a.category === "industry"
-      ),
-      biohacking: summaryList.articles.filter(
-        (a: Article) => a.category === "biohacking"
-      ),
-      computational: summaryList.articles.filter(
-        (a: Article) => a.category === "computational"
-      ),
-      hardware: summaryList.articles.filter(
-        (a: Article) => a.category === "hardware"
-      ),
-      desci: summaryList.articles.filter(
-        (a: Article) => a.category === "desci"
-      ),
-      offTopic: summaryList.articles.filter(
-        (a: Article) => a.category === "offTopic"
-      ),
+      research: [],
+      industry: [],
+      biohacking: [],
+      computational: [],
+      hardware: [],
+      desci: [],
+      offTopic: [],
       timestamp: new Date().toISOString(),
     };
+
+    summaryList.articles.map((article) => {
+      (
+        summaryOutput[article.category as keyof SummaryOutput] as Article[]
+      ).push(article);
+    });
+
+    // Add scraping results to summary output
+    scrapingResults.map((result) => {
+      result.articles.map((article) => {
+        (
+          summaryOutput[article.category as keyof SummaryOutput] as Article[]
+        ).push(article);
+      });
+    });
+
+    // Same as above but with for of loop
+    // Make this loop through with function instead of
+    for (const key in summaryOutput) {
+      if (key === "timestamp") continue;
+      // For each array of articles, make sure each array is deduped, then sorted by relevance score
+      (summaryOutput[key as keyof SummaryOutput] as Article[]) =
+        getDedupedArticles(
+          summaryOutput[key as keyof SummaryOutput] as Article[]
+        )
+        .sort((a, b) => b.relevanceScore - a.relevanceScore)
+        .filter((article) => isValidUrl(article.url));
+    }
 
     return summaryOutput;
   } catch (error) {

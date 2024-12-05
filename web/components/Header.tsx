@@ -19,7 +19,14 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const socialLinks = [
+  const socialLinks: {
+    icon: React.ElementType;
+    href?: string;
+    label: string;
+    onClick?: () => void;
+    isButton?: boolean;
+    isSpecialButton?: boolean;
+  }[] = [
     {
       icon: FaQuestionCircle,
       onClick: () => setIsModalOpen(true),
@@ -61,16 +68,18 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-black text-white px-3 py-2 sm:p-4 flex justify-between items-center shadow-xl">
+      <header className="sticky top-0 z-50 bg-black text-white px-4 py-4 sm:p-4 flex justify-between items-center shadow-xl">
         <Link
           href="https://elata.bio"
           className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-opacity"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Visit Elata's main website"
+          title="Visit Elata.bio - Advancing Mental Health Research"
         >
           <Image
             src="/logo.jpeg"
-            alt="Elata Logo"
+            alt="Elata Biosciences Logo"
             width={24}
             height={24}
             className="w-6 h-6 sm:w-8 sm:h-8 rounded-full shadow-md border-2 border-gray-700 hover:border-yellow-400 transition-colors ring-2 ring-yellow-400/70 ring-offset-2 ring-offset-black hover:ring-yellow-400/90 animate-[subtle-pulse_2s_ease-in-out_infinite]"
@@ -83,24 +92,27 @@ export default function Header() {
           {socialLinks.map(({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) => (
             isButton ? (
               <button
+                type="button"
                 key={label}
                 onClick={onClick}
                 className="p-1.5 sm:p-2 hover:bg-gray-800 rounded-full transition-all hover:shadow-lg"
-                aria-label={label}
+                aria-label={`Open ${label} information modal`}
               >
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
               </button>
             ) : isSpecialButton ? (
               <Link
                 key={label}
-                href={href!}
+                href={href || ""}
                 className="group inline-flex items-center bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-1.5 rounded-full font-medium text-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-[0_0_15px_rgba(250,204,21,0.5)] transform-gpu"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
+                aria-label="Join Elata's Discord Community"
+                title="Join our active community on Discord"
               >
                 Join Community
                 <svg 
+                  aria-hidden="true"
                   className="w-4 h-4 ml-1.5 animate-none group-hover:animate-bounce-x"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -115,20 +127,22 @@ export default function Header() {
             ) : (
               <Link
                 key={label}
-                href={href!}
+                href={href || ""}
                 className="p-1.5 sm:p-2 hover:bg-gray-800 rounded-full transition-all hover:shadow-lg"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
+                aria-label={`Visit Elata on ${label}`}
+                title={`Follow Elata on ${label}`}
               >
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                </Link>
-              )
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+              </Link>
+            )
           ))}
         </div>
 
         {/* Mobile Menu Button */}
         <button
+          type="button"
           className="md:hidden p-2 hover:bg-gray-800 rounded-full"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
@@ -140,42 +154,43 @@ export default function Header() {
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed top-[56px] right-0 w-full bg-black border-t border-gray-800 shadow-xl z-40">
-          <div className="p-4 flex flex-col gap-4">
+          <div className="px-4 pt-2 pb-4 flex flex-col gap-2">
             {socialLinks.map(({ icon: Icon, href, label, onClick, isButton, isSpecialButton }) =>
               isButton ? (
                 <button
+                  type="button"
                   key={label}
                   onClick={() => {
                     onClick?.();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-lg w-full"
+                  className="flex items-center gap-3 px-[2px] py-2.5 hover:bg-gray-800 rounded-lg w-full text-white font-medium"
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5 min-w-[20px]" />
                   <span>{label}</span>
                 </button>
               ) : isSpecialButton ? (
                 <Link
                   key={label}
-                  href={href!}
-                  className="flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-medium w-full"
+                  href={href || ""}
+                  className="flex items-center justify-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-black px-[2px] py-2.5 rounded-lg font-medium w-full mt-1"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5 min-w-[20px]" />
                   Join Community
                 </Link>
               ) : (
                 <Link
                   key={label}
-                  href={href!}
-                  className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-lg w-full"
+                  href={href || ""}
+                  className="flex items-center gap-3 px-[2px] py-2.5 hover:bg-gray-800 rounded-lg w-full text-white font-medium"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-5 h-5 min-w-[20px]" />
                   <span>{label}</span>
                 </Link>
               )

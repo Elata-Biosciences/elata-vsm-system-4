@@ -13,6 +13,7 @@ export const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
+// TODO: Move to shared-types
 const categoryMapping: { [key in SummaryOutputCategoriesKey]: string } = {
   research: "Research",
   industry: "Industry",
@@ -23,6 +24,7 @@ const categoryMapping: { [key in SummaryOutputCategoriesKey]: string } = {
   offTopic: "Off Topic",
 };
 
+// TODO: Move to shared-types
 const categoryEmojis: { [key in SummaryOutputCategoriesKey]: string } = {
   research: "🔬",
   industry: "💼",

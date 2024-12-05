@@ -1,11 +1,13 @@
 import fs from "node:fs";
-import path from "node:path";
+import fsAsPromise from "node:fs/promises";
+import path, { dirname, join } from "node:path";
 import type {
   Article,
   ScrapingOutput,
   SummaryOutput,
 } from "@elata/shared-types";
 import type { Story } from "../types/newsapi.types.js";
+import { fileURLToPath } from "node:url";
 
 /**
  * The filename of the current file
@@ -18,6 +20,16 @@ const __filename = process.argv[1];
  * @type {string}
  */
 const __dirname = path.dirname(__filename);
+
+// TODO: Standardize on using import.meta.url
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = dirname(currentFilePath);
+
+export type DateString = `${number}-${number}-${number}`;
+
+export const DATE_FORMAT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const DATA_DIR = join(__dirname, "..", "data");
 
 /**
  * Delay execution for `ms` milliseconds
@@ -211,8 +223,16 @@ export const hasScrapedData = (date: string = getYesterdayDate()): boolean => {
   return fs.existsSync(getScrapedDataFilePath(date));
 };
 
+/**
+ * Format used for CSV output
+ */
 export const CSV_HEADER = "title,description,url,source,author,publishedAt";
 
+/**
+ * Converts an array of stories to a CSV string
+ * @param {Story[]} stories - Array of stories
+ * @returns {string}
+ */
 export const convertStoriesToCSV = (stories: Story[]): string => {
   return stories
     .map(
@@ -222,11 +242,15 @@ export const convertStoriesToCSV = (stories: Story[]): string => {
     .join("\n");
 };
 
+/**
+ * Converts an array of scraping summaries to a CSV string
+ * @param {ScrapingOutput[]} summaries - Array of scraping summaries
+ * @returns {string}
+ */
 export const convertScrappingSummariesToCSV = (
   summaries: ScrapingOutput[]
 ): string => {
   let output = "";
-
   summaries.map((summary) => {
     summary.articles.map((article: Article) => {
       output += `${article.title},${article.description},${article.url},${article.source},${article.author},${article.publishedAt}`;
@@ -234,4 +258,65 @@ export const convertScrappingSummariesToCSV = (
   });
 
   return output;
+};
+
+/**
+ * Returns a deduped array of articles
+ * @param {Article[]} articles - Array of articles
+ * @returns {Article[]}
+ */
+export const getDedupedArticles = (articles: Article[]): Article[] => {
+  // Make sure there are no articles with the same title
+  return articles.filter(
+    (article, index, self) =>
+      index === self.findIndex((t) => t.title === article.title)
+  );
+};
+
+/**
+ * Validates a date string
+ * @param {string} date - Date string
+ * @returns {boolean}
+ */
+export const validateDateString = (date: string): date is DateString => {
+  return DATE_FORMAT_REGEX.test(date);
+};
+
+/**
+ * Loads the data from the current.json file
+ * @returns The data from the current.json file
+ */
+export const loadCurrentSummary = async () => {
+  const dataPath = path.join(DATA_DIR, "current.json");
+  const data = await fsAsPromise.readFile(dataPath, "utf-8");
+  return JSON.parse(data);
+};
+
+/**
+ * Loads the data from the summary_<date>.json file
+ *
+ * Date format: YYYY-MM-DD
+ *
+ * @param {DateString} date - The date to load the summary for
+ * @returns The data from the summary_<date>.json file
+ */
+export const loadSummaryByDate = async (date: DateString) => {
+  const dataPath = path.join(DATA_DIR, `summary_${date}.json`);
+  const data = await fsAsPromise.readFile(dataPath, "utf-8");
+  return JSON.parse(data);
+};
+
+/**
+ * Regex for validating a URL
+ */
+const URL_REGEX =
+  /^(https?:\/\/)?(www\.)?[a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+
+/**
+ * Validates a URL
+ * @param {string} url - The URL to validate
+ * @returns {boolean}
+ */
+export const isValidUrl = (url: string): boolean => {
+  return URL_REGEX.test(url);
 };

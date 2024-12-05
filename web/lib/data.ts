@@ -2,6 +2,8 @@ import type { SummaryOutput } from "@elata/shared-types";
 
 const DATA_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:2345";
 
+// TODO: Externalize this
+const REVALIDATE_API_DATA_SECONDS = 3600;
 
 /**
  * Loads the current news data from the server
@@ -13,6 +15,9 @@ export async function loadCurrentData(): Promise<SummaryOutput> {
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
+      },
+      next: {
+        revalidate: REVALIDATE_API_DATA_SECONDS,
       },
     });
 

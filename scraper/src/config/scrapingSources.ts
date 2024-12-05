@@ -521,115 +521,115 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/neuroscience?searching=all_posts",
-    name: "Substack Neuroscience",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/psychology%20?searching=all_posts",
-    name: "Substack Psychology",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Biology%20?searching=all_posts",
-    name: "Substack Biology",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Biochemistry%20?searching=all_posts",
-    name: "Substack Biochemistry",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/DeSci?searching=all_posts",
-    name: "Substack DeSci",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/DAO?searching=all_posts",
-    name: "Substack DAO",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Crypto?searching=all_posts",
-    name: "Substack Crypto",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Biohacking?searching=all_posts",
-    name: "Substack Biohacking",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Mental%20Health?searching=all_posts",
-    name: "Substack Mental Health",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Pharma?searching=all_posts",
-    name: "Substack Pharma",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Ethereum?searching=all_posts&language=en",
-    name: "Substack Ethereum",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Governance%20?searching=all_posts&language=en",
-    name: "Substack Governance",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Depression?searching=all_posts&language=en",
-    name: "Substack Depression",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Anxiety%20?searching=all_posts&language=en",
-    name: "Substack Anxiety",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/PTSD?searching=all_posts&language=en",
-    name: "Substack PTSD",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Schizophrenia%20?searching=all_posts&language=en",
-    name: "Substack Schizophrenia",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Bipolar?searching=all_posts&language=en",
-    name: "Substack Bipolar",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/ADHD?searching=all_posts&language=en",
-    name: "Substack ADHD",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/OCD?searching=all_posts&language=en",
-    name: "Substack OCD",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Autism?searching=all_posts&language=en",
-    name: "Substack Autism",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Psychedelic%20?searching=all_posts&language=en",
-    name: "Substack Psychedelic",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/BCI?searching=all_posts&language=en",
-    name: "Substack BCI",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Brain%20Computer%20Interface?searching=all_posts&language=en",
-    name: "Substack Brain Computer Interface",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/meditation%20?searching=all_posts&language=en",
-    name: "Substack Meditation",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/mindfullness?searching=all_posts&language=en",
-    name: "Substack Mindfulness",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Biotech?searching=all_posts&language=en",
-    name: "Substack Biotech",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Machine%20Learning?searching=all_posts&language=en",
-    name: "Substack Machine Learning",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/ZKP?searching=all_posts&language=en",
-    name: "Substack ZKP",
+    name: "Substack",
   },
   {
     url: "https://review.stanfordblockchain.xyz/",
@@ -641,59 +641,59 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/Vitalik%20Buterin?searching=all_posts&language=en",
-    name: "Substack Vitalik",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/blockchain?searching=all_posts&language=en",
-    name: "Substack Blockchain",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Effective%20Accelerationism%20%20?searching=all_posts&language=en",
-    name: "Substack e/acc",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Rust?searching=all_posts&language=en",
-    name: "Substack Rust",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Python?searching=all_posts&language=en",
-    name: "Substack Python",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Pytorch%20?searching=all_posts&language=en",
-    name: "Substack Pytorch",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/TypeScript?searching=all_posts&language=en",
-    name: "Substack TypeScript",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Machine%20Learning?searching=all_posts&language=en",
-    name: "Substack Machine Learning",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Computer%20Vision?searching=all_posts&language=en",
-    name: "Substack Computer Vision",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/solidity?searching=all_posts",
-    name: "Substack Solidity",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/cryptography?searching=all_posts",
-    name: "Substack Cryptography",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/NIH?searching=all_posts",
-    name: "Substack NIH",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Longevity?searching=all_posts",
-    name: "Substack Longevity",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/stem%20cell?searching=all_posts",
-    name: "Substack Stem Cell",
+    name: "Substack",
   },
   {
     url: "https://www.asimov.press/",
@@ -701,27 +701,27 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/hyperbaric?searching=all_posts",
-    name: "Substack Hyperbaric",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/RFK?searching=all_posts",
-    name: "Substack RFK",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/diffusion%20model?searching=all_posts",
-    name: "Substack Diffusion Model",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/prediction%20market?searching=all_posts&language=en",
-    name: "Substack Prediction Market",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Raspberry%20Pi?searching=all_posts&language=en",
-    name: "Substack Raspberry Pi",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Arduino?searching=all_posts&language=en",
-    name: "Substack Arduino",
+    name: "Substack",
   },
   {
     url: "https://wublock.substack.com/",
@@ -729,91 +729,91 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/healthcare?searching=all_posts&language=en",
-    name: "Substack Healthcare",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Biopharma?searching=all_posts&language=en",
-    name: "Substack Biopharma",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Open%20Source?searching=all_posts&language=en",
-    name: "Substack Open Source",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/web3?searching=all_posts&language=en",
-    name: "Substack Web3",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/cognitive%20behavioral%20therapy?searching=all_posts&language=en",
-    name: "Substack Cognitive Behavioral Therapy",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/breathwork?searching=all_posts&language=en",
-    name: "Substack Breathwork",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/biomarker?searching=all_posts&language=en",
-    name: "Substack Biomarker",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Solana?searching=all_posts&language=en",
-    name: "Substack Solana",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/zkSync?searching=all_posts&language=en",
-    name: "Substack zkSync",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/DeFi?searching=all_posts&language=en",
-    name: "Substack DeFi",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Bitcoin?searching=all_posts&language=en",
-    name: "Substack Bitcoin",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Coinbase?searching=all_posts&language=en",
-    name: "Substack Coinbase",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Eliptic%20Curve?searching=all_posts&language=en",
-    name: "Substack Eliptic Curve",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/LLM?searching=all_posts&language=en ",
-    name: "Substack LLM",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/alphafold?searching=all_posts&language=en",
-    name: "Substack Alphafold",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Decentralized?searching=all_posts&language=en",
-    name: "Substack Decentralized",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Consensus%20?searching=all_posts&language=en",
-    name: "Substack Consensus",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/IP-NFT%20?searching=all_posts&language=en",
-    name: "Substack IP-NFT",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/NFT%20?searching=all_posts&language=en",
-    name: "Substack NFT",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/ERC?searching=all_posts&language=en",
-    name: "Substack ERC",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Personalized%20Medicine%20?searching=all_posts&language=en",
-    name: "Substack Personalized Medicine",
+    name: "Substack",
   },
   {
     url: "https://substack.com/search/Deep%20Learning?searching=all_posts&language=en",
-    name: "Substack Deep Learning",
+    name: "Substack",
   },
   {
     url: "https://www.lesswrong.com/allPosts",
@@ -821,7 +821,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://www.lesswrong.com/allPosts?sortedBy=new",
-    name: "Less Wrong New",
+    name: "Less Wrong",
   },
   {
     url: "https://gwern.net/doc/newest/index",
@@ -881,7 +881,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://substack.com/search/Bio?searching=all_posts",
-    name: "Substack Bio",
+    name: "Substack",
   },
   {
     url: "https://www.alignmentforum.org/allPosts",
@@ -959,23 +959,21 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://forum.mysensors.org/#google_vignette",
     name: "MySensors",
   },
-
-  // Add sources from list above in correct format
   {
     url: "https://warpcast.com/~/search/recent?q=DeSci",
-    name: "Warpcast DeSci",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/desci",
-    name: "Warpcast DeSci",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/engineering",
-    name: "Warpcast Engineering",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/dev",
-    name: "Warpcast Dev",
+    name: "Warpcast",
   },
   {
     url: "https://www.construction-physics.com/",
@@ -983,39 +981,39 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://warpcast.com/~/channel/rust",
-    name: "Warpcast Rust",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/zk",
-    name: "Warpcast ZK",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/network-states",
-    name: "Warpcast Network States",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/paragraph",
-    name: "Warpcast Paragraph",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/science",
-    name: "Warpcast Science",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/papers-please",
-    name: "Warpcast Papers Please",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/venturecapital",
-    name: "Warpcast Venture Capital",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/ai",
-    name: "Warpcast AI",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/~/channel/founders",
-    name: "Warpcast Founders",
+    name: "Warpcast",
   },
   {
     url: "https://paragraph.xyz/",
@@ -1027,7 +1025,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://paragraph.xyz/@exmachina",
-    name: "Paragraph Ex Machina",
+    name: "Paragraph",
   },
   {
     url: "https://a16zcrypto.com/",
@@ -1035,35 +1033,35 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://open.spotify.com/search/Decentralized%20Science/podcastAndEpisodes",
-    name: "Decentralized Science Podcasts",
+    name: "Spotify Podcasts",
   },
   {
     url: "https://www.youtube.com/results?search_query=DeSci",
-    name: "YouTube DeSci",
+    name: "YouTube",
   },
   {
     url: "https://podcasts.apple.com/us/search?term=Decentralized",
-    name: "Decentralized Science Podcasts",
+    name: "Apple Podcasts",
   },
   {
     url: "https://warpcast.com/vitalik.eth",
-    name: "Warpcast Vitalik",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/accountless.eth",
-    name: "Warpcast Accountless",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/proxystudio.eth",
-    name: "Warpcast Proxy Studio",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/fbi",
-    name: "Warpcast FBI",
+    name: "Warpcast",
   },
   {
     url: "https://warpcast.com/ethereum",
-    name: "Warpcast Ethereum",
+    name: "Warpcast",
   },
   {
     url: "https://open.spotify.com/show/41TNnXSv5ExcQSzEGLlGhy",
@@ -1071,22 +1069,22 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://open.spotify.com/show/0BzTvU6TsW7uvPMpZAsf3X",
-    name: "Spotify",
+    name: "Spotify Podcasts",
   },
   {
     url: "https://open.spotify.com/show/0AVTHjV1Vat2v3OKVw7QbE",
-    name: "Spotify",
+    name: "Spotify Podcasts",
   },
   {
     url: "https://open.spotify.com/search/Decentralized%20Science/podcastAndEpisodes",
-    name: "Decentralized Science Podcasts",
+    name: "Spotify Podcasts",
   },
   {
     url: "https://www.youtube.com/results?search_query=Decentralized+Science",
-    name: "YouTube Decentralized Science",
+    name: "YouTube",
   },
   {
     url: "https://podcasts.apple.com/us/podcast/the-human-upgrade-with-dave-asprey/id451295014",
-    name: "The Human Upgrade with Dave Asprey",
+    name: "Apple Podcasts",
   },
 ];

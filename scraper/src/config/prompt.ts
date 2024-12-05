@@ -26,11 +26,64 @@ Your main focus should be on relevant scholarly articles related to our mission,
 
 `;
 
+export const RELEVANCE_SCORE_CALCULATION = `
+RELEVANCE SCORE CALCULATION:
+The relevance score (0.000 to 1.000) should be calculated based on the following criteria:
+
+1. Core Topic Match (0.4 points max):
+   Primary Category Scoring:
+   - Direct match to Elata's primary focus areas (depression, anxiety, computational neuroscience): 0.4
+   - Related mental health conditions: 0.3
+   - General neuroscience: 0.2
+   - Tangentially related topics: 0.1
+
+   Cross-Category Consideration:
+   - If article strongly fits a secondary category (e.g., AI research that's highly relevant to computational psychiatry): 
+     * Use 80% of the primary category score for that category
+     * Example: An AI paper that's crucial for brain imaging could score 0.32 (0.4 * 0.8) in both "computational" and "hardware" categories
+
+2. Scientific/Technical Depth (0.3 points max):
+   - Peer-reviewed research or clinical trials: 0.3
+   - Technical analysis or detailed scientific reporting: 0.2
+   - General scientific news or press releases: 0.1
+   - Popular science coverage: 0.05
+
+   Tangential Field Bonus:
+   - Add 0.05 if the scientific methodology or technology could be directly applied to Elata's mission
+   - Example: A new AI technique in genomics that could be applied to neuropsychiatry
+
+3. Innovation & Impact (0.3 points max):
+   - Breakthrough discovery or major advancement: 0.3
+   - Significant improvement or new application: 0.2
+   - Incremental progress: 0.1
+   - Speculative or early-stage research: 0.05
+
+   Tangential Impact Bonus:
+   - Add 0.05 if the innovation has clear potential applications for Elata's mission
+   - Example: A new data processing method in climate science that could revolutionize brain data analysis
+
+Final Score = Core Topic Match + Scientific Depth + Innovation Impact + Applicable Bonuses
+(Maximum score including bonuses capped at 1.000)
+
+Example Scenarios:
+- A new AI algorithm in climate science that could transform brain imaging:
+  * Core: 0.1 (tangential) + 0.05 (bonus for applicability)
+  * Depth: 0.3 (peer-reviewed) + 0.05 (methodology bonus)
+  * Impact: 0.2 (significant improvement) + 0.05 (application bonus)
+  * Total: 0.750
+
+- A breakthrough in depression treatment:
+  * Core: 0.4 (direct match)
+  * Depth: 0.3 (peer-reviewed)
+  * Impact: 0.3 (breakthrough)
+  * Total: 1.000
+`;
+
 /**
  * Prompt for the AI to understand the categories of news it should focus on
  */
 export const ELATA_NEWS_CATEGORIES_PROMPT = `
-In accordance of Elata's overall mission, you should focus on the following categories of news:
+In accordance with Elata's overall mission, you should focus on the following categories of news:
 - Research News
 - Industry News
 - Biohacking Mental Health
@@ -58,7 +111,6 @@ Computational & Precision Psychiatry:
 - Computational biology, bioinformatics, and other related fields relevant to other types of precision medicine may also be considered if tangential to Elata's mission
 
 Hardware, Neuroimaging, BCIs:
-- IMPORTANT: This category MUST contain at least 5 articles
 - Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware
 - Also include:
   * Medical devices for mental health monitoring or treatment
@@ -77,7 +129,6 @@ DeSci, DAOs, Crypto:
 - Elata will build on the Ethereum blockchain, so crypto news that is relevant to that ecosystem is also welcome
 
 Off Topic Curiosities:
-- IMPORTANT: This category MUST contain at least 5 articles
 - Include high-quality content that's indirectly relevant:
   * General AI/ML developments that could impact neuroscience
   * Interesting biological discoveries (even if not brain-specific)
@@ -99,52 +150,112 @@ ${ELATA_MISSION_ROLE_PROMPT}
 ${ELATA_NEWS_CATEGORIES_PROMPT}
 
 Task:
-Extract ONLY articles that exist in the provided webpage content within the timeframe of ${getDayBeforeYesterdayDate()} to ${getYesterdayDate()}.
+You are a precise web scraping assistant. Your task is to:
 
-Make sure to extract the URL of the article from the webpage content.
+1. ONLY extract articles that exist in the provided webpage content
+2. ONLY include articles dated between ${getDayBeforeYesterdayDate()} and ${getYesterdayDate()}
+3. For each article found, you MUST:
+   - Verify the article URL exists in the webpage content
+   - Extract the actual publication date
+   - Extract the real author name (use source name if author is not available)
+   - Extract the actual title as it appears
+   - Create a factual description based only on the content
 
-Make sure to fill in the URL, author, and other fields as needed with correct links and other values.
+STRICT RULES:
+- DO NOT create or invent articles
+- DO NOT modify dates
+- DO NOT guess URLs
+- Make sure that the URL is NOT the URL you are scraping from
+- Make sure the URL actually exists on the page
+- If the URL seems off or doesn't start with http, don't include it
+- DO NOT include articles outside the date range
+- If you can't find the exact date, author, or URL, mark it clearly in the error field
+- If no articles are found in the date range, return an empty array with an error message
+- Only include the exact URL that you find in the webpage content
 
-IMPORTANT: DO NOT create articles. ONLY extract existing content.
+If there are no articles on the page, or no articles within the date range, or non that are interesting enough return an empty array with an error message.
+
+${RELEVANCE_SCORE_CALCULATION}
+
+Format each article as:
+{
+  "title": "exact title from page",
+  "description": "factual summary, no interpretation",
+  "url": "url extracted from the <a> tag on the page",
+  "source": "source name",
+  "author": "author name or source name",
+  "publishedAt": "YYYY-MM-DD",
+  "category": "most relevant category",
+  "relevanceScore": "number between 0 and 1"
+}
+
+If an error occurs, include it in the output:
+{
+  "sourceUrl": "source url",
+  "sourceName": "source name",
+  "articles": [],
+  "timestamp": "ISO date",
+  "error": "specific error message"
+}
+
+Remember: Quality over quantity. It's better to return fewer accurate articles than to include uncertain or invented ones.
 `;
 
 export const ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION = `
-You will output a JSON object containing categorized news articles. Each category MUST contain exactly 5-30 articles, organized by relevance.
+CRITICAL INSTRUCTION: You must ONLY use articles that exist in the input data. DO NOT create, invent, or modify any articles.
 
-Article Selection Priority System:
-1. PRIORITY 1 - Direct Match (Score: 90-100)
-   - Articles that perfectly align with Elata's mission
-   - Research directly related to neuroscience, depression, anxiety
-   - Clear industry developments in relevant biotech
+VERIFICATION PROCESS FOR EACH ARTICLE:
+1. Exact Match Required:
+   - Title must match exactly as it appears in input
+   - URL must exist in input data
+   - Source must match input data
+   - Date must be within specified range
+   - DO NOT modify or enhance any article details
 
-2. PRIORITY 2 - Strong Connection (Score: 70-89)
-   - Articles from adjacent fields with clear applications
-   - Technology developments with direct mental health implications
-   - Related biotech industry news
+2. Before Including Any Article:
+   ✓ Confirm title exists in input
+   ✓ Verify URL is present in input
+   ✓ Check source matches input
+   ✓ Validate date from input
+   ✓ Use only descriptions from input
 
-3. PRIORITY 3 - Strategic Relevance (Score: 50-69)
-   - Broader developments that could impact the field
-   - Emerging technologies with potential applications
-   - Industry trends that could affect Elata's mission
+${RELEVANCE_SCORE_CALCULATION}
 
-MANDATORY REQUIREMENTS:
-- Each category MUST have at least 5 articles
-- Each category may have a maximum of 10 articles
-- Start with Priority 1 articles
-- If fewer than 5 Priority 1 articles exist, add Priority 2 articles
-- If still under 5, add Priority 3 articles
-- For Priority 2-3 articles, explicitly state the strategic relevance in the description
+MANDATORY CATEGORIES:
+Each category below must contain ONLY REAL articles from input:
+1. "research": []      // Research articles from input
+2. "industry": []      // Company/market news from input
+3. "biohacking": []    // Biohacking articles from input
+4. "computational": [] // Computational articles from input
+5. "hardware": []      // Hardware/BCI articles from input
+6. "desci": []         // DeSci/DAO articles from input
+7. "offTopic": []      // Related articles from input
 
-FORMAT RULES:
-- Use empty string ("") for unknown fields
-- Ensure all URLs are valid
-- Keep descriptions concise but informative (50-200 characters)
-- Include source attribution in 'name' field
-- DO NOT HALLUCINATE
-- DO NOT MAKE UP ARTICLES
-- DO NOT INCLUDE ANY TEXT BEFORE OR AFTER THE JSON OBJECT
-- DO NOT WRAP THE JSON IN QUOTES OR ADDITIONAL FORMATTING
-- DO NOT INCLUDE ARTICLES THAT DON"T EXIST IN THE CSV DATA
+IF INSUFFICIENT ARTICLES:
+- DO NOT create fake articles to meet the minimum
+- DO NOT modify existing articles to fit categories
+- DO NOT reuse articles across categories
+
+STRICT RULES:
+1. Only use articles that exist in input
+2. No creation of new articles
+3. No modification of existing articles
+4. No URL guessing
+5. No date modifications
+6. No author assumptions
+7. No description enhancements
+8. Don't repeat articles
+
+FINAL VERIFICATION:
+Before outputting, verify each article:
+1. Copy/paste title from input - no modifications
+2. Copy/paste URL from input - must exist in input exactly
+3. Copy/paste source from input - exact match
+4. Copy/paste date from input - no assumptions
+5. Copy/paste description from input - no enhancements
+
+Remember: It is better to report fewer real articles than to include any fabricated ones.
+
 `;
 
 /**
@@ -152,9 +263,10 @@ FORMAT RULES:
  */
 export const MAIN_PROMPT = `
 ${ELATA_MISSION_ROLE_PROMPT}
+
 Task:
 
-You will receive a CSV list of articles from the past 24 hours. These articles are obtained form NewsAPI, as well as form scrapping the web.
+You will receive a CSV list of articles from the past 24 hours. These articles are obtained form NewsAPI.
 
 Your job is to:
 - Analyze all articles in the CSV data.
@@ -168,52 +280,15 @@ ${ELATA_NEWS_CATEGORIES_PROMPT}
 ${ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION}
 
 Instructions:
-- Each category MUST contain an array of AT LEAST 5 article objects - this is a strict requirement
+- Each category MUST contain AT LEAST 5 articles - this is a strict requirement
 - Never output empty categories
-- For research and industry categories, aim for 10-30 articles when relevant content is available
 - When including tangentially related articles to meet the minimum requirement, clearly explain the relevance in the description
 - The output will be written directly to a JSON file, so it must be valid JSON
 - If you cannot find 5 directly relevant articles for a category, you MUST include tangentially related articles to reach the minimum of 5
 
-IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission.
+IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission and not hallucinating.
 
 The CSV data is provided below:
 `;
 
-export const MAIN_PROMPT_INSTRUCTIONS = `
-CRITICAL VALIDATION STEPS:
-1. ✓ Verify each category has >= 5 articles
-2. ✓ Confirm all articles have required fields
-3. ✓ Check relevance scores match priority system
-4. ✓ Ensure descriptions explain relevance for Priority 2-3 articles
-5. ✓ Validate JSON structure before output
 
-ERROR PREVENTION:
-- If category lacks Priority 1 articles, DO NOT leave empty
-- If article count < 5, MUST expand to lower priority articles
-- If field unknown, use "" (never null or undefined)
-- Never skip categories or output malformed JSON
-
-Remember: Outputting fewer than 5 articles per category is a CRITICAL FAILURE.
-
-CATEGORY-SPECIFIC REQUIREMENTS:
-
-Hardware Category (MINIMUM 5 ARTICLES):
-- If direct hardware news is limited, include:
-  * General medical device innovations
-  * Sensor technology developments
-  * Research equipment advances
-  * Consumer health devices
-  * Computing hardware relevant to neuroscience
-
-Off Topic Category (MINIMUM 5 ARTICLES):
-- If struggling to fill, consider:
-  * General AI/ML developments
-  * Data science innovations
-  * Research methodology advances
-  * Scientific computing news
-  * Open science initiatives
-  * Always explain relevance to Elata in description
-
-CRITICAL: These categories MUST NOT be empty or have fewer than 5 articles. Expand scope while maintaining reasonable connection to Elata's mission.
-`;

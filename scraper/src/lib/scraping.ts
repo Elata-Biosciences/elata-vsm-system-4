@@ -75,6 +75,7 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
         });
 
         const content = await page.evaluate(() => {
+          // Remove scripts and styles to clean up the content
           const scripts = Array.from(document.getElementsByTagName("script"));
           const styles = Array.from(document.getElementsByTagName("style"));
           for (const s of scripts) {
@@ -83,7 +84,9 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
           for (const s of styles) {
             s.remove();
           }
-          return document.body.innerText;
+
+          // Return the full HTML content
+          return document.documentElement.outerHTML;
         });
 
         const processedData = await processPageWithGPT(
@@ -91,6 +94,8 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
           source.url,
           source.name
         );
+
+        console.log(JSON.stringify(processedData, null, 2));
 
         await page.close();
         await browser.close();

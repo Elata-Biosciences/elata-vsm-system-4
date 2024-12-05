@@ -18,6 +18,7 @@ export const ArticleSchema = z.object({
       "offTopic",
     ])
     .optional(),
+  relevanceScore: z.number()
 });
 
 export const SummaryOutputSchema = z.object({

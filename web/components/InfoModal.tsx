@@ -20,6 +20,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               About Elata News
             </h2>
             <button
+              type="button"
               onClick={onClose}
               className="text-gray-400 hover:text-gray-500 transition-colors duration-200 p-2 hover:bg-gray-200 rounded-none"
             >

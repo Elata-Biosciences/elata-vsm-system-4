@@ -56,6 +56,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
         url,
         description,
         source,
+        relevanceScore: 1,
       };
 
       setShareItem(sharedArticle);
@@ -95,7 +96,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
               key={`${item.title}-${item.source}-${item.url}`}
               className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 
               hover:border-yellow-400 hover:shadow-xl hover:-translate-y-1
-              transition-all duration-500 ease-in-out rounded-lg
+              transition-all duration-500 ease-in-out rounded-md
               transform-gpu animate-fadeIn"
             >
               <h2 className="text-lg sm:text-xl font-bold mb-3">
@@ -123,23 +124,29 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                   active:scale-98"
                   target="_blank"
                   rel="noopener noreferrer"
+                  title={item.description}
+                  aria-label={`Read more about ${item.title}`}
                 >
-                  <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" />
+                  <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" 
+                    aria-hidden="true" 
+                  />
                   Read More
                 </Link>
                 <Link
                   href="https://discord.gg/4CZ7RCwEvb"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
+                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-md shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="Join our Discord community for discussion"
+                  title="Join our Discord community"
                 >
-                  <FaDiscord className="w-4 h-4" />
+                  <FaDiscord className="w-4 h-4" aria-hidden="true" />
                   Discuss
                 </Link>
                 <button
                   onClick={() => setShareItem(item)}
                   type="button"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition-colors"
+                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
                 >
                   <FaShare className="w-4 h-4" />
                   Share

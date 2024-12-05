@@ -292,7 +292,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
+      <div className="bg-white rounded-none shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
         <div className="p-6 sm:p-8">
           <div className="flex justify-between items-start mb-6">
             <h2 className="text-2xl sm:text-3xl font-bold">
@@ -340,6 +340,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
                 active:scale-98"
               target="_blank"
               rel="noopener noreferrer"
+              title="Read Full Article"
             >
               <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" />
               Read Full Article
@@ -353,34 +354,16 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
                 active:scale-98"
               target="_blank"
               rel="noopener noreferrer"
+              title="Discuss on Elata Bioscience Discord"
             >
               <FaDiscord className="w-4 h-4" />
               Discuss
             </Link>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mb-6">
-            {shareOptions.slice(0, 6).map((option) => (
-              <button
-                key={option.name}
-                onClick={option.action}
-                type="button"
-                className="flex flex-col items-center gap-2 p-2 rounded-xl
-                  hover:bg-gray-50 active:bg-gray-100 transition-colors group"
-              >
-                <span className="p-2.5 rounded-full bg-gray-100 group-hover:bg-white transition-colors">
-                  <option.icon className="w-5 h-5 text-gray-700" />
-                </span>
-                <span className="text-xs text-gray-600 text-center">
-                  {option.name}
-                </span>
-              </button>
-            ))}
-          </div>
-
           <div className="pt-6 border-t border-gray-200">
-            <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
-              {shareOptions.slice(6).map((option) => (
+            <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-8">
+              {shareOptions.map((option) => (
                 <button
                   key={option.name}
                   onClick={option.action}
