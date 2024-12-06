@@ -1,72 +1,169 @@
-# Elata Newsbot
+# Elata News Scraper & API
 
-A specialized Discord bot that aggregates and summarizes news related to computational neuroscience, precision psychiatry, and other emerging mental health fields for [Elata](https://elata.bio).
+A specialized news aggregation system that scrapes, processes, and serves news related to computational neuroscience, precision psychiatry, and emerging mental health fields for Elata Biosciences.
 
-You can check out the bot in action on the news channel of our [Discord](https://discord.gg/PJx3TE9r).
+## System Overview
+
+The system consists of two main components:
+
+1. **News Scraper**: Aggregates and processes news articles
+2. **API Server**: Serves processed news data via JSON endpoints
+
+## Tech Stack
+
+- **Runtime**: Node.js (v18+)
+- **Process Manager**: PM2
+- **APIs**: NewsAPI, OpenAI
+- **Scheduling**: pm2
+- **Storage**: JSON files in `data/` directory in server
+
+## Prerequisites
+
+- Node.js v18+
+- PM2 installed globally (`npm install -g pm2`)
+- API keys for:
+  - NewsAPI
+  - OpenAI
+  - Discord (for notifications)
 
 ## Installation
 
-### 1. Clone the repository:
+1. Install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/elata-newsbot.git
-cd elata-newsbot
+npm install
 ```
 
-### 2. Run the setup script:
-
-For Linux
+2. Build the TypeScript project:
 
 ```bash
-./setup_apt.sh
+npm run build
 ```
 
-For macOS
+## Environment Variables
+
+```env
+NEWS_API_KEY=your_newsapi_key
+OPENAI_API_KEY=your_openai_key
+DISCORD_WEBHOOK_URL=your_webhook_url
+OPENAI_ORG_ID=your_org_id
+PORT=2345  # API server port
+```
+
+## Running the Scraper
+
+This will run the scrapper, and query the NewsAPI for the latest news, then store the results in `data/current.json`.
+Then, it will use ChatGPT to scrape selected websites for news related to our mission, and store the results in `data/scraped/`.
+Finally, it will combine the two results, and store the final results in `data/current.json`.
 
 ```bash
-./setup_macos.sh
+npm run start
 ```
 
-### 3. Setup your `.env` file
+## Running the API Server
 
-You can use the `.env.example` file as a template.
+This will start the API server, which will serve the processed news data via JSON endpoints.
 
-### Getting the Required Keys
-
-1. **Discord Bot Token**:
-
-   - Go to [Discord Developer Portal](https://discord.com/developers/applications)
-   - Create a new application
-   - Go to the Bot section
-   - Create a bot and copy the token
-
-2. **Discord Channel ID**:
-
-   - Enable Developer Mode in Discord (Settings > App Settings > Advanced)
-   - Right-click the channel and select "Copy ID"
-
-3. **NewsAPI Key**:
-
-   - Sign up at [NewsAPI](https://newsapi.org/)
-   - Get your API key from the dashboard
-
-4. **OpenAI Keys**:
-   - Sign up at [OpenAI](https://openai.com/)
-   - Get your API key and organization ID from the dashboard
-
-## Running the Bot
+This is needed to view the news data in the web app.
 
 ```bash
-node index.js
+npm run serve
 ```
 
-The `setup_cron.sh` script is used to make sure the the bot runs every day in production.
+## PM2 Setup
 
-## Contributing
+The system uses PM2 for process management and scheduling. Configuration is in `ecosystem.config.js`:
 
-Contributions are welcome! Please feel free to submit a Pull Request. You can also
-get involved on [Discord](https://discord.gg/PJx3TE9r).
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: "elata-scraper",
+      script: "dist/index.js",
+      cron_restart: "0 */4 * * *", // Runs every 4 hours
+      watch: false,
+      env: {
+        NODE_ENV: "production",
+      },
+    },
+    {
+      name: "elata-api",
+      script: "dist/server.js",
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      env: {
+        NODE_ENV: "production",
+        PORT: 2345,
+      },
+    },
+  ],
+};
+```
 
-## License
+### PM2 Management Commands
 
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+```bash
+# Initial setup
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
+
+# Monitoring
+pm2 list                 # View process list
+pm2 monit               # Process monitoring
+pm2 logs elata-scraper  # Scraper logs
+pm2 logs elata-api      # API logs
+
+# Maintenance
+pm2 reload all          # Zero-downtime reload
+pm2 restart all         # Hard restart
+```
+
+## Data Structure
+
+### Storage Location
+
+```
+scraper/data/
+├── current.json                # Latest news
+├── summary_2025-01-01.json     # Daily archives
+├── scraped/                    # Raw scraped data
+├─────────── 2025-01-01.json    # Daily archives
+```
+
+## API Endpoints
+
+### Get Current News
+
+```
+GET http://localhost:2345/data
+```
+
+### Get News by Date
+
+```
+GET http://localhost:2345/data?date=2025-01-01
+```
+
+### Health Check
+
+```
+GET http://localhost:2345/health
+```
+
+## Monitoring & Maintenance
+
+### Health Checks
+
+```bash
+# Check API health
+curl http://localhost:2345/health
+
+# View logs
+pm2 logs elata-newsbot-scraper
+pm2 logs elata-newsbot-api
+
+# Monitor processes
+pm2 monit
+```
