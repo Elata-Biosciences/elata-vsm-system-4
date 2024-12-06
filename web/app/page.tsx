@@ -5,8 +5,8 @@ import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
 import type { Metadata } from "next";
 
-// Make rendering of whole pages cached
-export const revalidate = 3600; // revalidate at most every hour
+// Make rendering of whole pages cached and update every 5 minutes
+export const revalidate = 300;
 
 export const dynamic = "force-static";  
 
