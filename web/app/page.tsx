@@ -23,7 +23,7 @@ export const metadata: Metadata = {
       siteName: "Elata Biosciences News",
       images: [
         {
-          url: "/og-image.jpg", // Make sure to add this image to your public folder
+          url: "/logo.jpg", // Make sure to add this image to your public folder
           width: 1200,
           height: 630,
           alt: "Elata Biosciences News",

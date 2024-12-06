@@ -14,15 +14,16 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://news.elata.bio"),
   title: "Elata News",
   description: "Latest news and updates from Elata Biosciences",
-  icons: {
-    icon: "/logo.jpeg",
-    apple: "/logo.jpeg",
-    shortcut: "/logo.jpeg", // Adding shortcut icon
-  },
   keywords: [
     "DeSci",
     "Neuroscience", 
@@ -83,10 +84,12 @@ export const metadata: Metadata = {
     address: false,
     email: false,
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
+  icons: {
+    icon: [
+      { url: '/logo.jpeg', type: 'image/jpeg' }
+    ],
+    shortcut: { url: '/logo.jpeg', type: 'image/jpeg' },
+    apple: { url: '/logo.jpeg', type: 'image/jpeg' },
   },
 };
 
@@ -97,6 +100,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
+        <link rel="shortcut icon" type="image/jpeg" href="/logo.jpeg" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

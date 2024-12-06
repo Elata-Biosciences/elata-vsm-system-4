@@ -12,7 +12,6 @@ const REVALIDATE_API_DATA_SECONDS = 60;
 export async function loadCurrentData(): Promise<SummaryOutput> {
   try {
     const response = await fetch(`${DATA_URL}/data`, {
-      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
       },
