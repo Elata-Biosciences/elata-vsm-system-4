@@ -26,6 +26,8 @@ Our platform acts as the DAO's environmental scanner, using AI to process inform
 
 The overall intent of this project is to [automate as much of the DAO's System 4 process as possible with AI.](https://kelsienabben.substack.com/p/governatooorr-guardrails-practical)
 
+![image](https://usm-portal.com/wp-content/uploads/2021/06/VSM-1.png)
+
 ## System Overview
 
 ```
