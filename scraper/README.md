@@ -28,26 +28,29 @@ The system consists of two main components:
 
 ## Installation
 
-1. Install dependencies:
-
 ```bash
 npm install
 ```
 
 2. Build the TypeScript project:
 
-```bash
-npm run build
-```
-
 ## Environment Variables
 
+Fill in the `.env` file with your API keys and Discord credentials.
+
 ```env
-NEWS_API_KEY=your_newsapi_key
-OPENAI_API_KEY=your_openai_key
-DISCORD_WEBHOOK_URL=your_webhook_url
-OPENAI_ORG_ID=your_org_id
-PORT=2345  # API server port
+# Discord Configuration
+DISCORD_TOKEN=
+NEWS_FEED_CHANNEL_ID=
+
+# News API Configuration
+NEWS_API_KEY=
+
+# OpenAI Configuration
+OPENAI_KEY=
+OPENAI_ORGANIZATION=
+OPENAI_PROJECT=
+OPENAI_MODEL=
 ```
 
 ## Running the Scraper
@@ -55,6 +58,14 @@ PORT=2345  # API server port
 This will run the scrapper, and query the NewsAPI for the latest news, then store the results in `data/current.json`.
 Then, it will use ChatGPT to scrape selected websites for news related to our mission, and store the results in `data/scraped/`.
 Finally, it will combine the two results, and store the final results in `data/current.json`.
+
+Build the TypeScript project:
+
+```bash
+npm run build
+```
+
+Run the scraper:
 
 ```bash
 npm run start
@@ -65,6 +76,12 @@ npm run start
 This will start the API server, which will serve the processed news data via JSON endpoints.
 
 This is needed to view the news data in the web app.
+
+Build the TypeScript project:
+
+```bash
+npm run build
+```
 
 ```bash
 npm run serve
@@ -101,6 +118,8 @@ module.exports = {
 };
 ```
 
+This module is deployed on a digital ocean droplet, and managed with PM2.
+
 ### PM2 Management Commands
 
 ```bash
@@ -120,7 +139,7 @@ pm2 reload all          # Zero-downtime reload
 pm2 restart all         # Hard restart
 ```
 
-## Data Structure
+## Storage of Summaries and Scraped Data
 
 ### Storage Location
 

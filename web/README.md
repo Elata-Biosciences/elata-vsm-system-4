@@ -57,8 +57,8 @@ Open [http://localhost:3000](http://localhost:3000) to view the platform.
 
 ```
 web/
-├── app/                # Next.js App Router pages
-├── components/         # React components
+├── app/               # Next.js App Router pages
+├── components/        # React components
 ├── lib/               # Utility functions and data fetching
 ├── public/            # Static assets
 └── styles/            # Global styles and Tailwind config

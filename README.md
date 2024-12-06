@@ -1,12 +1,6 @@
-# Elata VSM System
+# Elata VSM System 4
 
 View the live system at [news.elata.bio](https://news.elata.bio)
-
-<p align="center">
-  <a href="https://discord.gg/4CZ7RCwEvb"><img src="https://img.shields.io/discord/1234567890?color=7289da&label=Discord&logo=discord&logoColor=white" alt="Discord"></a>
-  <a href="https://github.com/elata/vsm-system-4/blob/main/LICENSE"><img src="https://img.shields.io/github/license/elata/vsm-system-4" alt="License"></a>
-  <a href="https://github.com/elata/vsm-system-4/stargazers"><img src="https://img.shields.io/github/stars/elata/vsm-system-4" alt="Stars"></a>
-</p>
 
 ## About Elata
 
