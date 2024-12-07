@@ -78,7 +78,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
             <button
               key={category}
               type="button"
-              className={`px-3 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:scale-105 ${
+              className={`px-3 py-1.5 rounded-full  text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:scale-105 ${
                 activeCategory === category
                   ? "bg-yellow-400 text-black font-bold shadow-md hover:shadow-lg"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -96,7 +96,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
               key={`${item.title}-${item.source}-${item.url}`}
               className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 
               hover:border-yellow-400 hover:shadow-xl hover:-translate-y-1
-              transition-all duration-500 ease-in-out rounded-md
+              transition-all duration-500 ease-in-out rounded-none
               transform-gpu animate-fadeIn"
             >
               <h2 className="text-lg sm:text-xl font-bold mb-3">
@@ -118,7 +118,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                 <Link
                   href={item.url}
                   className="w-full inline-flex justify-center items-center gap-2 
-                  bg-black text-white px-4 py-2.5 rounded-md
+                  bg-black text-white px-4 py-2.5 rounded-none
                   transform transition-all duration-200 ease-out
                   hover:shadow-md hover:bg-gray-800 hover:scale-102
                   active:scale-98"
@@ -134,7 +134,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                 </Link>
                 <Link
                   href="https://discord.gg/4CZ7RCwEvb"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-md shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
+                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-none shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Join our Discord community for discussion"
@@ -146,7 +146,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                 <button
                   onClick={() => setShareItem(item)}
                   type="button"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-none hover:bg-gray-300 transition-colors"
                 >
                   <FaShare className="w-4 h-4" />
                   Share

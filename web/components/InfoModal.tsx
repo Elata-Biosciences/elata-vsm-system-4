@@ -37,7 +37,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               high-impact areas across psychiatry.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
               Key Focus Areas
             </h3>
             <ul className="list-none pl-0 mb-6 grid gap-2">
@@ -57,7 +57,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               ))}
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
               Join Our Mission
             </h3>
             <p className="text-gray-700 mb-3 leading-relaxed">
@@ -79,7 +79,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               ))}
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
               How Elata News Works
             </h3>
 
