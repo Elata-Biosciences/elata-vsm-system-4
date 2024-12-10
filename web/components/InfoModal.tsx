@@ -16,9 +16,10 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
       <div className="bg-white rounded-sm shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text">
               About Elata News
             </h2>
+
             <button
               type="button"
               onClick={onClose}
@@ -29,7 +30,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
           </div>
 
           <div className="prose prose-lg max-w-none">
-            <p className="text-md font-medium text-gray-800 leading-relaxed mb-6">
+            <p className="text-md font-medium text-gray-600 leading-relaxed mb-6">
               Elata Biosciences is a DAO pioneering an open-source model at the
               intersection of blockchain and neuropsychiatry. Our mission is to
               create a decentralized, distributed, and open ecosystem that
@@ -37,7 +38,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               high-impact areas across psychiatry.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-clip-text">
               Key Focus Areas
             </h3>
             <ul className="list-none pl-0 mb-6 grid gap-2">
@@ -50,17 +51,17 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               ].map((item) => (
                 <li
                   key={item}
-                  className="flex items-center gap-2 text-gray-700"
+                  className="flex items-center gap-2 text-gray-600"
                 >
                   <span className="text-yellow-500">•</span> {item}
                 </li>
               ))}
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-350 to-yellow-400 bg-clip-text ">
               Join Our Mission
             </h3>
-            <p className="text-gray-700 mb-3 leading-relaxed">
+            <p className="text-gray-600 mb-3 leading-relaxed">
               We&apos;re actively seeking contributors with expertise in:
             </p>
             <ul className="list-none pl-0 mb-6 grid gap-2">
@@ -72,18 +73,18 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               ].map((item) => (
                 <li
                   key={item}
-                  className="flex items-center gap-2 text-gray-700"
+                  className="flex items-center gap-2 text-gray-600"
                 >
                   <span className="text-yellow-500">•</span> {item}
                 </li>
               ))}
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-semibold text-gray-800 mb-3 bg-gradient-to-r from-yellow-350 to-yellow-400 bg-clip-text">
               How Elata News Works
             </h3>
 
-            <p className="text-md font-medium text-gray-800 leading-relaxed mb-6">
+            <p className="text-md font-medium text-gray-600 leading-relaxed mb-6">
               Elata News implements System 4 of Stafford Beer&apos;s cybernetic
               framework for organizational management, specifically adapted for
               Decentralized Autonomous Organizations (DAOs). In Beer&apos;s
@@ -100,7 +101,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               </Link>
             </p>
 
-            <p className="text-md font-medium text-gray-800 leading-relaxed mb-6">
+            <p className="text-md font-medium text-gray-600 leading-relaxed mb-6">
               The overall intent of this project is to{" "}
               <Link
                 href="https://kelsienabben.substack.com/p/governatooorr-guardrails-practical"
@@ -112,7 +113,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               </Link>
             </p>
 
-            <p className="text-md font-medium text-gray-800 leading-relaxed mb-6">
+            <p className="text-md font-medium text-gray-600 leading-relaxed mb-6">
               All news on this site is automatically aggregated and curated by
               feeding scraping relevant sources with a LLM.
             </p>
