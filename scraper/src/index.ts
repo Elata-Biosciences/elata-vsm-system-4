@@ -88,7 +88,8 @@ const getAISummaryOfStoriesAndScrapingResults = async (
           summaryOutput[key as keyof SummaryOutput] as Article[]
         )
           .sort((a, b) => b.relevanceScore - a.relevanceScore)
-          .filter((article) => canIncludeUrlInSummary(article.url));
+          .filter((article) => canIncludeUrlInSummary(article.url))
+          .slice(0, 20);
     }
 
     return summaryOutput;
