@@ -99,12 +99,16 @@ Research News:
 Industry News:
 - News from key companies in the space, including financial news, funding news, and other news.
 - Some key things to look for might be biotech funding, Patents, IP, news about pharmaceutical companies, or new drug development platforms.
+- This should only really be Pharma news, and industry news related to crypto goes in the DeSci, DAOs, Crypto category
 
 Biohacking Mental Health:
 - News related to biohacking and mental health, including supplements, diets, peptides,and other natural remedies.
 - Interesting biohacks that are not mainstream yet, but have a good signal to noise ratio.
 - This might include things like new research into psychedelics, nootropics, and other natural substances.
 - This might also include news about new devices, wearables, and other biohacking tools.
+- The primary focus here should be treatments related to mental health over other biohacking news
+- This category might be alternatively titled "Experimental Treatments"
+- News around psychedelics should be included here
 
 Computational & Precision Psychiatry:
 - News related to computational psychiatry and precision psychiatry, including machine learning, AI, and other related technologies.
@@ -112,6 +116,7 @@ Computational & Precision Psychiatry:
 
 Hardware, Neuroimaging, BCIs:
 - Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware
+- The main focus should be on Neuroimaging, BCI, physcal devices over general hardware news
 - Also include:
   * Medical devices for mental health monitoring or treatment
   * Wearable technology with brain/mental health applications
@@ -127,6 +132,7 @@ DeSci, DAOs, Crypto:
 - This might include news about new DeSci projects, DAOs, or other related news, and the main emphasis should be DeSci if possible
 - Other crypto currency news, while tangential to Elata's mission, is also welcome if it is clearly relevant to Elata's mission
 - Elata will build on the Ethereum blockchain, so crypto news that is relevant to that ecosystem is also welcome
+- The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
 
 Off Topic Curiosities:
 - Include high-quality content that's indirectly relevant:
