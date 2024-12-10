@@ -19,7 +19,7 @@ const formatCategoryName = (category: SummaryOutputCategoriesKey): string => {
   const categoryMap: { [key in SummaryOutputCategoriesKey]: string } = {
     research: "Research News",
     industry: "Industry News",
-    biohacking: "Biohacking Mental Health",
+    biohacking: "Experimental Treatments",
     computational: "Computational & Precision Psychiatry",
     hardware: "Hardware, Neuroimaging, BCIs",
     desci: "DeSci, DAOs, Crypto",
