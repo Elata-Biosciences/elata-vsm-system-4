@@ -109,10 +109,12 @@ Biohacking Mental Health:
 - The primary focus here should be treatments related to mental health over other biohacking news
 - This category might be alternatively titled "Experimental Treatments"
 - News around psychedelics should be included here
+- The main emphasis is essentially experimental mental health treatments
 
 Computational & Precision Psychiatry:
 - News related to computational psychiatry and precision psychiatry, including machine learning, AI, and other related technologies.
 - Computational biology, bioinformatics, and other related fields relevant to other types of precision medicine may also be considered if tangential to Elata's mission
+- The main emphasis should be on computational psychiatry, but other related fields are also welcome, and this is the best place for papers from those fields
 
 Hardware, Neuroimaging, BCIs:
 - Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware
@@ -135,6 +137,7 @@ DeSci, DAOs, Crypto:
 - The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
 
 Off Topic Curiosities:
+- The main emphasis should be off topic things that are stakeholders (tokenholders, researchers, scientists, etc.) would get a kick out of reading and find very interesting
 - Include high-quality content that's indirectly relevant:
   * General AI/ML developments that could impact neuroscience
   * Interesting biological discoveries (even if not brain-specific)
