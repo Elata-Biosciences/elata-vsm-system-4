@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description: "Latest news and updates from Elata Biosciences",
   keywords: [
     "DeSci",
-    "Neuroscience", 
+    "Neuroscience",
     "Computational Psychiatry",
     "Decentralized Science",
     "Biosciences",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "Science",
     "Biology",
     "Mental Health",
-    "Healthcare Innovation"
+    "Healthcare Innovation",
   ],
   openGraph: {
     title: "Elata Biosciences News",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
         url: "/logo.jpeg",
         width: 1200,
         height: 630,
-        alt: "Elata Biosciences Logo"
+        alt: "Elata Biosciences Logo",
       },
     ],
     locale: "en_US",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://news.elata.bio"
+    canonical: "https://news.elata.bio",
   },
   authors: [{ name: "Elata Biosciences" }],
   category: "Science",
@@ -84,13 +84,6 @@ export const metadata: Metadata = {
     address: false,
     email: false,
   },
-  icons: {
-    icon: [
-      { url: '/logo.jpeg', type: 'image/jpeg' }
-    ],
-    shortcut: { url: '/logo.jpeg', type: 'image/jpeg' },
-    apple: { url: '/logo.jpeg', type: 'image/jpeg' },
-  },
 };
 
 export default function RootLayout({
@@ -100,10 +93,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" type="image/jpeg" href="/logo.jpeg" />
-        <link rel="shortcut icon" type="image/jpeg" href="/logo.jpeg" />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

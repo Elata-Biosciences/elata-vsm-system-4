@@ -3,60 +3,11 @@ import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
-import type { Metadata } from "next";
 
 // Make rendering of whole pages cached and update every 5 minutes
 export const revalidate = 300;
 
-export const dynamic = "force-static";  
-
-// Add metadata for better SEO
-export const metadata: Metadata = {
-  title: "Elata Biosciences News",
-  description:
-    "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry from Elata Biosciences.",
-    openGraph: {
-      title: "Elata Biosciences News | Neuroscience & Mental Health Updates",
-      description:
-        "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry from Elata Biosciences.",
-      url: "https://news.elata.bio",
-      siteName: "Elata Biosciences News",
-      images: [
-        {
-          url: "/logo.jpg", // Make sure to add this image to your public folder
-          width: 1200,
-          height: 630,
-          alt: "Elata Biosciences News",
-        },
-      ],
-      locale: "en_US",
-      type: "website",
-    },
-    keywords:
-      "neuroscience, mental health, biohacking, computational psychiatry, research news",
-
-    twitter: {
-      card: "summary_large_image",
-      title: "Elata Biosciences News",
-      description:
-        "Latest news and updates in neuroscience, mental health research, biohacking, and computational psychiatry.",
-      creator: "@Elata_Bio",
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    alternates: {
-      canonical: "https://news.elata.bio",
-    },
-};
+export const dynamic = "force-static";
 
 export default async function Home() {
   return (
@@ -90,8 +41,8 @@ async function AsyncNewsContent() {
         url: "https://elata.bio",
         logo: {
           "@type": "ImageObject",
-          url: "https://news.elata.bio/logo.jpeg"
-        }
+          url: "https://news.elata.bio/logo.jpeg",
+        },
       },
       inLanguage: "en",
       potentialAction: {
@@ -105,7 +56,7 @@ async function AsyncNewsContent() {
         "https://www.linkedin.com/company/elata-biosciences",
         "https://x.com/Elata_Bio",
         "https://www.reddit.com/r/elata/",
-        "https://t.me/Elata_Biosciences"
+        "https://t.me/Elata_Biosciences",
       ],
       dateModified: new Date().toISOString(),
     };
