@@ -8,9 +8,9 @@ import {
 } from "./utils.js";
 import type { Story } from "../types/newsapi.types.js";
 import type { NewsAPIResponse } from "../types/newsapi.types.js";
-import { config } from "../config/config.js";
+import { CONFIG } from "../config/config.js";
 
-export const newsApiClient = new NewsAPI(config.newsApi.key);
+export const newsApiClient = new NewsAPI(CONFIG.NEWS_API.KEY);
 
 /**
  * Fetches news stories from NewsAPI

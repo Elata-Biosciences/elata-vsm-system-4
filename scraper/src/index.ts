@@ -1,5 +1,5 @@
 import { Events, type TextChannel } from "discord.js";
-import { config } from "./config/config.js";
+import { CONFIG } from "./config/config.js";
 import { MAIN_PROMPT } from "./config/prompt.js";
 import {
   convertScrappingSummariesToCSV,
@@ -8,7 +8,7 @@ import {
   isValidUrl,
   wait,
   writeSummaryToFile,
-  canIncludeUrlInSummary
+  canIncludeUrlInSummary,
 } from "./lib/utils.js";
 import { scrapeWebsites } from "./lib/scraping.js";
 import { openAIClient } from "./lib/openai.js";
@@ -87,8 +87,8 @@ const getAISummaryOfStoriesAndScrapingResults = async (
         getDedupedArticles(
           summaryOutput[key as keyof SummaryOutput] as Article[]
         )
-        .sort((a, b) => b.relevanceScore - a.relevanceScore)
-        .filter((article) => canIncludeUrlInSummary(article.url));
+          .sort((a, b) => b.relevanceScore - a.relevanceScore)
+          .filter((article) => canIncludeUrlInSummary(article.url));
     }
 
     return summaryOutput;
@@ -115,7 +115,7 @@ const onClientReady = async () => {
   try {
     console.log(`Ready! Logged in as ${discordClient.user?.tag}`);
     const channel = await discordClient.channels.fetch(
-      config.discord.newsFeedChannelId
+      CONFIG.DISCORD.NEWS_FEED_CHANNEL_ID
     );
 
     const stories = await getStoriesFromQueries(QUERIES);
@@ -131,7 +131,7 @@ const onClientReady = async () => {
     await postSummaryToDiscord(channel as TextChannel, summary);
 
     // Give 5 minute grace period for messages to send before terminating process
-    await wait(5 * 60 * 1000);
+    await wait(CONFIG.SCRAPPING.SHUTOFF_TIMEOUT_LENGTH_MILLISECONDS);
     process.exit(0);
   } catch (error) {
     console.error("Error in onClientReady: ", error);
@@ -147,7 +147,7 @@ const onClientReady = async () => {
 const main = () => {
   try {
     discordClient.once(Events.ClientReady, onClientReady);
-    discordClient.login(config.discord.token);
+    discordClient.login(CONFIG.DISCORD.TOKEN);
   } catch (error) {
     console.error("Error logging in to Discord: ", error);
   }

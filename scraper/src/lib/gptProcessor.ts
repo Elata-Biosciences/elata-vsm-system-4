@@ -3,6 +3,7 @@ import { ELATA_SCRAPPING_TASK_PROMPT } from "../config/prompt.js";
 import type { ScrapingOutput } from "@elata/shared-types";
 import { ScrapingOutputSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
+import { CONFIG } from "../config/config.js";
 
 /**
  * Processes the content from a source and returns a CSV of the most relevant articles.
@@ -28,7 +29,7 @@ export async function processPageWithGPT(
     console.log(userPrompt);
 
     const response = await openAIClient.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: CONFIG.SCRAPPING.MODEL,
       messages: [
         {
           role: "system",
