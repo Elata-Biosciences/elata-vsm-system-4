@@ -47,6 +47,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       params.set("author", item?.author || "");
       params.set("url", item?.url || "");
       params.set("description", item?.description || "");
+      params.set("source", item?.source || "");
       window.history.pushState({}, "", `${window.location.pathname}?${params}`);
     }
 
@@ -58,6 +59,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       params.delete("author");
       params.delete("url");
       params.delete("description");
+      params.delete("source");
 
       // If there are remaining parameters (like category), keep them
       const remainingParams = params.toString();
@@ -313,15 +315,11 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
               {item?.title}
             </h3>
             <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-600 gap-1 sm:gap-2">
-              <span className="font-medium">{item?.source}</span>
-              {item?.author && (
-                <div className="flex items-center gap-2">
-                  <span className="hidden sm:inline">•</span>
-                  <span className="italic">
-                    by {item?.author.split(",")[0]} et al.
-                  </span>
-                </div>
-              )}
+              <span className="font-medium">
+                {item?.author}
+                {!!item?.author && !!item?.source && " at "}
+                {item?.source}
+              </span>
             </div>
             {item?.description && (
               <div className="text-sm text-gray-600 leading-relaxed pl-3 border-l-2 border-gray-200 ">
