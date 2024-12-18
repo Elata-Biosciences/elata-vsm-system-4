@@ -95,11 +95,13 @@ In accordance with Elata's overall mission, you should focus on the following ca
 Research News:
 - Scholarly articles, preprints, and other research news.
 - High quality scholarly research journals should be prioritized.
+- This should only be high quality research news, not general science news or blogs
 
 Industry News:
 - News from key companies in the space, including financial news, funding news, and other news.
 - Some key things to look for might be biotech funding, Patents, IP, news about pharmaceutical companies, or new drug development platforms.
-- This should only really be Pharma news, and industry news related to crypto goes in the DeSci, DAOs, Crypto category
+- This should only really be Pharma news. Industry news related to crypto goes in the DeSci, DAOs, Crypto category
+- This shouldn't contain any crypto news and general tech industry news should be less important and highly relevant if included at all 
 
 Biohacking Mental Health:
 - News related to biohacking and mental health, including supplements, diets, peptides,and other natural remedies.
@@ -135,6 +137,7 @@ DeSci, DAOs, Crypto:
 - Other crypto currency news, while tangential to Elata's mission, is also welcome if it is clearly relevant to Elata's mission
 - Elata will build on the Ethereum blockchain, so crypto news that is relevant to that ecosystem is also welcome
 - The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
+- News related to general crypto currency should only go in this category
 
 Off Topic Curiosities:
 - The main emphasis should be off topic things that are stakeholders (tokenholders, researchers, scientists, etc.) would get a kick out of reading and find very interesting
