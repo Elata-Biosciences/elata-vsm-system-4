@@ -1087,4 +1087,42 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://podcasts.apple.com/us/podcast/the-human-upgrade-with-dave-asprey/id451295014",
     name: "Apple Podcasts",
   },
+  {
+    url: "https://biohackers.media/",
+    name: "biohackers.media",
+  },
+  {
+    url: "https://forum.dangerousthings.com/c/lounge/2",
+    name: "Dangerous Things Lounge",
+  },
+  {
+    url: "https://forum.dangerousthings.com/c/projects/6",
+    name: "Dangerous Things Projects",
+  },
+  {
+    url: "https://forum.dangerousthings.com/",
+    name: "Dangerous Things",
+  }
+  {
+    url: "https://clinicaltrials.gov/search?cond=Depression&viewType=Table&sort=StudyFirstPostDate",
+    name: "clinicaltrials.gov",
+  },
+  {
+    url: "https://clinicaltrials.gov/search?cond=PTSD&viewType=Table&sort=StudyFirstPostDate",
+    name: "Clinical Trials",
+  },
+  {
+    url: "https://clinicaltrials.gov/search?cond=Anxiety&viewType=Table&sort=StudyFirstPostDate",
+    name: "Clinical Trials",
+  },
+  {
+    url: "https://clinicaltrials.gov/search?cond=Mental%20Health&viewType=Table&sort=StudyFirstPostDate",
+    name: "Clinical Trials",
+  },
+  {
+    url: "https://thebiohacker.com/forums/whats-new/latest-activity",
+    name: "The Biohacker",
+  },
+
+
 ];
