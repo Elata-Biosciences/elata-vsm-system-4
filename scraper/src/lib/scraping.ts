@@ -12,10 +12,9 @@ import {
   writeScrapedData,
 } from "./utils.js";
 import type { ScrapingOutput } from "@elata/shared-types";
+import { CONFIG } from "../config/config.js";
 
-const DELAY_BETWEEN_SOURCES = 2000;
-const SOURCE_TIMEOUT = 60_000; // 1 minute timeout per source
-const IDLE_TIMEOUT = 30_000; // 30 seconds timeout for idle browser
+const REDDIT_USER_AGENT = "ElataNews (by /u/wkyleg)";
 
 /**
  * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
@@ -55,13 +54,38 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
     try {
       console.log(`Scraping ${source.name} (${source.url})`);
 
-      // Create a promise that rejects after timeout
+      // Special handling for Reddit API
+      if (source.url.includes("reddit.com")) {
+        const headers = {
+          "User-Agent": REDDIT_USER_AGENT,
+          Accept: "application/json",
+        };
+
+        const response = await fetch(source.url, { headers });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        const processedData = await processPageWithGPT(
+          JSON.stringify(data),
+          source.url,
+          source.name
+        );
+
+        results.push(processedData);
+        continue; // Skip the browser-based scraping for Reddit
+      }
+
+      // Regular browser-based scraping for other sources
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
           reject(
-            new Error(`Timeout after ${SOURCE_TIMEOUT}ms for ${source.name}`)
+            new Error(
+              `Timeout after ${CONFIG.SCRAPPING.SOURCE_TIMEOUT_SECONDS}ms for ${source.name}`
+            )
           );
-        }, SOURCE_TIMEOUT);
+        }, CONFIG.SCRAPPING.SOURCE_TIMEOUT_SECONDS);
       });
 
       // Create the actual scraping promise
@@ -71,7 +95,7 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
 
         await page.goto(source.url, {
           waitUntil: "networkidle0",
-          timeout: IDLE_TIMEOUT,
+          timeout: CONFIG.SCRAPPING.IDLE_TIMEOUT_SECONDS,
         });
 
         const content = await page.evaluate(() => {
@@ -136,7 +160,7 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
           console.error(`Error closing browser for ${source.name}:`, err);
         }
       }
-      await wait(DELAY_BETWEEN_SOURCES);
+      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES);
     }
   }
 
