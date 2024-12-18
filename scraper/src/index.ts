@@ -30,7 +30,7 @@ import { zodResponseFormat } from "openai/helpers/zod.js";
  * @param {Array} stories - Array of stories to summarize
  * @returns {Promise<string>}
  */
-const getAISummaryOfStoriesAndScrapingResults = async (
+const loadGPTSummaryFromCombinedData = async (
   stories: Story[],
   scrapingResults: ScrapingOutput[]
 ): Promise<SummaryOutput> => {
@@ -109,48 +109,43 @@ const getAISummaryOfStoriesAndScrapingResults = async (
 };
 
 /**
- * Handles main logic when the Discord client is ready
- * @returns {Promise<void>}
+ * Loads the stories and scraping results from the API and the scraping results from the scraping process
+ * @returns {Promise<{ stories: Story[], scrapingResults: ScrapingOutput[] }>}
  */
-const onClientReady = async () => {
+const loadCombinedData = async () => {
+  const stories = await getStoriesFromQueries(QUERIES);
+  const scrapingResults = await scrapeWebsites();
+  return { stories, scrapingResults };
+};
+
+/**
+ * Main function that calls root logic.
+ * @returns {void}
+ */
+const main = async () => {
   try {
-    console.log(`Ready! Logged in as ${discordClient.user?.tag}`);
-    const channel = await discordClient.channels.fetch(
-      CONFIG.DISCORD.NEWS_FEED_CHANNEL_ID
-    );
+    console.log("Loading combined data...");
+    const { stories, scrapingResults } = await loadCombinedData();
 
-    const stories = await getStoriesFromQueries(QUERIES);
-
-    const scrapingResults = await scrapeWebsites();
-
-    const summary = await getAISummaryOfStoriesAndScrapingResults(
+    console.log("Loading GPT summary of combined data...");
+    const summary = await loadGPTSummaryFromCombinedData(
       stories,
       scrapingResults
     );
 
+    console.log("Writing summary to file...");
     await writeSummaryToFile(summary);
-    await postSummaryToDiscord(channel as TextChannel, summary);
+
+    console.log("Posting summary to Discord...");
+    await postSummaryToDiscord(summary);
 
     // Give 5 minute grace period for messages to send before terminating process
     await wait(CONFIG.SCRAPPING.SHUTOFF_TIMEOUT_LENGTH_MILLISECONDS);
+
+    console.log("Process finished");
     process.exit(0);
   } catch (error) {
     console.error("Error in onClientReady: ", error);
-  }
-};
-
-/**
- * Main function that calls root logic. First, the script logs in to Discord,
- * then waits for the client to be ready, then calls the onClientReady function
- * to load all stories and send the AI summary to the Discord channel.
- * @returns {void}
- */
-const main = () => {
-  try {
-    discordClient.once(Events.ClientReady, onClientReady);
-    discordClient.login(CONFIG.DISCORD.TOKEN);
-  } catch (error) {
-    console.error("Error logging in to Discord: ", error);
   }
 };
 

@@ -7,10 +7,18 @@ import {
   GatewayIntentBits,
   type TextChannel,
   EmbedBuilder,
+  Events,
 } from "discord.js";
+import { CONFIG } from "../config/config.js";
 
 export const discordClient = new Client({
   intents: [GatewayIntentBits.Guilds],
+});
+
+discordClient.login(CONFIG.DISCORD.TOKEN);
+
+discordClient.once(Events.ClientReady, (client) => {
+  console.log(`Ready! Logged in as ${client.user?.tag}`);
 });
 
 // TODO: Move to shared-types
@@ -20,7 +28,7 @@ const categoryMapping: { [key in SummaryOutputCategoriesKey]: string } = {
   biohacking: "Biohacking",
   computational: "Computational",
   hardware: "Hardware",
-  desci: "DeSci",
+  desci: "Experimental",
   offTopic: "Off Topic",
 };
 
@@ -44,10 +52,15 @@ const EMBED_COLOR = "#0099ff";
  * @returns {Promise<void>}
  */
 export const postSummaryToDiscord = async (
-  channel: TextChannel,
   summary: SummaryOutput
 ): Promise<void> => {
   try {
+    const channel = (await discordClient.channels.fetch(
+      CONFIG.DISCORD.NEWS_FEED_CHANNEL_ID
+    )) as TextChannel;
+
+    if (!channel) throw new Error("Discord channel not found");
+
     // Send header
     await channel.send("**Daily News Summary for Today**");
 
