@@ -1,13 +1,12 @@
 import fs from "node:fs";
 import fsAsPromise from "node:fs/promises";
-import path, { dirname, join } from "node:path";
+import path, { join } from "node:path";
 import type {
   Article,
   ScrapingOutput,
   SummaryOutput,
 } from "@elata/shared-types";
 import type { Story } from "../types/newsapi.types.js";
-import { fileURLToPath } from "node:url";
 
 /**
  * The filename of the current file
@@ -21,14 +20,19 @@ const __filename = process.argv[1];
  */
 const __dirname = path.dirname(__filename);
 
-// TODO: Standardize on using import.meta.url
-const currentFilePath = fileURLToPath(import.meta.url);
-const currentDirPath = dirname(currentFilePath);
-
+/**
+ * Format for querying and saving summary dates with YYYY-MM-DD
+ */
 export type DateString = `${number}-${number}-${number}`;
 
+/**
+ * Regex for validating a date string
+ */
 export const DATE_FORMAT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
+/**
+ * The directory for storing data
+ */
 const DATA_DIR = join(__dirname, "..", "data");
 
 /**
@@ -65,9 +69,8 @@ export function getDayBeforeYesterdayDate(): string {
  * @param {string} prefix - Optional prefix for the filename (e.g., 'news', 'scrape')
  * @returns {string}
  */
-export const getFileNameForDataDump = (prefix = "data"): string => {
-  return `${prefix}_dump_${getYesterdayDate()}.json`;
-};
+export const getFileNameForDataDump = (prefix = "data"): string =>
+  `${prefix}_dump_${getYesterdayDate()}.json`;
 
 /**
  * Returns the filepath for a data dump
@@ -99,18 +102,16 @@ export const writeDataDumpToFile = (data: any, prefix = "data"): void => {
  * @param {string} prefix - Optional prefix for the filename
  * @returns {Array}
  */
-export const readDataDumpFromFile = (prefix = "data"): any => {
-  return JSON.parse(fs.readFileSync(getFilePathForDataDump(prefix), "utf8"));
-};
+export const readDataDumpFromFile = (prefix = "data") =>
+  JSON.parse(fs.readFileSync(getFilePathForDataDump(prefix), "utf8"));
 
 /**
  * Checks if a data dump file exists
  * @param {string} prefix - Optional prefix for the filename
  * @returns {boolean}
  */
-export const doesDataDumpFileExist = (prefix = "data"): boolean => {
-  return fs.existsSync(getFilePathForDataDump(prefix));
-};
+export const doesDataDumpFileExist = (prefix = "data"): boolean =>
+  fs.existsSync(getFilePathForDataDump(prefix));
 
 /**
  * Writes a summary to a JSON file
@@ -219,9 +220,8 @@ export const readScrapedData = (
  * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
  * @returns {boolean}
  */
-export const hasScrapedData = (date: string = getYesterdayDate()): boolean => {
-  return fs.existsSync(getScrapedDataFilePath(date));
-};
+export const hasScrapedData = (date: string = getYesterdayDate()): boolean =>
+  fs.existsSync(getScrapedDataFilePath(date));
 
 /**
  * Format used for CSV output
@@ -233,14 +233,13 @@ export const CSV_HEADER = "title,description,url,source,author,publishedAt";
  * @param {Story[]} stories - Array of stories
  * @returns {string}
  */
-export const convertStoriesToCSV = (stories: Story[]): string => {
-  return stories
+export const convertStoriesToCSV = (stories: Story[]): string =>
+  stories
     .map(
       (story) =>
         `${story.title},${story.description},${story.url},${story.source.name},${story.author},${story.publishedAt}`
     )
     .join("\n");
-};
 
 /**
  * Converts an array of scraping summaries to a CSV string
@@ -278,9 +277,8 @@ export const getDedupedArticles = (articles: Article[]): Article[] => {
  * @param {string} date - Date string
  * @returns {boolean}
  */
-export const validateDateString = (date: string): date is DateString => {
-  return DATE_FORMAT_REGEX.test(date);
-};
+export const validateDateString = (date: string): date is DateString =>
+  DATE_FORMAT_REGEX.test(date);
 
 /**
  * Loads the data from the current.json file
@@ -317,24 +315,69 @@ const URL_REGEX =
  * @param {string} url - The URL to validate
  * @returns {boolean}
  */
-export const isValidUrl = (url: string): boolean => {
-  return URL_REGEX.test(url);
-};
+export const isValidUrl = (url: string): boolean => URL_REGEX.test(url);
 
 /**
  * Checks if a URL is an HTTP URL
  * @param {string} url - The URL to check
  * @returns {boolean}
  */
-export const isHttpUrl = (url: string): boolean => {
-  return url.startsWith("http://") || url.startsWith("https://");
-};
+export const isHttpUrl = (url: string): boolean =>
+  url.startsWith("http://") || url.startsWith("https://");
 
 /**
  * Checks if a URL is a valid HTTP URL
  * @param {string} url - The URL to check
  * @returns {boolean}
  */
-export const canIncludeUrlInSummary = (url: string): boolean => {
-  return isValidUrl(url) && isHttpUrl(url);
+export const canIncludeUrlInSummary = (url: string): boolean =>
+  isValidUrl(url) && isHttpUrl(url);
+
+/**
+ * Returns the filepath for the Twitter data of a specific date
+ * @param {string} date - Date in YYYY-MM-DD format
+ * @returns {string}
+ */
+export const getTwitterDataFilePath = (date: string): string => {
+  const dataDir = path.join(__dirname, "..", "data", "twitter");
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+  return path.join(dataDir, `twitter_${date}.json`);
 };
+
+/**
+ * Writes Twitter data to a file for the specified date
+ * @param {Article[]} data - Array of processed Twitter data
+ * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
+ * @returns {void}
+ */
+export const writeTwitterData = (
+  data: Article[],
+  date: string = getYesterdayDate()
+): void => {
+  const filePath = getTwitterDataFilePath(date);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  console.log(`Wrote Twitter data to ${filePath}`);
+};
+
+/**
+ * Reads Twitter data for the specified date if it exists
+ * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
+ * @returns {Array|null} - Returns null if no data exists for that date
+ */
+export const readTwitterData = (
+  date: string = getYesterdayDate()
+): Article[] | null => {
+  const filePath = getTwitterDataFilePath(date);
+  if (!fs.existsSync(filePath)) return null;
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+};
+
+/**
+ * Checks if Twitter data exists for the specified date
+ * @param {string} date - Date in YYYY-MM-DD format (defaults to yesterday)
+ * @returns {boolean}
+ */
+export const hasTwitterData = (date: string = getYesterdayDate()): boolean =>
+  fs.existsSync(getTwitterDataFilePath(date));

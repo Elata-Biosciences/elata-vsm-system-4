@@ -1,11 +1,8 @@
-import { Events, type TextChannel } from "discord.js";
 import { CONFIG } from "./config/config.js";
 import { MAIN_PROMPT } from "./config/prompt.js";
 import {
-  convertScrappingSummariesToCSV,
   convertStoriesToCSV,
   getDedupedArticles,
-  isValidUrl,
   wait,
   writeSummaryToFile,
   canIncludeUrlInSummary,
@@ -14,7 +11,7 @@ import { scrapeWebsites } from "./lib/scraping.js";
 import { openAIClient } from "./lib/openai.js";
 import { QUERIES } from "./config/queries.js";
 import { getStoriesFromQueries } from "./lib/newsApi.js";
-import { discordClient, postSummaryToDiscord } from "./lib/discord.js";
+import { postSummaryToDiscord } from "./lib/discord.js";
 import type { Story } from "./types/newsapi.types.js";
 import type {
   ScrapingOutput,
@@ -24,6 +21,7 @@ import type {
 } from "@elata/shared-types";
 import { SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
+import { loadGPTEnrichedTwitterData } from "./lib/twitter.js";
 
 /**
  * Gets a summary of the stories from the AI
@@ -32,7 +30,8 @@ import { zodResponseFormat } from "openai/helpers/zod.js";
  */
 const loadGPTSummaryFromCombinedData = async (
   stories: Story[],
-  scrapingResults: ScrapingOutput[]
+  scrapingResults: ScrapingOutput[],
+  twitter: Article[]
 ): Promise<SummaryOutput> => {
   try {
     const combinedPrompt = `
@@ -78,6 +77,12 @@ const loadGPTSummaryFromCombinedData = async (
       });
     });
 
+    twitter.map((article) => {
+      (
+        summaryOutput[article.category as keyof SummaryOutput] as Article[]
+      ).push(article);
+    });
+
     // Same as above but with for of loop
     // Make this loop through with function instead of
     for (const key in summaryOutput) {
@@ -113,9 +118,11 @@ const loadGPTSummaryFromCombinedData = async (
  * @returns {Promise<{ stories: Story[], scrapingResults: ScrapingOutput[] }>}
  */
 const loadCombinedData = async () => {
+  const twitter = await loadGPTEnrichedTwitterData();
   const stories = await getStoriesFromQueries(QUERIES);
-  const scrapingResults = await scrapeWebsites();
-  return { stories, scrapingResults };
+  const scraped = await scrapeWebsites();
+
+  return { stories, scraped, twitter };
 };
 
 /**
@@ -125,12 +132,13 @@ const loadCombinedData = async () => {
 const main = async () => {
   try {
     console.log("Loading combined data...");
-    const { stories, scrapingResults } = await loadCombinedData();
+    const { stories, scraped, twitter } = await loadCombinedData();
 
     console.log("Loading GPT summary of combined data...");
     const summary = await loadGPTSummaryFromCombinedData(
       stories,
-      scrapingResults
+      scraped,
+      twitter
     );
 
     console.log("Writing summary to file...");

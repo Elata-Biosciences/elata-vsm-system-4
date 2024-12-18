@@ -1102,7 +1102,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://forum.dangerousthings.com/",
     name: "Dangerous Things",
-  }
+  },
   {
     url: "https://clinicaltrials.gov/search?cond=Depression&viewType=Table&sort=StudyFirstPostDate",
     name: "clinicaltrials.gov",
@@ -1123,6 +1123,4 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://thebiohacker.com/forums/whats-new/latest-activity",
     name: "The Biohacker",
   },
-
-
 ];

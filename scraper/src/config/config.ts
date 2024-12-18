@@ -6,6 +6,9 @@ export const CONFIG = {
     TOKEN: String(process.env.DISCORD_TOKEN) || "",
     NEWS_FEED_CHANNEL_ID: String(process.env.NEWS_FEED_CHANNEL_ID) || "",
   },
+  TWITTER: {
+    TOKEN: String(process.env.TWITTER_TOKEN) || "",
+  },
   NEWS_API: {
     KEY: String(process.env.NEWS_API_KEY) || "",
   },
@@ -23,7 +26,7 @@ export const CONFIG = {
       Number(process.env.SCRAPPING_DELAY_BETWEEN_SOURCES) || 2_000, // Default 2 seconds delay between sources
     SOURCE_TIMEOUT_SECONDS:
       Number(process.env.SCRAPPING_SOURCE_TIMEOUT) || 60_000, // Default 1 minute timeout per source
-    IDLE_TIMEOUT_SECONDS: Number(process.env.SCRAPPING_IDLE_TIMEOUT) || 30_000, // Detault 30 seconds timeout for idle browser
+    IDLE_TIMEOUT_SECONDS: Number(process.env.SCRAPPING_IDLE_TIMEOUT) || 30_000, // Default 30 seconds timeout for idle browser
     SHUTOFF_TIMEOUT_LENGTH_MILLISECONDS:
       Number(process.env.SCRAPPING_SHUTOFF_TIMEOUT) || 60_000, // Default 60 seconds timeout for shutting off browser
   },

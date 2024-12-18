@@ -20,7 +20,7 @@ Elata is focused on:
 - Biohacking mental health
 - DeSci, DAOs, crypto, decentralized science and governance
 
-Elata is mainly interested in Depression and Anxiety disorders, but also other mental health disorders related to precision psychiatry and computational neuroscience.
+Elata is mainly interested in Depression, Anxiety disorders, PTSD, Panic Disorders, and also other DSM disorders, but also other mental health disorders related to precision psychiatry and computational neuroscience.
 
 Your main focus should be on relevant scholarly articles related to our mission, as well as financial news from key companies in the space. You may also include news from other sources, but your main focus should be on the aforementioned.
 
@@ -138,6 +138,7 @@ DeSci, DAOs, Crypto:
 - Elata will build on the Ethereum blockchain, so crypto news that is relevant to that ecosystem is also welcome
 - The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
 - News related to general crypto currency should only go in this category
+- Articles with on-topic DeSci news should always be ranked above 0.9
 
 Off Topic Curiosities:
 - The main emphasis should be off topic things that are stakeholders (tokenholders, researchers, scientists, etc.) would get a kick out of reading and find very interesting
@@ -303,4 +304,27 @@ IMPORTANT: Having fewer than 5 articles in any category is considered a failure.
 The CSV data is provided below:
 `;
 
+export const ELATA_TWITTER_SUMMARY_PROMPT = `
+Task:
 
+You will receive a list of tweets from the past 24 hours. These tweets are obtained from X API.
+
+Your job is to:
+- Analyze all tweets in the list.
+- Create a json object to power a dashboard to help Elata stay updated with the latest news in neuroscience and biotechnology.
+- Exclude tweets that are not relevant to Elata's mission.
+- Provide concise and informative summaries.
+
+
+${ELATA_NEWS_CATEGORIES_PROMPT}
+
+${RELEVANCE_SCORE_CALCULATION}
+
+For the most part, Elata is using X.com (formerly Twitter) to keep up with latest in DeSci, Decentralized Science, and Open Science.
+
+This should be your main focus, but also will include most of the content that you receive.
+
+With relevance score you should favor higher quality discussion of science and funding over hype, memes, marketing.
+
+The CSV data is provided below:
+`;
