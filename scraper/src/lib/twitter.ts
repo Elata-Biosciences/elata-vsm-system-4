@@ -23,7 +23,7 @@ const twitterClient = new TwitterApi(CONFIG.TWITTER.TOKEN).readOnly;
 
 const TWITTER_QUERIES = ["DeSci"];
 
-const TWITTER_QUERY_MAX_RESULTS = 100;
+const TWITTER_QUERY_MAX_RESULTS = 3;
 
 /**
  * Get posts by query
