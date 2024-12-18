@@ -485,7 +485,7 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   },
   {
     url: "https://www.nature.com/npp/",
-    name: "Nature NeuroPsychoPharmacology",
+    name: "Nature Neuropsychopharmacology",
   },
   {
     url: "https://neuralink.com/blog/",
