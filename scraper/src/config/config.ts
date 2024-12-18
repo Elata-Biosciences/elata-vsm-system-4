@@ -20,15 +20,16 @@ export const CONFIG = {
         ? String(process.env.SCRAPPING_MODEL)
         : "gpt-4o-mini",
     DELAY_BETWEEN_SOURCES:
-      Number(process.env.SCRAPPING_DELAY_BETWEEN_SOURCES) || 2_000, // 2 seconds
+      Number(process.env.SCRAPPING_DELAY_BETWEEN_SOURCES) || 2_000, // Default 2 seconds delay between sources
     SOURCE_TIMEOUT_SECONDS:
-      Number(process.env.SCRAPPING_SOURCE_TIMEOUT) || 60_000, // 1 minute timeout per source
-    IDLE_TIMEOUT_SECONDS: Number(process.env.SCRAPPING_IDLE_TIMEOUT) || 30_000, // 30 seconds timeout for idle browser
+      Number(process.env.SCRAPPING_SOURCE_TIMEOUT) || 60_000, // Default 1 minute timeout per source
+    IDLE_TIMEOUT_SECONDS: Number(process.env.SCRAPPING_IDLE_TIMEOUT) || 30_000, // Detault 30 seconds timeout for idle browser
     SHUTOFF_TIMEOUT_LENGTH_MILLISECONDS:
-      Number(process.env.SCRAPPING_SHUTOFF_TIMEOUT) || 60_000, // 60 seconds timeout for shutting off browser
+      Number(process.env.SCRAPPING_SHUTOFF_TIMEOUT) || 60_000, // Default 60 seconds timeout for shutting off browser
   },
   SUMMARIZATION: {
     MODEL: String(process.env.SUMMARIZATION_MODEL) || "gpt-4o",
+    ARTICLES_PER_CATEGORY: Number(process.env.ARTICLES_PER_CATEGORY) || 16,
   },
   SERVER: {
     PORT: Number(process.env.SERVER_PORT) || 2_345,

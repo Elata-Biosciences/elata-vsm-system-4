@@ -89,7 +89,7 @@ const loadGPTSummaryFromCombinedData = async (
         )
           .sort((a, b) => b.relevanceScore - a.relevanceScore)
           .filter((article) => canIncludeUrlInSummary(article.url))
-          .slice(0, 20);
+          .slice(0, CONFIG.SUMMARIZATION.ARTICLES_PER_CATEGORY);
     }
 
     return summaryOutput;
