@@ -1,7 +1,14 @@
+import type { ScrapingOutput } from "@elata/shared-types";
+import { processPageWithGPT } from "../lib/gptProcessor.js";
+import { wait } from "../lib/utils.js";
+import { CONFIG } from "./config.js";
+
 /**
  * The limit per query for Reddit.
  */
 const LIMIT_PER_QUERY = 10;
+
+const REDDIT_USER_AGENT = "ElataNews (by /u/wkyleg)";
 
 /**
  * The subreddits to scrape for.
@@ -106,6 +113,42 @@ const getRedditScrapingSource = (
 /**
  * The sources to scrape for from Reddit
  */
-export const REDDIT_SOURCES = SUBREDDITS.flatMap((subreddit) =>
+const REDDIT_SOURCES = SUBREDDITS.flatMap((subreddit) =>
   SUBREDDIT_FILTERS.map((filter) => getRedditScrapingSource(subreddit, filter))
 );
+
+/**
+ * Load Reddit posts from the API.
+ * @returns The Reddit posts.
+ */
+export const loadRedditPosts = async () => {
+  const results: ScrapingOutput[] = [];
+  for (const source of REDDIT_SOURCES) {
+    try {
+      const response = await fetch(source.url, {
+        headers: {
+          "User-Agent": REDDIT_USER_AGENT,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      const processedData = await processPageWithGPT(
+        JSON.stringify(data),
+        source.url,
+        source.name
+      );
+
+      results.push(processedData);
+
+      // Wait for 1.5 times the delay between sources to Reddit doesn't rate limit us
+      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES * 1.5);
+    } catch (error) {
+      console.error(`Error fetching data from ${source.url}:`, error);
+    }
+  }
+
+  return results;
+};

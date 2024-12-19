@@ -22,6 +22,7 @@ import type {
 import { SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
 import { loadGPTEnrichedTwitterData } from "./lib/twitter.js";
+import { loadRedditPosts } from "./config/redditSources.js";
 
 /**
  * Gets a summary of the stories from the AI
@@ -31,7 +32,8 @@ import { loadGPTEnrichedTwitterData } from "./lib/twitter.js";
 const loadGPTSummaryFromCombinedData = async (
   stories: Story[],
   scrapingResults: ScrapingOutput[],
-  twitter: Article[]
+  twitter: Article[],
+  reddit: ScrapingOutput[],
 ): Promise<SummaryOutput> => {
   try {
     const combinedPrompt = `
@@ -83,6 +85,14 @@ const loadGPTSummaryFromCombinedData = async (
       ).push(article);
     });
 
+    reddit.map((result) => {
+      result.articles.map((article) => {
+        (
+          summaryOutput[article.category as keyof SummaryOutput] as Article[]
+        ).push(article);
+      });
+    });
+
     // Same as above but with for of loop
     // Make this loop through with function instead of
     for (const key in summaryOutput) {
@@ -118,11 +128,12 @@ const loadGPTSummaryFromCombinedData = async (
  * @returns {Promise<{ stories: Story[], scrapingResults: ScrapingOutput[] }>}
  */
 const loadCombinedData = async () => {
+  const reddit = await loadRedditPosts();
   const twitter = await loadGPTEnrichedTwitterData();
   const stories = await getStoriesFromQueries(QUERIES);
   const scraped = await scrapeWebsites();
 
-  return { stories, scraped, twitter };
+  return { stories, scraped, twitter, reddit };
 };
 
 /**
@@ -132,13 +143,14 @@ const loadCombinedData = async () => {
 const main = async () => {
   try {
     console.log("Loading combined data...");
-    const { stories, scraped, twitter } = await loadCombinedData();
+    const { stories, scraped, twitter, reddit } = await loadCombinedData();
 
     console.log("Loading GPT summary of combined data...");
     const summary = await loadGPTSummaryFromCombinedData(
       stories,
       scraped,
-      twitter
+      twitter,
+      reddit
     );
 
     console.log("Writing summary to file...");

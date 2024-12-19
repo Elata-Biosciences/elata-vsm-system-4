@@ -1,5 +1,3 @@
-import { REDDIT_SOURCES } from "./redditSources.js";
-
 /**
  * Sources to scrape for news articles.
  */
@@ -1125,5 +1123,4 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://thebiohacker.com/forums/whats-new/latest-activity",
     name: "The Biohacker",
   },
-  ...REDDIT_SOURCES,
 ];

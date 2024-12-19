@@ -188,10 +188,16 @@ STRICT RULES:
 
 If there are no articles on the page, or no articles within the date range, or non that are interesting enough return an empty array with an error message.
 
-If the source is Reddit you will likely encounter a JSON article. 
-While you may extract articles from posts on reddit if there is enough context you should usually just include relevant posts.
-If you seen in interesting information asymmetry advantage to use from reddit you should include it.
-You can do your best to get Reddit posts into the article format.
+When scrapping Reddit:
+- We will treat interesting reddit posts as articles
+- You will probably encounter JSON.
+- If you seen in interesting information asymmetry advantage to use from reddit you should include it.
+- You can do your best to get Reddit posts into the article format.
+- Interesting experimental treatments and biohacks may be found on Reddit, and well written posts may ignore our conventional academic standards.
+- Information about nootropics, biohacking, experimental treatments, candid information from medical professionals can be very useful to Elata.
+- The Nootropics and Biohacking subreddits are great sources for experimental treatments and biohacking.
+- Reddit can also be a good source for  off topic content, perhaps if there is interesting information asymmetry potential
+- Try to make sure you include at least some articles from the Nootropics and Biohacking subreddits
 
 ${RELEVANCE_SCORE_CALCULATION}
 

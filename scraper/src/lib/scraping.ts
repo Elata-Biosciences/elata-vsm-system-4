@@ -53,30 +53,6 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
     let browser: Browser | null = null;
     try {
       console.log(`Scraping ${source.name} (${source.url})`);
-
-      // Special handling for Reddit API
-      if (source.url.includes("reddit.com")) {
-        const headers = {
-          "User-Agent": REDDIT_USER_AGENT,
-          Accept: "application/json",
-        };
-
-        const response = await fetch(source.url, { headers });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-
-        const processedData = await processPageWithGPT(
-          JSON.stringify(data),
-          source.url,
-          source.name
-        );
-
-        results.push(processedData);
-        continue; // Skip the browser-based scraping for Reddit
-      }
-
       // Regular browser-based scraping for other sources
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
@@ -118,8 +94,6 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
           source.url,
           source.name
         );
-
-        console.log(JSON.stringify(processedData, null, 2));
 
         await page.close();
         await browser.close();
