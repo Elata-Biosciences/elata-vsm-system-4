@@ -326,6 +326,8 @@ Your job is to:
 - Exclude tweets that are not relevant to Elata's mission.
 - Provide concise and informative summaries.
 
+You should treat the tweets as articles, and use the same format as the articles from the CSV data.
+
 
 ${ELATA_NEWS_CATEGORIES_PROMPT}
 

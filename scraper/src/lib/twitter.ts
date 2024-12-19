@@ -98,7 +98,15 @@ const TWITTER_PROFILES = [
   "hubermanlab",
 ] as const;
 
-const TWITTER_QUERY_MAX_RESULTS = 4;
+/**
+ * Maximum number of results to return for each query
+ * 
+ * We want to keep this number low to avoid limit on posts per month, especially
+ * considering that we only want posts from within the last day. 
+ * 
+ * The minimum number of results we can get is 10, so we set it to 10.
+ */
+const TWITTER_QUERY_MAX_RESULTS = 10;
 
 /**
  * Get posts by query
@@ -134,23 +142,27 @@ const loadTwitterData = async (): Promise<TweetV2[]> => {
 
   for (const query of TWITTER_QUERIES) {
     try {
+      console.log(`Loading posts for query ${query}`);
       const posts = await getPostsByQuery(query);
+      console.log(posts);
 
       if (!posts || posts.length === 0) continue;
       console.log(`Found ${posts.length} posts for query ${query}`);
 
       results.push(...posts);
-
-      // Wait for 2 seconds between queries to avoid rate limiting
-      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     } catch (error) {
       console.error("Error loading Twitter data: ", error);
+    } finally {
+      // Wait between queries to avoid rate limiting
+      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     }
   }
 
   for (const user of TWITTER_PROFILES) {
     try {
+      console.log(`Loading posts for user ${user}`);
       const posts = await getPostsByUser(user);
+      console.log(posts);
 
       if (!posts || posts.length === 0) continue;
       console.log(`Found ${posts.length} posts for user ${user}`);
@@ -161,6 +173,9 @@ const loadTwitterData = async (): Promise<TweetV2[]> => {
       await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     } catch (error) {
       console.error("Error loading Twitter data: ", error);
+    } finally {
+      // Wait between queries to avoid rate limiting
+      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     }
   }
 
@@ -205,6 +220,8 @@ export const loadGPTEnrichedTwitterData = async (): Promise<Article[]> => {
 
   ${convertTweetsToCSV(posts)}
   `;
+
+  console.log(userPrompt);
 
   const response = await openAIClient.chat.completions.create({
     model: CONFIG.SCRAPPING.MODEL,

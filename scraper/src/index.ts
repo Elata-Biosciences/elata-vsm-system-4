@@ -128,8 +128,8 @@ const loadGPTSummaryFromCombinedData = async (
  * @returns {Promise<{ stories: Story[], scrapingResults: ScrapingOutput[] }>}
  */
 const loadCombinedData = async () => {
-  const reddit = await loadRedditPosts();
   const twitter = await loadGPTEnrichedTwitterData();
+  const reddit = await loadRedditPosts();
   const stories = await getStoriesFromQueries(QUERIES);
   const scraped = await scrapeWebsites();
 
