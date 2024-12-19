@@ -56,6 +56,7 @@ const SUBREDDITS = [
   "pharma",
   "Ayurveda",
   "AyurvedaTreatments",
+  "researchchemicals",
 ] as const;
 
 /**

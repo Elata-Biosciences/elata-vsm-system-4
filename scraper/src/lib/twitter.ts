@@ -21,20 +21,107 @@ import {
 // Instantiate with desired auth type (here's Bearer v2 auth)
 const twitterClient = new TwitterApi(CONFIG.TWITTER.TOKEN).readOnly;
 
-const TWITTER_QUERIES = ["DeSci"];
+const TWITTER_QUERIES = [
+  "DeSci",
+  "Decentralized Science",
+  "PTSD",
+  "#DeSci",
+] as const;
 
-const TWITTER_QUERY_MAX_RESULTS = 3;
+const TWITTER_PROFILES = [
+  "daohydra",
+  "ErectusDAO",
+  "catalyst_xyz",
+  "bio_hacker_dao",
+  "timrpeterson",
+  "longcovidlabs",
+  "Hippocrat_io",
+  "endrarediseases",
+  "QuantumBioDAO",
+  "sjdedic",
+  "elimohamad",
+  "jonwu_",
+  "AlexLangeVC",
+  "pat_mayr",
+  "AdamDraper",
+  "mhdempsey",
+  "Fiskantes",
+  "mattigags",
+  "mrjasonchoi",
+  "Rewkang",
+  "QwQiao",
+  "azeemk_",
+  "cz_binance",
+  "brian_armstrong",
+  "athena_DAO_",
+  "cryodao",
+  "BasedBeffJezos",
+  "VitalikButerin",
+  "balajis",
+  "wkylegDotEth",
+  "researchhub",
+  "psy_dao",
+  "beakerdao",
+  "PoSciDonDAO",
+  "chrisleiter_",
+  "bionicdao_",
+  "Mykalt45",
+  "welsharehealth",
+  "bioprotocol",
+  "eperlste",
+  "DataLakeToken",
+  "GenomesDAO",
+  "Elata_Bio",
+  "thealbertanis",
+  "valley_dao",
+  "HairDAO_",
+  "namkhaiferr",
+  "this_investor",
+  "AxonDAO",
+  "Molecule_dao",
+  "paulkhls",
+  "Cerebrum_DAO",
+  "GolatoTyler",
+  "melnykowycz",
+  "vita_dao",
+  "JocelynnPearl",
+  "AMelhede",
+  "desci_hub",
+  "DeSciWorld",
+  "crecimientoar",
+  "DeSciLATAM",
+  "DeSciMX",
+  "DeSciAfrica",
+  "glenweyl",
+  "herdaoargentina",
+  "bryan_johnson",
+  "hubermanlab",
+] as const;
+
+const TWITTER_QUERY_MAX_RESULTS = 4;
 
 /**
  * Get posts by query
  * @param query - The query to search for
  * @returns The posts
  */
-const getPostsByQuery = async (query: string) =>
+const getPostsByQuery = async (query: string): Promise<TweetV2[]> =>
   (
     await twitterClient.v2.search(query, {
       max_results: TWITTER_QUERY_MAX_RESULTS,
       sort_order: "recency",
+    })
+  ).data.data;
+
+/**
+ * Get recent posts posted by `user
+ * @param user - The user to search for
+ * @returns The posts
+ */
+const getPostsByUser = async (user: string): Promise<TweetV2[]> =>
+  (
+    await twitterClient.v2.userTimeline(user, {
+      max_results: TWITTER_QUERY_MAX_RESULTS,
     })
   ).data.data;
 
@@ -47,10 +134,31 @@ const loadTwitterData = async (): Promise<TweetV2[]> => {
 
   for (const query of TWITTER_QUERIES) {
     try {
-      results.push(...(await getPostsByQuery(query)));
+      const posts = await getPostsByQuery(query);
+
+      if (!posts || posts.length === 0) continue;
+      console.log(`Found ${posts.length} posts for query ${query}`);
+
+      results.push(...posts);
 
       // Wait for 2 seconds between queries to avoid rate limiting
-      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES);
+      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
+    } catch (error) {
+      console.error("Error loading Twitter data: ", error);
+    }
+  }
+
+  for (const user of TWITTER_PROFILES) {
+    try {
+      const posts = await getPostsByUser(user);
+
+      if (!posts || posts.length === 0) continue;
+      console.log(`Found ${posts.length} posts for user ${user}`);
+
+      results.push(...posts);
+
+      // Wait for 2 seconds between queries to avoid rate limiting
+      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     } catch (error) {
       console.error("Error loading Twitter data: ", error);
     }
