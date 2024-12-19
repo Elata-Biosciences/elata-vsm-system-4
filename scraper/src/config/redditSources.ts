@@ -142,11 +142,11 @@ export const loadRedditPosts = async () => {
       );
 
       results.push(processedData);
-
-      // Wait for 1.5 times the delay between sources to Reddit doesn't rate limit us
-      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES * 1.5);
     } catch (error) {
       console.error(`Error fetching data from ${source.url}:`, error);
+    } finally {
+      // Wait for 1.5 times the delay between sources to Reddit doesn't rate limit us
+      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES * 1.5);
     }
   }
 
