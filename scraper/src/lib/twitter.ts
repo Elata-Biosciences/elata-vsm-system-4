@@ -100,10 +100,10 @@ const TWITTER_PROFILES = [
 
 /**
  * Maximum number of results to return for each query
- * 
+ *
  * We want to keep this number low to avoid limit on posts per month, especially
- * considering that we only want posts from within the last day. 
- * 
+ * considering that we only want posts from within the last day.
+ *
  * The minimum number of results we can get is 10, so we set it to 10.
  */
 const TWITTER_QUERY_MAX_RESULTS = 10;
@@ -126,12 +126,26 @@ const getPostsByQuery = async (query: string): Promise<TweetV2[]> =>
  * @param user - The user to search for
  * @returns The posts
  */
-const getPostsByUser = async (user: string): Promise<TweetV2[]> =>
-  (
-    await twitterClient.v2.userTimeline(user, {
+const getPostsByUser = async (username: string): Promise<TweetV2[]> => {
+  try {
+    // First, look up the user ID from username
+    const user = await twitterClient.v2.userByUsername(username);
+    if (!user.data) {
+      console.log(`User ${username} not found`);
+      return [];
+    }
+
+    // Then get their timeline using the ID
+    const timeline = await twitterClient.v2.userTimeline(user.data.id, {
       max_results: TWITTER_QUERY_MAX_RESULTS,
-    })
-  ).data.data;
+    });
+
+    return timeline.data.data || [];
+  } catch (error) {
+    console.error(`Error getting posts for user ${username}:`, error);
+    return [];
+  }
+};
 
 /**
  * Load Twitter data
@@ -151,7 +165,7 @@ const loadTwitterData = async (): Promise<TweetV2[]> => {
 
       results.push(...posts);
     } catch (error) {
-      console.error("Error loading Twitter data: ", error);
+      console.error(`Error loading Twitter data for query ${query}:`, error);
     } finally {
       // Wait between queries to avoid rate limiting
       await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
@@ -168,11 +182,8 @@ const loadTwitterData = async (): Promise<TweetV2[]> => {
       console.log(`Found ${posts.length} posts for user ${user}`);
 
       results.push(...posts);
-
-      // Wait for 2 seconds between queries to avoid rate limiting
-      await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
     } catch (error) {
-      console.error("Error loading Twitter data: ", error);
+      console.error(`Error loading Twitter data for user ${user}:`, error);
     } finally {
       // Wait between queries to avoid rate limiting
       await wait(CONFIG.TWITTER.DELAY_BETWEEN_REQUESTS);
