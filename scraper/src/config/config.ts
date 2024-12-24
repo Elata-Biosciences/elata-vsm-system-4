@@ -9,7 +9,7 @@ export const CONFIG = {
   TWITTER: {
     TOKEN: String(process.env.TWITTER_TOKEN) || "",
     DELAY_BETWEEN_REQUESTS:
-      Number(process.env.TWITTER_DELAY_BETWEEN_REQUESTS) || 60_000,
+      Number(process.env.TWITTER_DELAY_BETWEEN_REQUESTS) || 100_000,
   },
   NEWS_API: {
     KEY: String(process.env.NEWS_API_KEY) || "",
