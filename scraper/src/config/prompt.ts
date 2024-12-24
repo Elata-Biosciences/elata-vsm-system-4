@@ -243,6 +243,15 @@ VERIFICATION PROCESS FOR EACH ARTICLE:
    ✓ Validate date from input
    ✓ Use only descriptions from input
 
+WHEN COMPOSING THE DESCRIPTION:
+- If there is a quality direct description or text that may be used, include the original description.
+- If there is is not a useful description:
+  - Compose a new one.
+  - Write in the voice of a 1950s straight talking anchorman with dry very subtle British humor, but you should still be serious and on-topic though at all times.
+  - The prose should be sharp and crisp. 
+  - The quality and uniqueness of your writing in the descriptions should please visitors of the website and be a key distinguishing factor of our service. 
+  - They descriptions should be to the point, high quality, factual, but have personality. 
+
 ${RELEVANCE_SCORE_CALCULATION}
 
 MANDATORY CATEGORIES:
