@@ -61,8 +61,8 @@ export const postSummaryToDiscord = async (
 
     if (!channel) throw new Error("Discord channel not found");
 
-    // Send header with more prominent formatting
-    await channel.send("**📰 Daily News Summary**\n─────────────────");
+    // Send header
+    await channel.send("**Daily News Summary for Today**");
 
     // Process each category
     for (const [categoryKey, articles] of Object.entries(summary).filter(
@@ -70,15 +70,18 @@ export const postSummaryToDiscord = async (
     )) {
       if (!Array.isArray(articles) || articles.length === 0) continue;
 
-      const categoryName = categoryMapping[categoryKey as SummaryOutputCategoriesKey] || categoryKey;
-      const emoji = categoryEmojis[categoryKey as SummaryOutputCategoriesKey] || "📰";
+      const categoryName =
+        categoryMapping[categoryKey as SummaryOutputCategoriesKey] ||
+        categoryKey;
+      const emoji =
+        categoryEmojis[categoryKey as SummaryOutputCategoriesKey] || "📰";
 
-      // Add extra newline before category and use separator
+      // Send category header
       await channel.send(
-        `\n\n${emoji} **${categoryName}** (${articles.length} articles)\n─────────────────`
+        `\n${emoji} **${categoryName}** (${articles.length} articles)`
       );
 
-      // Send each article with improved spacing
+      // Send each article
       for (const article of articles) {
         const embed = new EmbedBuilder()
           .setTitle(article.title || "Untitled")
@@ -94,16 +97,14 @@ export const postSummaryToDiscord = async (
           )
           .setColor(EMBED_COLOR);
 
-        // Add extra newline between articles
         await channel.send({ embeds: [embed] });
-        await channel.send("\n"); // Extra spacing between articles
         await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
 
-    // Send footer with separator
+    // Send footer
     await channel.send(
-      `\n─────────────────\n*Summary generated at ${new Date(summary.timestamp).toLocaleString()}*`
+      `\n*Summary generated at ${new Date(summary.timestamp).toLocaleString()}*`
     );
   } catch (error) {
     console.error("Error processing summary:", error);
