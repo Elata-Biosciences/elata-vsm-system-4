@@ -3,11 +3,28 @@ import Header from "@/components/Header";
 import JsonLd from "@/components/JsonLd";
 import NewsCategories from "@/components/NewsCategories";
 import { loadCurrentData } from "@/lib/data";
+import { FaEthereum } from "react-icons/fa";
 
 // Make rendering of whole pages cached and update every 5 minutes
 export const revalidate = 300;
 
 export const dynamic = "force-static";
+
+function DonationButton(): JSX.Element {
+  return (
+    <a
+      href="https://juicebox.money/v2/p/784"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full bg-[#FFD029] hover:bg-[#FFE029] px-4 py-2 text-black shadow-lg transition-all hover:scale-105"
+    >
+      <span role="img" aria-label="juice">
+        <FaEthereum className="w-4 h-4" />
+      </span>
+      Join Our Token Launch
+    </a>
+  );
+}
 
 export default async function Home() {
   return (
@@ -19,6 +36,7 @@ export default async function Home() {
             <AsyncNewsContent />
           </div>
         </main>
+        <DonationButton />
       </div>
     </ErrorBoundary>
   );

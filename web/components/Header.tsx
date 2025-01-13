@@ -35,7 +35,7 @@ export default function Header() {
     },
     {
       icon: FaGithub,
-      href: "https://github.com/Elata-Biosciences",
+      href: "https://github.com/Elata-Biosciences/elata-vsm-system-4",
       label: "GitHub",
     },
     {
@@ -60,7 +60,7 @@ export default function Header() {
     },
     {
       icon: FaDiscord,
-      href: "https://discord.gg/pzG7YsmTjC",
+      href: "https://discord.gg/7fgyFgZfyP",
       label: "Discord",
       isSpecialButton: true,
     },

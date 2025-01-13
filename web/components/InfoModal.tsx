@@ -69,7 +69,19 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
                 "Software Engineering",
                 "Computational Neuroscience & Psychiatry",
                 "Pharmaceutical Development",
-                "Hardware Development",
+                "Raspberry Pi & Arduino Development",
+                "Computer Vision",
+                "Computational Biology",
+                "Precision Medicine",
+                "Cryptography",
+                "Smart Contract Development",
+                "Zero Knowledge Proofs",
+                "UI/UX Design",
+                "Digital Art",
+                "Marketing & Community Management",
+                "Business Development",
+                "Legal & Compliance",
+                "Rust Programming",
               ].map((item) => (
                 <li
                   key={item}

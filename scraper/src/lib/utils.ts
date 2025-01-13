@@ -265,11 +265,18 @@ export const convertScrappingSummariesToCSV = (
  * @returns {Article[]}
  */
 export const getDedupedArticles = (articles: Article[]): Article[] => {
-  // Make sure there are no articles with the same title
-  return articles.filter(
-    (article, index, self) =>
-      index === self.findIndex((t) => t.title === article.title)
-  );
+  const matches: Record<string, boolean> = {};
+
+  const uniqueArticles: Article[] = [];
+
+  for (const article of articles) {
+    if (!matches[article.title]) {
+      matches[article.title] = true;
+      uniqueArticles.push(article);
+    }
+  }
+
+  return uniqueArticles;
 };
 
 /**
