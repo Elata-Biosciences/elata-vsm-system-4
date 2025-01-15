@@ -82,7 +82,10 @@ export const postSummaryToDiscord = async (
       );
 
       // Send each article
-      for (const article of articles) {
+      for (const article of articles.slice(
+        0,
+        CONFIG.DISCORD.ARTICLES_PER_CATEGORY
+      )) {
         const embed = new EmbedBuilder()
           .setTitle(article.title || "Untitled")
           .setDescription(article.description || "No description available")

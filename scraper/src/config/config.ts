@@ -5,6 +5,7 @@ export const CONFIG = {
   DISCORD: {
     TOKEN: String(process.env.DISCORD_TOKEN) || "",
     NEWS_FEED_CHANNEL_ID: String(process.env.NEWS_FEED_CHANNEL_ID) || "",
+    ARTICLES_PER_CATEGORY: Number(process.env.DISCORD_ARTICLES_PER_CATEGORY) || 5,
   },
   TWITTER: {
     TOKEN: String(process.env.TWITTER_TOKEN) || "",
