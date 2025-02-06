@@ -43,6 +43,9 @@ export const CONFIG = {
   NEXT: {
     PORT: Number(process.env.NEXT_PORT) || 3_000,
   },
+  PATHS: {
+    DATA_DIR: process.env.ELATA_DATA_DIR || '/usr/lib/node_modules/pm2/data',
+  },
 } as const;
 
 // Warn if config is not set correctly

@@ -7,6 +7,7 @@ import type {
   SummaryOutput,
 } from "@elata/shared-types";
 import type { Story } from "../types/newsapi.types.js";
+import { CONFIG } from '../config/config.js';
 
 /**
  * The filename of the current file
@@ -33,7 +34,7 @@ export const DATE_FORMAT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 /**
  * The directory for storing data
  */
-const DATA_DIR = join(__dirname, "..", "data");
+const { DATA_DIR } = CONFIG.PATHS;
 
 /**
  * Delay execution for `ms` milliseconds
