@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import {
   FaTwitter,
   FaFacebook,
@@ -297,9 +298,21 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
       <div className="bg-white rounded-none shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
         <div className="p-6 sm:p-8">
           <div className="flex justify-between items-start mb-6">
-            <h2 className="text-2xl sm:text-3xl font-bold">
-              Share This Story!
-            </h2>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.jpeg"
+                alt="Elata Biosciences Logo"
+                width={24}
+                height={24}
+                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full shadow-md border-2 border-gray-200 hover:border-yellow-400 transition-colors ring-2 ring-yellow-400/70 ring-offset-2 ring-offset-white hover:ring-yellow-400/90
+                mr-2
+                ml-[2px]
+                "
+              />
+              <h2 className="text-2xl sm:text-3xl font-bold">
+                Share This Story!
+              </h2>
+            </div>
             <button
               type="button"
               onClick={onClose}
