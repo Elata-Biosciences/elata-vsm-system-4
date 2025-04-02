@@ -26,6 +26,9 @@ function DonationButton(): JSX.Element {
   );
 }
 
+// Quick hack to hide the token launch button
+const showTokenLaunchButton = false;
+
 export default async function Home() {
   return (
     <ErrorBoundary>
@@ -36,7 +39,7 @@ export default async function Home() {
             <AsyncNewsContent />
           </div>
         </main>
-        <DonationButton />
+        {showTokenLaunchButton && <DonationButton />}
       </div>
     </ErrorBoundary>
   );
