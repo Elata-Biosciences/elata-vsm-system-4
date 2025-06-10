@@ -139,6 +139,7 @@ DeSci, DAOs, Crypto:
 - The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
 - News related to general crypto currency should only go in this category
 - Articles with on-topic DeSci news should always be ranked above 0.9
+- Prioritize latest DeSci updates from Twitter/X.com over other sources
 
 Off Topic Curiosities:
 - The main emphasis should be off topic things that are stakeholders (tokenholders, researchers, scientists, etc.) would get a kick out of reading and find very interesting

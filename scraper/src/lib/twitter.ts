@@ -24,29 +24,18 @@ const twitterClient = new TwitterApi(CONFIG.TWITTER.TOKEN).readOnly;
 const TWITTER_QUERIES = [
   "DeSci",
   "Decentralized Science",
-  "PTSD",
   "#DeSci",
 ] as const;
 
 const TWITTER_PROFILES = [
-  "daohydra",
-  "ErectusDAO",
-  "catalyst_xyz",
   "bio_hacker_dao",
-  "QuantumBioDAO",
   "athena_DAO_",
-  "cryodao",
   "VitalikButerin",
   "balajis",
   "wkylegDotEth",
-  "researchhub",
   "psy_dao",
-  "beakerdao",
   "PoSciDonDAO",
-  "bionicdao_",
-  "welsharehealth",
   "bioprotocol",
-  "DataLakeToken",
   "GenomesDAO",
   "Elata_Bio",
   "valley_dao",
@@ -55,10 +44,11 @@ const TWITTER_PROFILES = [
   "AxonDAO",
   "Molecule_dao",
   "Cerebrum_DAO",
-  "vita_dao",
   "AMelhede",
   "desci_hub",
   "DeSciWorld",
+  "SpectruthAI",
+  "HealthSci_AI"
 ] as const;
 
 /**
