@@ -294,40 +294,46 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-none shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slideUp">
-        <div className="p-6 sm:p-8">
-          <div className="flex justify-between items-start mb-6">
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-cream1 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray2 scrollbar-hide">
+        <style jsx>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        <div className="p-8">
+          <div className="flex justify-between items-start mb-8">
             <div className="flex items-center gap-3">
               <Image
-                src="/logo.jpeg"
+                src="/logo.png"
                 alt="Elata Biosciences Logo"
-                width={24}
-                height={24}
-                className="w-6 h-6 sm:w-8 sm:h-8 rounded-full shadow-md border-2 border-gray-200 hover:border-yellow-400 transition-colors ring-2 ring-yellow-400/70 ring-offset-2 ring-offset-white hover:ring-yellow-400/90
-                mr-2
-                ml-[2px]
-                "
+                width={32}
+                height={32}
+                className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
               />
-              <h2 className="text-2xl sm:text-3xl font-bold">
+              <h2 className="text-3xl font-bold font-montserrat text-offBlack">
                 Share This Story!
               </h2>
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500 transition-colors duration-200 p-2 hover:bg-gray-200 rounded-none"
+              className="text-gray3 hover:text-offBlack transition-colors duration-200 p-2 hover:bg-gray2/30 rounded-lg"
               aria-label="Close"
             >
-              <FaTimes className="text-2xl" />
+              <FaTimes className="text-xl" />
             </button>
           </div>
 
-          <div className="space-y-4 mb-8">
-            <h3 className="text-lg sm:text-xl font-semibold leading-snug">
+          <div className="space-y-6 mb-8">
+            <h3 className="text-xl font-bold leading-snug font-montserrat text-offBlack">
               {item?.title}
             </h3>
-            <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-600 gap-1 sm:gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray3 gap-1 sm:gap-2 font-sf-pro">
               <span className="font-medium">
                 {item?.author}
                 {!!item?.author && !!item?.source && " at "}
@@ -335,34 +341,32 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
               </span>
             </div>
             {item?.description && (
-              <div className="text-sm text-gray-600 leading-relaxed pl-3 border-l-2 border-gray-200 ">
+              <div className="text-base text-gray3 leading-relaxed pl-5 border-l-2 border-elataGreen/30 font-sf-pro bg-white/30 rounded-r-lg py-4 pr-5">
                 {item.description}
               </div>
             )}
           </div>
 
-          <div className="w-full grid sm:grid-cols-2 gap-3 mb-8">
+          <div className="w-full grid sm:grid-cols-2 gap-4 mb-8">
             <Link
               href={item?.url || ""}
-              className="w-full inline-flex justify-center items-center gap-2 
-                bg-black text-white px-4 py-2.5 rounded-none
-                transform transition-all duration-200 ease-out
-                hover:shadow-md hover:bg-gray-800 hover:scale-102
-                active:scale-98"
+              className="w-full inline-flex justify-center items-center gap-3 
+                bg-offBlack hover:bg-gray3 text-white px-6 py-3 rounded-none
+                transform transition-all duration-300 ease-out
+                hover:shadow-lg hover:scale-105 font-sf-pro font-medium"
               target="_blank"
               rel="noopener noreferrer"
               title="Read Full Article"
             >
-              <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" />
+              <FaExternalLinkAlt className="w-4 h-4" />
               Read Full Article
             </Link>
             <Link
               href="https://discord.gg/4CZ7RCwEvb"
-              className="w-full inline-flex justify-center items-center gap-2 
-                bg-yellow-400 text-black px-4 py-2.5 rounded-none
-                transform transition-all duration-200 ease-out
-                hover:shadow-md hover:bg-yellow-500 hover:scale-102
-                active:scale-98"
+              className="w-full inline-flex justify-center items-center gap-3 
+                bg-elataGreen hover:bg-elataGreen/90 text-white px-6 py-3 rounded-none
+                transform transition-all duration-300 ease-out
+                hover:shadow-lg hover:scale-105 font-sf-pro font-medium"
               target="_blank"
               rel="noopener noreferrer"
               title="Discuss on Elata Bioscience Discord"
@@ -372,20 +376,20 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
             </Link>
           </div>
 
-          <div className="pt-6 border-t border-gray-200">
-            <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-8">
+          <div className="pt-8 border-t border-gray2/50">
+            <h4 className="text-lg font-bold font-montserrat text-offBlack mb-6">Share on Social Media</h4>
+            <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-6">
               {shareOptions.map((option) => (
                 <button
                   key={option.name}
                   onClick={option.action}
                   type="button"
-                  className="flex flex-col items-center gap-2 p-2 rounded-lg
-                    hover:bg-gray-50 active:bg-gray-100 transition-colors group"
+                  className="flex flex-col items-center gap-3 p-3 rounded-lg transition-all duration-300 group"
                 >
-                  <span className="p-2 rounded-full bg-gray-100 group-hover:bg-white transition-colors">
-                    <option.icon className="w-4 h-4 text-gray-600" />
+                  <span className="p-3 rounded-full bg-cream2/80 border border-gray2/50 group-hover:scale-110 transition-all duration-300">
+                    <option.icon className="w-5 h-5 text-gray3" />
                   </span>
-                  <span className="text-xs text-gray-500 text-center whitespace-nowrap">
+                  <span className="text-xs text-gray3 text-center whitespace-nowrap font-sf-pro">
                     {option.name}
                   </span>
                 </button>

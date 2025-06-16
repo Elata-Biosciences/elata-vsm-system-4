@@ -12,8 +12,8 @@ export const contentType = "image/png";
 
 // Image generation
 export default function Icon() {
-  const iconData = readFileSync(join(process.cwd(), 'app/assets/branding/favicon.jpeg'));
-  const iconBase64 = `data:image/jpeg;base64,${iconData.toString('base64')}`;
+  const iconData = readFileSync(join(process.cwd(), 'public/logo.png'));
+  const iconBase64 = `data:image/png;base64,${iconData.toString('base64')}`;
 
   return new ImageResponse(
     (
@@ -32,8 +32,7 @@ export default function Icon() {
           style={{
             width: "100%",
             height: "100%",
-            objectFit: "cover",
-            borderRadius: "50%",
+            objectFit: "contain",
           }}
         />
       </div>

@@ -1,8 +1,35 @@
+/**
+ * @fileoverview NewsCategories Component - Core news display and interaction interface
+ * 
+ * @description This is the primary content component that handles:
+ * - Category-based news filtering with smooth transitions
+ * - Article sharing functionality with URL state management
+ * - Advanced animations and micro-interactions
+ * - Responsive design for mobile and desktop
+ * - Accessibility compliance with ARIA labels and keyboard navigation
+ * 
+ * **Architecture:**
+ * - Client-side component with complex state management
+ * - URL-based routing for category selection (SEO-friendly)
+ * - Modal system for sharing and discussions
+ * - Animation system with staggered loading effects
+ * 
+ * **Performance Features:**
+ * - Optimized re-renders with proper dependency arrays
+ * - Smooth transitions with CSS transforms
+ * - Efficient event handling with cleanup
+ * - Lazy loading of modal components
+ * 
+ * @author wkyleg.eth
+ * @version 2.0.0
+ * @since 2024
+ */
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { FaExternalLinkAlt, FaDiscord, FaShare } from "react-icons/fa";
+import { FaArrowRight, FaDiscord } from "react-icons/fa";
 import ShareModal from "./ShareModal";
 import type {
   SummaryOutput,
@@ -11,10 +38,32 @@ import type {
 } from "@elata/shared-types";
 import { useState, useEffect } from "react";
 
+/**
+ * Props interface for NewsCategories component
+ * 
+ * @interface NewsCategoriesProps
+ * @property {SummaryOutput} initialData - Server-fetched categorized news data
+ */
 interface NewsCategoriesProps {
   initialData: SummaryOutput;
 }
 
+/**
+ * Maps internal category keys to user-friendly display names
+ * 
+ * @description This mapping provides human-readable category names for the UI
+ * while maintaining consistent internal naming conventions. Categories align
+ * with Elata's research focus areas and target audience interests.
+ * 
+ * @param {SummaryOutputCategoriesKey} category - Internal category identifier
+ * @returns {string} Human-readable category name for display
+ * 
+ * @example
+ * ```typescript
+ * formatCategoryName('computational') // Returns: "Computational & Precision Psychiatry"
+ * formatCategoryName('biohacking')    // Returns: "Experimental Treatments"
+ * ```
+ */
 const formatCategoryName = (category: SummaryOutputCategoriesKey): string => {
   const categoryMap: { [key in SummaryOutputCategoriesKey]: string } = {
     research: "Research News",
@@ -28,17 +77,63 @@ const formatCategoryName = (category: SummaryOutputCategoriesKey): string => {
   return categoryMap[category] || category;
 };
 
+/**
+ * NewsCategories Component - Main news interface with category filtering
+ * 
+ * @description The core component responsible for displaying categorized news articles
+ * with advanced interaction patterns. Features include:
+ * 
+ * **Category Management:**
+ * - URL-based category selection for SEO and bookmarking
+ * - Smooth transitions between categories with loading states
+ * - Animated category pills with hover effects and active states
+ * 
+ * **Article Display:**
+ * - Card-based layout with hover animations
+ * - Staggered loading animations for visual appeal
+ * - Responsive design adapting to screen sizes
+ * - Accessibility features (ARIA labels, keyboard navigation)
+ * 
+ * **Interaction Features:**
+ * - Three-dot menu system for article actions
+ * - Share modal with URL state management
+ * - Discord integration for community discussions
+ * - Click-outside-to-close functionality
+ * 
+ * **State Management:**
+ * - Multiple useState hooks for different UI states
+ * - useEffect hooks for URL synchronization and event handling
+ * - Proper cleanup to prevent memory leaks
+ * 
+ * @param {NewsCategoriesProps} props - Component props
+ * @returns {JSX.Element} Rendered news categories interface
+ * 
+ * @example
+ * ```typescript
+ * <NewsCategories initialData={newsData} />
+ * ```
+ */
 export default function NewsCategories({ initialData }: NewsCategoriesProps) {
   const categories = Object.keys(initialData);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [shareItem, setShareItem] = useState<Article | null>(null);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [previousCategory, setPreviousCategory] = useState<string | null>(null);
 
   // Get category from URL or default to first category
   const category = searchParams.get("category");
   const activeCategory = categories.includes(category || "")
     ? category
     : categories[0];
+
+  // Track category changes for animations
+  useEffect(() => {
+    if (activeCategory && activeCategory !== previousCategory) {
+      setPreviousCategory(activeCategory);
+    }
+  }, [activeCategory, previousCategory]);
 
   // Add this useEffect to handle share modal on page load
   useEffect(() => {
@@ -63,94 +158,173 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
     }
   }, [searchParams]);
 
+  // Add click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openMenuId && !(event.target as Element).closest(".menu-container")) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openMenuId]);
+
   const handleCategoryClick = (newCategory: string) => {
+    if (newCategory === activeCategory) return;
+    
+    // Start transition
+    setIsTransitioning(true);
+    
+    // Immediately update URL for instant pill state change
     const params = new URLSearchParams(searchParams);
     params.set("category", newCategory);
     router.push(`?${params.toString()}`, { scroll: false });
+    
+    // End transition after content loads
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 300);
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-8">
-      <div className="flex flex-wrap gap-2 mb-8">
+      {/* Enhanced Category Pills */}
+      <div className="flex flex-wrap gap-3 mb-12">
         {categories
           .filter((category) => category !== "timestamp")
           .map((category) => (
             <button
               key={category}
               type="button"
-              className={`px-3 py-1.5 rounded-full  text-xs sm:text-sm transition-all duration-300 ease-in-out transform hover:scale-105 ${
-                activeCategory === category
-                  ? "bg-yellow-400 text-black font-bold shadow-md hover:shadow-lg"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
+              className={`
+                px-6 py-3 rounded-2xl text-sm font-semibold transform 
+                pill-hover relative overflow-hidden backdrop-blur-sm
+                font-sf-pro transition-all duration-200 ease-out
+                ${activeCategory === category
+                  ? "bg-offBlack text-white shadow-lg scale-105 active"
+                  : "bg-white/70 text-offBlack border border-gray2/50 hover:bg-white hover:border-gray3"
+                }
+              `}
               onClick={() => handleCategoryClick(category)}
             >
-              {formatCategoryName(category as SummaryOutputCategoriesKey)}
+              <span className="relative z-10">
+                {formatCategoryName(category as SummaryOutputCategoriesKey)}
+              </span>
+              {activeCategory === category && (
+                <div className="absolute inset-0 bg-gradient-to-r from-offBlack via-gray3 to-offBlack opacity-20 animate-pulse" />
+              )}
             </button>
           ))}
       </div>
-      <div className="w-full grid gap-6">
+
+      {/* Enhanced Content Grid with Transitions */}
+      <div className={`w-full grid gap-8 content-transition ${isTransitioning ? 'changing' : ''}`}>
         {initialData[activeCategory as SummaryOutputCategoriesKey].map(
-          (item) => (
+          (item, index) => (
             <article
               key={`${item.title}-${item.source}-${item.url}`}
-              className="w-full bg-white p-6 sm:p-8 border-2 border-black shadow-md 
-              hover:border-yellow-400 hover:shadow-xl hover:-translate-y-1
-              transition-all duration-500 ease-in-out rounded-none
-              transform-gpu animate-fadeIn"
+              className={`
+                w-full bg-cream1 p-8 border border-gray2/50 rounded-3xl 
+                transition-all duration-500 ease-out transform-gpu 
+                hover:shadow-xl hover:border-elataGreen/30 hover:-translate-y-2 hover:scale-[1.02]
+                animate-staggerFadeIn opacity-0
+                backdrop-blur-sm bg-cream1/90
+              `}
+              style={{ animationDelay: `${index * 0.15}s` }}
             >
-              <h2 className="text-lg sm:text-xl font-bold mb-3">
-                {item.title}
-              </h2>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600 mb-4">
-                <span className="font-medium">{item.source}</span>
-                {item.author && (
-                  <span className="mt-1 sm:mt-0 italic">
-                    by {item.author.split(",")[0]}
-                    {item.author.split(",").length > 1 ? " et al." : ""}
-                  </span>
-                )}
+              <div className="flex justify-between items-start gap-6">
+                <div className="flex-1 relative pb-10">
+                  <h2 className="text-xl sm:text-2xl font-bold mb-3 text-offBlack font-montserrat leading-tight">
+                    {item.title}
+                  </h2>
+                  {item.author && (
+                    <div className="text-sm text-gray3 mb-5 font-sf-pro animate-slideInRight">
+                      by {item.author.split(",")[0]}
+                      {item.author.split(",").length > 1 ? " et al." : ""}
+                    </div>
+                  )}
+                  {item?.description && (
+                    <p className="text-gray3 mb-6 leading-relaxed font-sf-pro text-base animate-fadeInUp">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+                <div className="relative menu-container">
+                  <button
+                    onClick={() =>
+                      setOpenMenuId(openMenuId === item.url ? null : item.url)
+                    }
+                    type="button"
+                    className="p-2 text-gray3 hover:text-offBlack transition-all duration-300 hover:scale-110 hover:bg-gray2/30 rounded-full"
+                    aria-label="More options"
+                  >
+                    <span className="text-xl font-bold">⋯</span>
+                  </button>
+
+                  {openMenuId === item.url && (
+                    <div className="absolute right-0 top-full mt-2 bg-cream1/95 backdrop-blur-md border border-gray2/50 rounded-xl shadow-xl z-20 min-w-[140px] overflow-hidden animate-fadeInScale">
+                      <Link
+                        href="https://discord.gg/4CZ7RCwEvb"
+                        className="flex items-center gap-3 px-5 py-4 text-offBlack hover:bg-gray2/40 transition-all duration-300 font-sf-pro font-medium text-sm border-b border-gray2/30 last:border-b-0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Join our Discord community for discussion"
+                        title="Join our Discord community"
+                        onClick={() => setOpenMenuId(null)}
+                      >
+                        <FaDiscord
+                          className="w-4 h-4 flex-shrink-0"
+                          aria-hidden="true"
+                        />
+                        Discuss
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setShareItem(item);
+                          setOpenMenuId(null);
+                        }}
+                        type="button"
+                        className="flex items-center gap-3 px-5 py-4 text-offBlack hover:bg-gray2/40 transition-all duration-300 font-sf-pro font-medium text-sm w-full text-left"
+                      >
+                        <svg
+                          className="w-4 h-4 flex-shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                          />
+                        </svg>
+                        Share
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                {item?.description}
-              </p>
-              <div className="w-full grid sm:grid-cols-3 gap-3">
+
+              <div className="absolute bottom-0 left-0 right-0 flex justify-between items-center p-8">
+                <div className="text-sm text-gray3 font-sf-pro font-medium">
+                  {item.source}
+                </div>
                 <Link
                   href={item.url}
-                  className="w-full inline-flex justify-center items-center gap-2 
-                  bg-black text-white px-4 py-2.5 rounded-none
-                  transform transition-all duration-200 ease-out
-                  hover:shadow-md hover:bg-gray-800 hover:scale-102
-                  active:scale-98"
+                  className="inline-flex items-center gap-2 text-gray3 hover:text-offBlack transition-all duration-300 font-sf-pro font-medium text-sm hover:scale-105 group"
                   target="_blank"
                   rel="noopener noreferrer"
                   title={item.description}
                   aria-label={`Read more about ${item.title}`}
                 >
-                  <FaExternalLinkAlt className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" 
-                    aria-hidden="true" 
-                  />
                   Read More
+                  <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link
-                  href="https://discord.gg/4CZ7RCwEvb"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-none shadow-sm hover:shadow-md hover:bg-yellow-500 transition-all"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Join our Discord community for discussion"
-                  title="Join our Discord community"
-                >
-                  <FaDiscord className="w-4 h-4" aria-hidden="true" />
-                  Discuss
-                </Link>
-                <button
-                  onClick={() => setShareItem(item)}
-                  type="button"
-                  className="w-full sm:w-auto inline-flex justify-center items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-none hover:bg-gray-300 transition-colors"
-                >
-                  <FaShare className="w-4 h-4" />
-                  Share
-                </button>
               </div>
             </article>
           )

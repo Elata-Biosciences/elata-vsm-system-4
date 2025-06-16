@@ -1,44 +1,587 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+/**
+ * @fileoverview Global Styles - Elata News Design System
+ * 
+ * @description Comprehensive styling foundation for the Elata News application.
+ * This file establishes:
+ * - Typography system with Google Fonts integration
+ * - Color palette and design tokens
+ * - Animation framework with keyframes and utilities
+ * - Component-level styling patterns
+ * - Responsive design utilities
+ * 
+ * **Design System Features:**
+ * - Consistent color palette aligned with Elata branding
+ * - Typography hierarchy with Montserrat and SF Pro fonts
+ * - Advanced animation system with staggered effects
+ * - Utility classes for common patterns
+ * - Accessibility-compliant color contrasts
+ * 
+ * **Performance Considerations:**
+ * - Optimized font loading with display: swap
+ * - Hardware-accelerated animations with transform-gpu
+ * - Efficient CSS with Tailwind's utility-first approach
+ * - Minimal custom CSS for better maintainability
+ * 
+ * @author Elata Biosciences Development Team
+ * @version 2.0.0
+ * @since 2024
+ */
 
+/* Font Imports - Optimized loading with display: swap */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* Tailwind CSS Framework */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * CSS Custom Properties - Design System Tokens
+ * 
+ * @description Defines the core design tokens used throughout the application:
+ * - Font families with fallback stacks for reliability
+ * - Consistent typography system with primary and secondary fonts
+ * 
+ * **Font Strategy:**
+ * - Montserrat: Headlines, titles, and emphasis text
+ * - SF Pro Text: Body text, UI elements, and general content
+ * - Fallback fonts ensure compatibility across all devices
+ */
 :root {
-  --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-sf-pro: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
+/**
+ * Global Body Styles
+ * 
+ * @description Sets the foundation for the entire application:
+ * - Primary font family (SF Pro Text) for optimal readability
+ * - Background color (offCream) for warm, comfortable reading
+ * - Text color (offBlack) for high contrast and accessibility
+ */
 body {
-  font-family: var(--font-mono);
-  background-color: #f0f0f0;
-  color: #333;
+  font-family: var(--font-sf-pro);
+  background-color: #F8F5EE; /* offCream - warm, comfortable background */
+  color: #171717; /* offBlack - high contrast text */
 }
 
+/**
+ * Global Polish Improvements
+ * 
+ * @description Small refinements for better user experience:
+ * - Custom text selection colors
+ * - Improved focus states for accessibility
+ * - Smooth scrolling behavior
+ */
+
+/* Custom text selection styling */
+::selection {
+  background-color: #607274; /* elataGreen */
+  color: #FDFDFD; /* white */
+}
+
+::-moz-selection {
+  background-color: #607274; /* elataGreen */
+  color: #FDFDFD; /* white */
+}
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus states for accessibility */
+*:focus-visible {
+  outline: 2px solid #607274; /* elataGreen */
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/**
+ * Component Layer - Reusable Component Styles
+ * 
+ * @description Defines styling patterns for commonly used components:
+ * - News item cards with consistent hover effects
+ * - Tab navigation with active state indicators
+ * - Consistent spacing and interaction patterns
+ */
 @layer components {
+  /* News item cards with subtle shadow effects */
   .news-item {
     @apply shadow-md hover:shadow-lg;
   }
 
+  /* Tab navigation styling with hover and active states */
   .tab {
-    @apply px-4 py-2 text-sm md:text-base hover:text-yellow-600 cursor-pointer border-b-4 border-transparent;
+    @apply px-4 py-2 text-sm md:text-base hover:text-gray3 cursor-pointer border-b-4 border-transparent;
   }
 
+  /* Active tab indicator with brand color accent */
   .tab.active {
-    @apply border-yellow-400;
+    @apply border-offBlack;
+  }
+
+  /* Enhanced link styling for better UX */
+  .link-hover {
+    @apply transition-colors duration-200 ease-out hover:text-elataGreen;
+  }
+
+  /* Subtle card hover enhancement */
+  .card-hover {
+    @apply transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* Button focus enhancement */
+  .btn-focus {
+    @apply focus-visible:ring-2 focus-visible:ring-elataGreen focus-visible:ring-offset-2 focus-visible:ring-offset-offCream;
+  }
+
+  /* Text content spacing improvements */
+  .prose-spacing h1,
+  .prose-spacing h2,
+  .prose-spacing h3 {
+    @apply mb-4 leading-tight;
+  }
+
+  .prose-spacing p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose-spacing p:last-child {
+    @apply mb-0;
   }
 }
 
+/**
+ * Utility Layer - Custom Utility Classes
+ * 
+ * @description Provides utility classes for common patterns:
+ * - Scrollbar hiding for clean interfaces
+ * - Cross-browser compatibility for scrollbar styling
+ */
 @layer utilities {
+  /* Hide scrollbars while maintaining functionality */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
   
   .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;     /* Firefox */
   }
 }
 
+/* Enhanced Animations */
+/**
+ * Animation System - Advanced Keyframe Animations
+ * 
+ * @description Comprehensive animation framework providing:
+ * - Smooth entrance animations for content loading
+ * - Interactive hover effects for user engagement
+ * - Staggered animations for visual hierarchy
+ * - Performance-optimized transforms using GPU acceleration
+ * 
+ * **Animation Categories:**
+ * 1. Entrance Animations: fadeInUp, fadeInScale, slideInRight
+ * 2. Interactive Animations: pillActivate, pillDeactivate
+ * 3. Content Transitions: contentSlideIn, staggerFadeIn
+ * 4. Hover Effects: pill-hover with shimmer effects
+ * 
+ * **Performance Notes:**
+ * - All animations use transform and opacity for GPU acceleration
+ * - Cubic-bezier easing functions for natural motion
+ * - will-change property for optimization hints to browser
+ */
+
+/**
+ * Fade In Up Animation
+ * 
+ * @description Smooth entrance animation that combines:
+ * - Opacity transition from 0 to 1
+ * - Vertical translation from 20px below to original position
+ * - Used for: Article content, text blocks, general content reveals
+ * 
+ * @duration 0.6s
+ * @easing ease-out
+ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**
+ * Fade In Scale Animation
+ * 
+ * @description Subtle entrance animation with scaling effect:
+ * - Opacity transition from 0 to 1
+ * - Scale from 95% to 100% for gentle zoom-in effect
+ * - Used for: Modal dialogs, dropdown menus, interactive elements
+ * 
+ * @duration 0.4s
+ * @easing ease-out
+ */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/**
+ * Slide In Right Animation
+ * 
+ * @description Horizontal entrance animation:
+ * - Opacity transition from 0 to 1
+ * - Horizontal translation from 30px right to original position
+ * - Used for: Author information, secondary content, metadata
+ * 
+ * @duration 0.5s
+ * @easing ease-out
+ */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/**
+ * Pill Activate Animation
+ * 
+ * @description Interactive button activation with bounce effect:
+ * - Three-stage animation for satisfying feedback
+ * - Scales to 108% then settles at 105% for active state
+ * - Enhanced shadow progression for depth perception
+ * - Used for: Category pills, toggle buttons, active states
+ * 
+ * @duration 0.25s
+ * @easing cubic-bezier(0.34, 1.56, 0.64, 1) - bounce effect
+ */
+@keyframes pillActivate {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/**
+ * Pill Deactivate Animation
+ * 
+ * @description Smooth deactivation animation:
+ * - Returns element from active state to normal
+ * - Reduces scale and shadow for subtle transition
+ * - Used for: Deactivating buttons, state changes
+ * 
+ * @duration 0.2s
+ * @easing ease-out
+ */
+@keyframes pillDeactivate {
+  0% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/**
+ * Content Slide In Animation
+ * 
+ * @description Smooth content transition animation:
+ * - Combines opacity, translation, and subtle scaling
+ * - Creates polished content loading experience
+ * - Used for: Page transitions, content swapping
+ * 
+ * @duration 0.5s
+ * @easing ease-out
+ */
+@keyframes contentSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/**
+ * Stagger Fade In Animation
+ * 
+ * @description Base animation for staggered content loading:
+ * - Vertical translation with opacity transition
+ * - Designed to work with animation delays for staggered effect
+ * - Used for: Article cards, list items, grid content
+ * 
+ * @duration 0.6s
+ * @easing ease-out
+ */
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation Classes */
+/**
+ * Animation Utility Classes
+ * 
+ * @description Pre-configured animation classes that apply keyframe animations
+ * with optimized timing and easing. These classes provide:
+ * - Consistent animation timing across the application
+ * - Easy-to-use class names for developers
+ * - Performance-optimized settings
+ * - Forwards fill mode to maintain end state
+ */
+
+/**
+ * Fade In Up Animation Class
+ * @usage Apply to elements that should slide up while fading in
+ * @example <div className="animate-fadeInUp">Content</div>
+ */
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/**
+ * Fade In Scale Animation Class
+ * @usage Apply to modals, dropdowns, and popup elements
+ * @example <div className="animate-fadeInScale">Modal content</div>
+ */
+.animate-fadeInScale {
+  animation: fadeInScale 0.4s ease-out forwards;
+}
+
+/**
+ * Slide In Right Animation Class
+ * @usage Apply to secondary content and metadata
+ * @example <div className="animate-slideInRight">Author info</div>
+ */
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+/**
+ * Pill Activate Animation Class
+ * @usage Apply to buttons and interactive elements on activation
+ * @example <button className="animate-pillActivate">Active button</button>
+ */
+.animate-pillActivate {
+  animation: pillActivate 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/**
+ * Pill Deactivate Animation Class
+ * @usage Apply to buttons when transitioning from active to inactive
+ * @example <button className="animate-pillDeactivate">Inactive button</button>
+ */
+.animate-pillDeactivate {
+  animation: pillDeactivate 0.2s ease-out forwards;
+}
+
+/**
+ * Content Slide In Animation Class
+ * @usage Apply to content areas during transitions
+ * @example <div className="animate-contentSlideIn">Page content</div>
+ */
+.animate-contentSlideIn {
+  animation: contentSlideIn 0.5s ease-out forwards;
+}
+
+/**
+ * Stagger Fade In Animation Class
+ * @usage Apply to list items and grid elements for staggered loading
+ * @example <div className="animate-staggerFadeIn stagger-1">First item</div>
+ */
+.animate-staggerFadeIn {
+  animation: staggerFadeIn 0.6s ease-out forwards;
+}
+
+/**
+ * Stagger Delay Utilities
+ * 
+ * @description Utility classes for creating staggered animation effects.
+ * These classes add incremental delays to create a cascading animation
+ * effect when applied to multiple elements.
+ * 
+ * **Usage Pattern:**
+ * - Apply base animation class (e.g., animate-staggerFadeIn)
+ * - Add stagger delay class (e.g., stagger-1, stagger-2)
+ * - Elements will animate in sequence with 0.1s intervals
+ * 
+ * @example
+ * ```html
+ * <div className="animate-staggerFadeIn stagger-1">First item</div>
+ * <div className="animate-staggerFadeIn stagger-2">Second item</div>
+ * <div className="animate-staggerFadeIn stagger-3">Third item</div>
+ * ```
+ */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/**
+ * Pill Hover Effects System
+ * 
+ * @description Advanced hover effect system for interactive pill buttons.
+ * Provides shimmer effects and smooth transitions for enhanced user experience.
+ * 
+ * **Features:**
+ * - Shimmer effect that sweeps across the element on hover
+ * - Hardware acceleration with will-change properties
+ * - Smooth transitions with optimized easing curves
+ * - Disabled shimmer effect for active elements
+ */
+
+/**
+ * Pill Hover Base Class
+ * 
+ * @description Base class for pill hover effects:
+ * - Sets up relative positioning for pseudo-element overlay
+ * - Enables hardware acceleration with will-change
+ * - Provides fast transition timing for responsive feel
+ * 
+ * @performance Uses will-change: transform for optimization
+ */
+.pill-hover {
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * Pill Hover Shimmer Effect
+ * 
+ * @description Creates a light sweep effect across the element:
+ * - Positioned absolutely to overlay the button
+ * - Gradient background for shimmer effect
+ * - Smooth transition with cubic-bezier easing
+ * - Optimized with will-change for performance
+ * 
+ * @animation Translates from -100% to 100% on hover
+ */
+.pill-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left;
+}
+
+/**
+ * Pill Hover Active State
+ * @description Triggers shimmer animation on hover
+ */
+.pill-hover:hover::before {
+  left: 100%;
+}
+
+/**
+ * Pill Hover Active Element Override
+ * @description Disables shimmer effect for active pills
+ */
+.pill-hover.active::before {
+  display: none;
+}
+
+/**
+ * Pill Hover Transform Effect
+ * @description Adds scale and translate effects for non-active pills
+ */
+.pill-hover:not(.active):hover {
+  transform: scale(1.08) translateY(-2px);
+}
+
+/**
+ * Content Transition System
+ * 
+ * @description Smooth transition system for content changes and page updates.
+ * Provides seamless visual feedback during content loading and category switching.
+ * 
+ * **Features:**
+ * - Smooth opacity and transform transitions
+ * - Optimized cubic-bezier easing for natural motion
+ * - State-based styling for loading and changing states
+ * - GPU-accelerated transforms for performance
+ */
+
+/**
+ * Content Transition Base Class
+ * 
+ * @description Base transition class for content containers:
+ * - Smooth transitions for all animatable properties
+ * - Cubic-bezier easing for natural motion feel
+ * - 0.4s duration for responsive but not rushed transitions
+ * 
+ * @usage Apply to containers that will have content changes
+ */
+.content-transition {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * Content Transition Changing State
+ * 
+ * @description Applied during content transitions to provide visual feedback:
+ * - Reduces opacity to indicate loading state
+ * - Subtle upward translation and scale reduction
+ * - Creates smooth transition between content states
+ * 
+ * @usage Temporarily applied during content loading
+ */
+.content-transition.changing {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+}
+
+/**
+ * Legacy Animation - Subtle Pulse
+ * 
+ * @description Legacy pulse animation with yellow accent (deprecated).
+ * Kept for backward compatibility but not actively used in current design.
+ * 
+ * @deprecated This animation uses the old yellow color scheme
+ * @todo Remove when confirming no dependencies exist
+ */
 @keyframes subtle-pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7);
@@ -51,17 +594,31 @@ body {
   }
 }
 
+/**
+ * Background Pattern System
+ * 
+ * @description Background styling for the main application area.
+ * Provides consistent background treatment across all pages.
+ * 
+ * **Design Notes:**
+ * - Uses offCream color for warm, comfortable reading experience
+ * - Removes any neural pattern imagery for clean, minimal design
+ * - Full opacity for solid background coverage
+ */
+
+/**
+ * Neural Pattern Background Class
+ * 
+ * @description Main background class for application pages:
+ * - Solid offCream background color (#F8F5EE)
+ * - No background image for clean, minimal aesthetic
+ * - Full opacity for consistent coverage
+ * 
+ * @usage Apply to main page containers and content areas
+ * @example <div className="bg-neural-pattern">Page content</div>
+ */
 .bg-neural-pattern {
-  background-color: #f8fafc;
-  background-image: radial-gradient(circle at center center, #f8fafc, #ffffff),
-    repeating-radial-gradient(
-      circle at center center, 
-      #f8fafc, 
-      #f8fafc, 
-      20px, 
-      transparent 40px, 
-      transparent 20px
-    );
-  background-blend-mode: multiply;
-  opacity: 0.95;
+  background-color: #F8F5EE; /* offCream - warm, comfortable background */
+  background-image: none;     /* Clean, minimal design without patterns */
+  opacity: 1;                 /* Full opacity for solid coverage */
 }
