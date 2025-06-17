@@ -90,7 +90,7 @@ export default function Header(): JSX.Element {
 
       {/* Join Community Button */}
       <Link
-        href="https://discord.gg/4CZ7RCwEvb"
+        href="https://discord.gg/VmkH5JfxMC"
         className="group relative inline-flex items-center gap-3 bg-offBlack hover:bg-gray3 text-white px-6 py-3 rounded-none font-medium font-sf-pro transition-all duration-300 ease-out hover:scale-105 transform-gpu shadow-md overflow-hidden"
         target="_blank"
         rel="noopener noreferrer"

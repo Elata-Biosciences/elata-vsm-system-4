@@ -167,7 +167,7 @@ async function AsyncNewsContent(): Promise<JSX.Element> {
         "query-input": "required name=search_term",
       },
       sameAs: [
-        "https://discord.gg/4CZ7RCwEvb",
+        "https://discord.gg/VmkH5JfxMC",
         "https://github.com/Elata-Biosciences",
         "https://www.linkedin.com/company/elata-biosciences",
         "https://x.com/Elata_Bio",

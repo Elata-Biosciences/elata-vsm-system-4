@@ -100,4 +100,4 @@ Please ensure your PR:
 
 ## Support
 
-Join our [Discord community](https://discord.gg/4CZ7RCwEvb) for support and discussions.
+Join our [Discord community](https://discord.gg/VmkH5JfxMC) for support and discussions.

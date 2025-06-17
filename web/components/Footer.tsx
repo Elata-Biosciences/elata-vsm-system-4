@@ -34,7 +34,7 @@ export default function Footer() {
   const socialLinks = [
     {
       icon: FaDiscord,
-      href: "https://discord.gg/4CZ7RCwEvb",
+      href: "https://discord.gg/VmkH5JfxMC",
       label: "Discord",
       color: "hover:text-[#5865F2]",
     },
@@ -203,7 +203,7 @@ export default function Footer() {
               {/* Button Container - equal width buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
                 <Link
-                  href="https://discord.gg/4CZ7RCwEvb"
+                  href="https://discord.gg/VmkH5JfxMC"
                   className="group relative inline-flex items-center gap-3 bg-offBlack hover:bg-gray3 text-white px-6 py-3 rounded-none font-medium font-sf-pro transition-all duration-300 hover:shadow-lg transform hover:scale-105 overflow-hidden justify-center"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -248,7 +248,7 @@ export default function Footer() {
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="flex flex-col sm:flex-row items-center gap-3 text-sm text-gray3 font-sf-pro">
-              <p>© 2024 Elata Biosciences. All rights reserved.</p>
+              <p>© 2025 Elata Biosciences. All rights reserved.</p>
               <div className="flex items-center">
                 <Link
                   href="https://elata.bio/contact"
@@ -281,7 +281,7 @@ export default function Footer() {
             foundingDate: "2023",
             industry: "Biotechnology",
             sameAs: [
-              "https://discord.gg/4CZ7RCwEvb",
+              "https://discord.gg/VmkH5JfxMC",
               "https://x.com/Elata_Bio",
               "https://www.linkedin.com/company/elata-biosciences",
               "https://github.com/Elata-Biosciences",
@@ -291,7 +291,7 @@ export default function Footer() {
             contactPoint: {
               "@type": "ContactPoint",
               contactType: "customer service",
-              url: "https://discord.gg/4CZ7RCwEvb",
+              url: "https://discord.gg/VmkH5JfxMC",
             },
           }),
         }}

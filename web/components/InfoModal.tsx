@@ -166,7 +166,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
             <div className="pt-8 border-t border-gray2/50">
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center max-w-lg mx-auto">
                 <Link
-                  href="https://discord.gg/4CZ7RCwEvb"
+                  href="https://discord.gg/VmkH5JfxMC"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-offBlack hover:bg-gray3 text-white px-6 py-3 rounded-none font-medium font-sf-pro transition-all duration-300 hover:shadow-lg transform hover:scale-105 min-w-[200px] overflow-hidden"

@@ -267,7 +267,7 @@ export default function NewsCategories({ initialData }: NewsCategoriesProps) {
                   {openMenuId === item.url && (
                     <div className="absolute right-0 top-full mt-2 bg-cream1/95 backdrop-blur-md border border-gray2/50 rounded-xl shadow-xl z-20 min-w-[140px] overflow-hidden animate-fadeInScale">
                       <Link
-                        href="https://discord.gg/4CZ7RCwEvb"
+                        href="https://discord.gg/VmkH5JfxMC"
                         className="flex items-center gap-3 px-5 py-4 text-offBlack hover:bg-gray2/40 transition-all duration-300 font-sf-pro font-medium text-sm border-b border-gray2/30 last:border-b-0"
                         target="_blank"
                         rel="noopener noreferrer"

@@ -16,7 +16,7 @@ Elata Biosciences is functioning as a Decentralized Autonomous Organization (DAO
 
 Elata Biosciences employs a democratic governance model where each token holder's voting power is directly proportional to their token holdings. Specifically, each $ELATA token represents one vote, ensuring that governance is distributed among all token holders based on their stake in the DAO. This one token, one vote system is guided by insights from our stewards and core teams, facilitating a community-driven approach where every token holder's voice is heard, proportional to their commitment to the DAO.
 
-You can learn more about us on our website [here](https://elata.bio), join our [Discord](https://discord.gg/4CZ7RCwEvb) to stay updated on our progress, or read the news provided by this system at [news.elata.bio](https://news.elata.bio).
+You can learn more about us on our website [here](https://elata.bio), join our [Discord](https://discord.gg/VmkH5JfxMC) to stay updated on our progress, or read the news provided by this system at [news.elata.bio](https://news.elata.bio).
 
 ## Inspiration for this Project (What is Viable System Model System 4?)
 
@@ -78,7 +78,7 @@ cd elata-vsm-system-4
 
 ## Contributing
 
-We welcome contributions! You can join our [Discord](https://discord.gg/4CZ7RCwEvb) to discuss ideas, ask questions, and contribute to the project.
+We welcome contributions! You can join our [Discord](https://discord.gg/VmkH5JfxMC) to discuss ideas, ask questions, and contribute to the project.
 
 All skill levels are welcome to contribute, and let us know if you need help getting started.
 
@@ -97,5 +97,5 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 <p align="center">
   <a href="https://elata.bio">Elata Biosciences</a> •
   <a href="https://twitter.com/Elata_Bio">Twitter</a> •
-  <a href="https://discord.gg/4CZ7RCwEvb">Discord</a>
+  <a href="https://discord.gg/VmkH5JfxMC">Discord</a>
 </p>

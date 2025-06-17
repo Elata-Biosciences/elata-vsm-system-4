@@ -362,7 +362,7 @@ export default function ShareModal({ isOpen, onClose, item }: ShareModalProps) {
               Read Full Article
             </Link>
             <Link
-              href="https://discord.gg/4CZ7RCwEvb"
+              href="https://discord.gg/VmkH5JfxMC"
               className="w-full inline-flex justify-center items-center gap-3 
                 bg-elataGreen hover:bg-elataGreen/90 text-white px-6 py-3 rounded-none
                 transform transition-all duration-300 ease-out
