@@ -6,15 +6,11 @@ View the live system at [news.elata.bio](https://news.elata.bio)
 
 Elata Biosciences is pioneering an open-source model at the intersection of blockchain and neuropsychiatry.
 
-Our mission is to create a decentralized, distributed, and open ecosystem that utilizes blockchain to capitalize drug development efforts in high-impact areas across psychiatry.
+Our mission is to create a decentralized, distributed, and open ecosystem that utilizes blockchain to capitalize development efforts in high-impact areas across the intersection of neuroscience and psychiatry.
 
-We aim to pursue opportunities in areas of high unmet patient need and assemble a collective of experts around the given area to create new solutions.
+Elata Biosciences is functioning as a Decentralized Autonomous Organization (DAO) and does not have a CEO or Board of Directors. Its members govern the organization through voting on governance proposals with our governance token. The token utilized for governance within Elata is the ERC-20 token, $ELTA. A person or organization verifiably holding at least one governance token becomes a member automatically.
 
-To achieve our goals, we consider the entire drug development pipeline from start to finish by utilizing novel or undervalued basic and applied science and translating these findings into real-world solutions for patients. Our iterative approach combines the power of working directly with patient communities and alternative governance structures that can finance these innovations.
-
-Elata Biosciences is functioning as a Decentralized Autonomous Organization (DAO) and does not have a CEO or Board of Directors. Its members govern the organization through voting on governance proposals with our governance token. The token utilized for governance within Elata is the ERC-20 token, $ELATA. A person or organization verifiably holding at least one governance token becomes a member automatically.
-
-Elata Biosciences employs a democratic governance model where each token holder's voting power is directly proportional to their token holdings. Specifically, each $ELATA token represents one vote, ensuring that governance is distributed among all token holders based on their stake in the DAO. This one token, one vote system is guided by insights from our stewards and core teams, facilitating a community-driven approach where every token holder's voice is heard, proportional to their commitment to the DAO.
+Elata Biosciences employs a democratic governance model where each token holder's voting power is directly proportional to their token holdings. Specifically, each $ELTA token represents one vote, ensuring that governance is distributed among all token holders based on their stake in the DAO. This one token, one vote system is guided by insights from our stewards and core teams, facilitating a community-driven approach where every token holder's voice is heard, proportional to their commitment to the DAO.
 
 You can learn more about us on our website [here](https://elata.bio), join our [Discord](https://discord.gg/VmkH5JfxMC) to stay updated on our progress, or read the news provided by this system at [news.elata.bio](https://news.elata.bio).
 
@@ -84,11 +80,10 @@ All skill levels are welcome to contribute, and let us know if you need help get
 
 ## Roadmap
 
-- [ ] Integration of more advanced AI models for analysis pending token launch
+- [ ] Integration of more advanced AI models for analysis
 - [ ] Integration with communities on Reddit, X, Farcaster, and Discord
 - [ ] Addition of more sources and keywords for scraping
 - [ ] Scrapping for more complex scientific and grey literature sources
-- [ ] Assistance in flagging information about new molecules, drugs, research, and devices for deal flow
 
 ## License
 
