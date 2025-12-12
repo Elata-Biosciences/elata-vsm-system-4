@@ -1163,4 +1163,240 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://thebiohacker.com/forums/whats-new/latest-activity",
     name: "The Biohacker",
   },
+  // Add / merge into your existing scraping sources.
+// You can also just copy the objects into your existing SCRAPING_SOURCES array.
+export const EXTRA_SOURCES = [
+  // ---------------------------------------------------------------------------
+  // ELATA / INTERNAL
+  // ---------------------------------------------------------------------------
+  { url: "https://news.elata.bio/", name: "Elata News – Main Feed" },
+  { url: "https://www.elata.bio/", name: "Elata – Main Site" },
+  { url: "https://www.elata.bio/ecosystem", name: "Elata – Ecosystem Overview" },
+  { url: "https://www.elata.bio/projects", name: "Elata – Projects in Development" },
+  { url: "https://www.elata.bio/elata-token", name: "Elata – ELTA Tokenomics" },
+  { url: "https://zorp.elata.bio/", name: "ZORP – Onchain Research Protocol App" },
+  { url: "https://www.elata.bio/ecosystem/zorp-protocol", name: "ZORP – Protocol Overview" },
+
+  // ---------------------------------------------------------------------------
+  // BCI / NEUROTECH COMPANIES, COMMUNITIES, DEV ECOSYSTEMS
+  // (High signal for open BCI + neurotech landscape)
+  // ---------------------------------------------------------------------------
+  { url: "https://openbci.com/community/", name: "OpenBCI – Community News & Posts" },
+  { url: "https://openbci.com/blogs/news", name: "OpenBCI – Blog & News" },
+
+  { url: "https://neurosity.co/blog", name: "Neurosity – Blog" },
+  { url: "https://www.neurotrackerx.com/blog", name: "NeuroTrackerX – Blog" },
+
+  { url: "https://neurotechx.com/", name: "NeuroTechX – Main Site" },
+  { url: "https://neurotechx.com/community/", name: "NeuroTechX – Community" },
+
+  { url: "https://neurotechjp.com/jp/blog", name: "NeurotechJP – Japanese Neurotech Blog" },
+
+  { url: "https://www.emotiv.com/", name: "EMOTIV – EEG Platform (News & Updates)" },
+
+  { url: "https://www.gtec.at/", name: "g.tec – Neurotechnology Main Site" },
+  { url: "https://www.gtec.at/news-events/", name: "g.tec – News & Events" },
+
+  { url: "https://www.blackrockneurotech.com/insights/", name: "Blackrock Neurotech – Insights & News" },
+
+  { url: "https://www.synchron.com/", name: "Synchron – Company Site & News" },
+
+  { url: "https://www.paradromics.com/news/", name: "Paradromics – News" },
+
+  { url: "https://precisionneuro.io/", name: "Precision Neuroscience – Company Site" },
+
+  { url: "https://www.cognixion.com/", name: "Cognixion – Company Site & Updates" },
+
+  { url: "https://kernel.co/blog", name: "Kernel – Brain Recording Blog" },
+
+  { url: "https://www.mindmaze.com/news/", name: "MindMaze – News" },
+
+  { url: "https://www.neuroelectrics.com/blog/", name: "Neuroelectrics – Blog" },
+
+  { url: "https://www.neuroelectrics.com/", name: "Neuroelectrics – Main Site" },
+
+  { url: "https://www.neuropace.com/news-and-events/", name: "NeuroPace – News & Events" },
+
+  { url: "https://www.nevro.com/English/news/default.aspx", name: "Nevro – Neuromodulation News" },
+
+  { url: "https://www.brainsway.com/news/", name: "BrainsWay – TMS News" },
+
+  // Consumer neuro / EEG & wellness with decent technical spillover
+  { url: "https://choosemuse.com/blog", name: "Muse – Brain-Sensing Headband Blog" },
+  { url: "https://www.myndspan.com/news", name: "MYndspan – Brain Health News" },
+
+  // ---------------------------------------------------------------------------
+  // BCI / NEUROTECH MEDIA & POLICY COVERAGE (THEMATIC TAGS, NOT GENERAL NEWS)
+  // ---------------------------------------------------------------------------
+  { url: "https://www.wired.com/tag/brain-computer-interface/", name: "WIRED – Brain-Computer Interface Tag" },
+  { url: "https://www.wired.com/tag/neuroscience/", name: "WIRED – Neuroscience Tag" },
+
+  { url: "https://www.theguardian.com/science/neuroscience", name: "The Guardian – Neuroscience" },
+  { url: "https://www.theguardian.com/world/series/neurotechnology", name: "The Guardian – Neurotechnology Coverage" },
+
+  { url: "https://www.nature.com/subjects/brain-computer-interfaces", name: "Nature – Brain-Computer Interfaces Topic" },
+  { url: "https://www.nature.com/collections/ahcajddaaf", name: "Nature – Conformable BCI/BMI Collection" },
+
+  { url: "https://www.science.org/journal/science?topic=neuroscience", name: "Science – Neuroscience Topic" },
+  { url: "https://www.science.org/topic/neuroscience", name: "Science – Neuroscience Topic Hub" },
+
+  { url: "https://www.technologyreview.com/topic/biomedicine/neuroscience/", name: "MIT Tech Review – Neuroscience" },
+  { url: "https://www.technologyreview.com/topic/computing/artificial-intelligence/brain-computer-interfaces/", name: "MIT Tech Review – BCI Coverage" },
+
+  { url: "https://www.statnews.com/tag/brain-computer-interfaces/", name: "STAT News – Brain-Computer Interfaces" },
+  { url: "https://www.statnews.com/tag/neuroscience/", name: "STAT News – Neuroscience" },
+
+  // ---------------------------------------------------------------------------
+  // ACADEMIC & RESEARCH: BCI / NEUROTECH / NEUROSCIENCE
+  // ---------------------------------------------------------------------------
+  { url: "https://pubmed.ncbi.nlm.nih.gov/?term=brain-computer+interface", name: "PubMed – Brain-Computer Interface Search" },
+  { url: "https://pubmed.ncbi.nlm.nih.gov/?term=neurotechnology", name: "PubMed – Neurotechnology Search" },
+
+  { url: "https://arxiv.org/search/?query=brain+computer+interface&searchtype=all&source=header", name: "arXiv – Brain-Computer Interface Search" },
+  { url: "https://arxiv.org/search/?query=neurotechnology&searchtype=all&source=header", name: "arXiv – Neurotechnology Search" },
+
+  { url: "https://iopscience.iop.org/journal/1741-2552", name: "Journal of Neural Engineering – IOPscience" },
+  { url: "https://www.tandfonline.com/journals/tbci20", name: "Brain-Computer Interfaces Journal – Taylor & Francis" },
+
+  { url: "https://www.frontiersin.org/journals/neuroscience", name: "Frontiers in Neuroscience – Journal" },
+  { url: "https://www.frontiersin.org/journals/human-neuroscience", name: "Frontiers in Human Neuroscience – Journal" },
+  { url: "https://www.frontiersin.org/journals/neuroinformatics", name: "Frontiers in Neuroinformatics – Journal" },
+
+  { url: "https://www.cell.com/neuron/home", name: "Neuron – Journal Home" },
+  { url: "https://www.cell.com/trends/neurosciences/home", name: "Trends in Neurosciences – Journal Home" },
+
+  { url: "https://www.sciencedirect.com/search?qs=%22brain-computer%20interface%22", name: "ScienceDirect – BCI Search" },
+
+  // ---------------------------------------------------------------------------
+  // GLOBAL BRAIN PROJECTS, BRAIN INITIATIVES & INFRASTRUCTURES
+  // ---------------------------------------------------------------------------
+  { url: "https://www.braininitiative.nih.gov/", name: "US BRAIN Initiative – Main Site & News" },
+  { url: "https://www.nih.gov/news-events/nih-research-matters", name: "NIH – Research Matters News" },
+  { url: "https://www.ninds.nih.gov/news-events/news", name: "NIH NINDS – News & Events" },
+  { url: "https://www.nimh.nih.gov/news", name: "NIH NIMH – News" },
+
+  { url: "https://ebrains.eu/news-and-events/news-and-press-releases", name: "EBRAINS – News & Press Releases" },
+  { url: "https://ebrains.eu/news-and-events", name: "EBRAINS – News & Events Hub" },
+
+  { url: "https://www.internationalbraininitiative.org/", name: "International Brain Initiative – Site & News" },
+
+  // China / East Asia – English-facing science / brain / neurotech news
+  { url: "https://english.cas.cn/newsroom/research_news/", name: "Chinese Academy of Sciences – Research News" },
+  { url: "https://english.cas.cn/newsroom/newsreleases/", name: "Chinese Academy of Sciences – News Releases" },
+
+  { url: "https://cbs.riken.jp/en/news/", name: "RIKEN Center for Brain Science – News" },
+
+  // Russia / Europe – research-heavy but not exclusively neuro
+  { url: "https://www.hse.ru/en/news/science/", name: "HSE (Russia) – Science News" },
+  { url: "https://www.skoltech.ru/en/news/", name: "Skoltech – News" },
+
+  // ---------------------------------------------------------------------------
+  // REGULATORS & PUBLIC AGENCIES (NEURO / MED DEVICES / FUNDING)
+  // ---------------------------------------------------------------------------
+  { url: "https://www.fda.gov/news-events/press-announcements", name: "US FDA – Press Announcements" },
+  { url: "https://www.fda.gov/medical-devices/news-events-medical-devices", name: "US FDA – Medical Devices News" },
+
+  { url: "https://www.ema.europa.eu/en/news-events", name: "EMA – News & Events" },
+
+  { url: "https://www.nih.gov/news-events/news-releases", name: "NIH – News Releases" },
+  { url: "https://www.nsf.gov/news", name: "NSF – News" },
+
+  { url: "https://www.ukri.org/news/", name: "UKRI – News" },
+  { url: "https://www.nihr.ac.uk/news", name: "NIHR – News" },
+
+  { url: "https://wellcome.org/news", name: "Wellcome Trust – News" },
+  { url: "https://www.chanzuckerberg.com/newsroom", name: "Chan Zuckerberg Initiative – Newsroom" },
+
+  { url: "https://www.unesco.org/en/news", name: "UNESCO – News (Neurotech Ethics / Neural Data)" },
+
+  // ---------------------------------------------------------------------------
+  // CLINICAL TRIALS, PATENTS, REGULATORY PIPELINE SIGNALS
+  // ---------------------------------------------------------------------------
+  {
+    url: "https://clinicaltrials.gov/ct2/results?cond=&term=brain-computer+interface",
+    name: "ClinicalTrials.gov – Brain-Computer Interface Trials",
+  },
+  {
+    url: "https://clinicaltrials.gov/ct2/results?cond=&term=neurotechnology",
+    name: "ClinicalTrials.gov – Neurotechnology Trials",
+  },
+
+  {
+    url: "https://patents.google.com/?q=%22brain-computer+interface%22",
+    name: "Google Patents – Brain-Computer Interface Search",
+  },
+  {
+    url: "https://patents.google.com/?q=EEG+neurofeedback",
+    name: "Google Patents – EEG Neurofeedback Search",
+  },
+
+  {
+    url: "https://patentscope.wipo.int/search/en/search.jsf?query=%22brain-computer+interface%22",
+    name: "WIPO Patentscope – Brain-Computer Interface Search",
+  },
+
+  // ---------------------------------------------------------------------------
+  // DESCi, CRYPTO, PUBLIC GOODS FUNDING, TOKEN ECONOMICS
+  // ---------------------------------------------------------------------------
+  { url: "https://vitalik.ca/", name: "Vitalik Buterin – Blog (Public Goods / Mechanism Design)" },
+  { url: "https://blog.ethereum.org/", name: "Ethereum Foundation – Blog" },
+  { url: "https://ethresear.ch/", name: "Ethereum Research – Forum" },
+
+  { url: "https://www.optimism.io/blog", name: "Optimism – Retroactive Public Goods & Funding Blog" },
+  { url: "https://www.gitcoin.co/blog", name: "Gitcoin – Public Goods Funding Blog" },
+
+  { url: "https://research.paradigm.xyz/", name: "Paradigm – Crypto Research (Game Theory, Mechanism Design)" },
+  { url: "https://www.radicalxchange.org/media/", name: "RadicalxChange – Media & Essays (Quadratic Funding etc.)" },
+
+  { url: "https://vitadao.com/blog", name: "VitaDAO – Longevity / DeSci Blog" },
+  { url: "https://molecule.to/blog", name: "Molecule – DeSci & Biotech Funding Blog" },
+
+  { url: "https://www.desci.world/", name: "DeSci World – Ecosystem & Updates" },
+  { url: "https://www.desci.london/", name: "DeSci London – Event & Ecosystem Hub" },
+
+  // General econ / public finance & science funding structure
+  { url: "https://www.nber.org/topics/public-economics", name: "NBER – Public Economics Topic" },
+  { url: "https://www.nber.org/topics/health-economics", name: "NBER – Health Economics Topic" },
+
+  { url: "https://voxeu.org/", name: "VoxEU – Policy / Public Economics Commentary" },
+
+  // ---------------------------------------------------------------------------
+  // GITHUB – ELATA & OPEN-SOURCE NEUROTECH / EEG STACKS
+  // (Scraper just sees HTML list of commits / releases; GPT can lift dates + titles)
+  // ---------------------------------------------------------------------------
+  { url: "https://github.com/Elata-Biosciences", name: "GitHub – Elata Biosciences Org Overview" },
+  { url: "https://github.com/Elata-Biosciences/elata-vsm-system-4/commits", name: "Elata VSM System 4 – Commits" },
+  { url: "https://github.com/Elata-Biosciences/elata-eeg/commits", name: "Elata EEG – Commits" },
+  { url: "https://github.com/Elata-Biosciences/zorp/commits", name: "ZORP – Commits" },
+
+  // Add al other elata repos here
+  { url: "https://github.com/Elata-Biosciences/elata-protocol/commits", name: "Elata Protocol – Commits" },
+
+
+  { url: "https://github.com/OpenBCI", name: "GitHub – OpenBCI Org Overview" },
+  { url: "https://github.com/OpenBCI/OpenBCI_GUI/commits", name: "OpenBCI GUI – Commits" },
+  { url: "https://github.com/OpenBCI/OpenBCI_Hardware/commits", name: "OpenBCI Hardware – Commits" },
+
+  { url: "https://github.com/brainflow-dev/brainflow/commits", name: "BrainFlow – Commits" },
+
+  { url: "https://github.com/mne-tools/mne-python/commits", name: "MNE-Python – Commits" },
+  { url: "https://github.com/mne-tools/mne-bids/commits", name: "MNE-BIDS – Commits" },
+
+  { url: "https://github.com/NeuroTechX", name: "GitHub – NeuroTechX Org Overview" },
+
+  { url: "https://github.com/OpenBCI/OpenBCI_Library/commits", name: "OpenBCI Library – Commits" },
+
+  // ---------------------------------------------------------------------------
+  // MISC HIGH-SIGNAL NEURO / BCI / ETHICS SOURCES
+  // ---------------------------------------------------------------------------
+  { url: "https://www.incf.org/news", name: "INCF – Neuroinformatics News" },
+  { url: "https://www.ieee-brain.org/news/", name: "IEEE Brain – News" },
+
+  { url: "https://royalsociety.org/topics-policy/projects/brain-waves/", name: "Royal Society – Brain Waves / Neuro Policy" },
+
+  { url: "https://www.neuroethics.upenn.edu/news", name: "Penn Center for Neuroscience & Society – Neuroethics News" },
+
+  { url: "https://www.thelancet.com/journals/laneur/issue/current", name: "The Lancet Neurology – Current Issue" },
+  { url: "https://www.thelancet.com/journals/lanpsy/issue/current", name: "The Lancet Psychiatry – Current Issue" },
+
 ];
