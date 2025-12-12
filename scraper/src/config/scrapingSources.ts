@@ -1163,9 +1163,6 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     url: "https://thebiohacker.com/forums/whats-new/latest-activity",
     name: "The Biohacker",
   },
-  // Add / merge into your existing scraping sources.
-// You can also just copy the objects into your existing SCRAPING_SOURCES array.
-export const EXTRA_SOURCES = [
   // ---------------------------------------------------------------------------
   // ELATA / INTERNAL
   // ---------------------------------------------------------------------------
