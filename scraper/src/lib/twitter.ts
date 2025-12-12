@@ -166,6 +166,11 @@ const convertTweetsToCSV = (tweets: TweetV2[]): string => {
  * @returns The articles
  */
 export const loadGPTEnrichedTwitterData = async (): Promise<Article[]> => {
+  if (!CONFIG.TWITTER.ENABLED) {
+    console.log("Twitter ingestion disabled via config.");
+    return [];
+  }
+
   const yesterday = getYesterdayDate();
 
   // Check if we already have data for yesterday

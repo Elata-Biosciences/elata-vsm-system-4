@@ -21,8 +21,17 @@ export const QUERIES = [
   // Hardware & Neuroimaging (Specific technologies)
   `"Brain-computer interface" OR "Neural interface" OR "fMRI depression" OR "PET imaging psychiatry" OR "Neuroimaging biomarkers" OR "MEG psychiatry" OR "DTI depression" OR "Neurolink" OR "Kernel" OR "Synchron" OR "Closed-loop neural" OR "Brain stimulation depression" OR "Optogenetics psychiatry" OR "NIRS imaging psychiatry"`,
 
+// Hardware & Neuroimaging (BCI / open neurotech expansion)
+`"open source EEG" OR "brain computer interface hardware" OR "EEG headset" OR "EEG decoding algorithm" OR "non-invasive BCI" OR "fNIRS brain computer interface" OR "EEG signal processing" OR "edge computing EEG" OR "WebUSB EEG" OR "Raspberry Pi EEG"`,
+
+// BCI Companies / Ecosystem
+`"Neuralink" OR "OpenBCI" OR "Blackrock Neurotech" OR "Synchron" OR "Paradromics" OR "Neurosity" OR "NextMind" OR "Emotiv" OR "Muse EEG" OR "Cognixion"`,
+
   // DeSci & Web3 (Specific to science DAOs)
   `"DeSci" OR "VitaDAO" OR "PsyDAO" OR "LabDAO" OR "Bio.xyz" OR "IP-NFT" OR "Science DAO" OR "Research DAO" OR "CerebrumDAO" OR "AthenaDAO" OR "Zuzalu" OR "Molecule Protocol" OR "DeSci Labs" OR "ResearchHub" OR "OpenCures" OR "DeSci Foundation" OR "Blockchain research" OR "quadratic voting" OR "Tokenomics" OR "Holographic Consensus"`,
+
+// DeSci & data governance (neuro/health)
+`"data trust health privacy" OR "DeSci EEG" OR "tokenized research" OR "privacy preserving health data" OR "ZK proofs health data" OR "DeSci neurotechnology"`,
 
   // Biomarkers & Mechanisms (Specific to psychiatric mechanisms)
   `"GABA depression" OR "Serotonin anxiety" OR "Dopamine anhedonia" OR "HPA axis stress" OR "Neuroinflammation depression" OR "Gut-brain psychiatry" OR "Microbiome depression" OR "Synaptic plasticity depression" OR "Neural oscillations anxiety" OR "Default mode network" OR "Salience network psychiatry"`,
@@ -31,7 +40,7 @@ export const QUERIES = [
   `"Dont die" OR "Biohacking" OR "Zuzalu" OR "Oxytocin" OR "Lions Mane" OR "Methylene blue" OR "infrared" OR "Quadratic Voting" OR "Tokenized research" OR "Smart Contracts" OR "Smart Drugs" OR "On-chain governance" OR "Red light therapy" OR "Mitochondrial function" OR "Near infrared" OR "Sauna" OR "Cold exposure" OR "Circadian rhythm" OR "Peak performance" OR "Flow state"`,
 
   // Off Topic Curiosities 2
-  `"solidity" OR "cryptography" OR "HIPAA" OR "NIH" OR "NIMH" OR "Vitalik" OR "Zuzalu" OR "Don’t Die" OR "Longevity" OR "nootropic" OR "peptides" OR "Brain Computer Interface" OR "fNIRS" OR "Psycedelics" OR "weight lighting" OR "exercise" OR "stem cells" OR "hyperbaric" OR "diffusion model" OR "DIY" OR "Raspberry Pi" OR "Arduino"  OR "Remote Viewing" OR "Meditation"`,
+`"solidity" OR "cryptography" OR "HIPAA" OR "NIH" OR "NIMH" OR "Vitalik" OR "Zuzalu" OR "Don’t Die" OR "Longevity" OR "nootropic" OR "peptides" OR "Psycedelics" OR "weight lighting" OR "exercise" OR "stem cells" OR "hyperbaric" OR "diffusion model" OR "DIY" OR "Raspberry Pi" OR "Arduino"  OR "Remote Viewing" OR "Meditation"`,
 
   // Off Topic Curiosities 3
   `"healthcare" OR "Biotech" OR "Open Source" OR "web3" OR "Mental health" OR "cognitive behavioral therapy" OR "APA" OR "DSM-5" OR "breakthwork" OR "biomarker" OR "Solana" OR "zkSync" OR "Base" OR "Eliptic Curve"`,

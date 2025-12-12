@@ -79,11 +79,13 @@ const loadGPTSummaryFromCombinedData = async (
       });
     });
 
-    twitter.map((article) => {
-      (
-        summaryOutput[article.category as keyof SummaryOutput] as Article[]
-      ).push(article);
-    });
+    if (CONFIG.TWITTER.ENABLED && twitter.length > 0) {
+      twitter.map((article) => {
+        (
+          summaryOutput[article.category as keyof SummaryOutput] as Article[]
+        ).push(article);
+      });
+    }
 
     reddit.map((result) => {
       result.articles.map((article) => {
@@ -128,7 +130,9 @@ const loadGPTSummaryFromCombinedData = async (
  * @returns {Promise<{ stories: Story[], scrapingResults: ScrapingOutput[] }>}
  */
 const loadCombinedData = async () => {
-  const twitter = await loadGPTEnrichedTwitterData();
+  const twitter = CONFIG.TWITTER.ENABLED
+    ? await loadGPTEnrichedTwitterData()
+    : [];
   const reddit = await loadRedditPosts();
   const stories = await getStoriesFromQueries(QUERIES);
   const scraped = await scrapeWebsites();

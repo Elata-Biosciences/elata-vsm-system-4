@@ -164,12 +164,36 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     name: "arXiv Systems and Control",
   },
   {
+    url: "https://arxiv.org/list/eess.BM/recent",
+    name: "arXiv Biomedical Engineering",
+  },
+  {
+    url: "https://arxiv.org/list/eess.SP/recent",
+    name: "arXiv Signal Processing",
+  },
+  {
+    url: "https://arxiv.org/list/cs.HC/recent",
+    name: "arXiv Human-Computer Interaction",
+  },
+  {
     url: "https://pubmed.ncbi.nlm.nih.gov/?term=precision+psychiatry&sort=date",
     name: "PubMed Precision Psychiatry",
   },
   {
     url: "https://pubmed.ncbi.nlm.nih.gov/?term=Brain+Computer+Interface&sort=date",
     name: "PubMed Brain Computer Interface",
+  },
+  {
+    url: "https://pubmed.ncbi.nlm.nih.gov/?term=EEG&sort=date",
+    name: "PubMed EEG",
+  },
+  {
+    url: "https://pubmed.ncbi.nlm.nih.gov/?term=fNIRS&sort=date",
+    name: "PubMed fNIRS",
+  },
+  {
+    url: "https://pubmed.ncbi.nlm.nih.gov/?term=rPPG&sort=date",
+    name: "PubMed rPPG",
   },
   {
     url: "https://elifesciences.org/",
@@ -492,6 +516,18 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
     name: "Neuralink Blog",
   },
   {
+    url: "https://openbci.com/blog",
+    name: "OpenBCI Blog",
+  },
+  {
+    url: "https://medium.com/neurotechx",
+    name: "NeuroTechX Medium",
+  },
+  {
+    url: "https://blackrockneurotech.com/news/",
+    name: "Blackrock Neurotech News",
+  },
+  {
     url: "https://www.massgeneral.org/psychiatry/news",
     name: "Mass General Psychiatry News",
   },
@@ -698,6 +734,10 @@ export const SCRAPING_SOURCES: ScrapingSource[] = [
   {
     url: "https://www.asimov.press/",
     name: "Asimov Press",
+  },
+  {
+    url: "https://neurotechnology.substack.com",
+    name: "Neurotech Insider Substack",
   },
   {
     url: "https://substack.com/search/hyperbaric?searching=all_posts",

@@ -11,6 +11,10 @@ export const CONFIG = {
     TOKEN: String(process.env.TWITTER_TOKEN) || "",
     DELAY_BETWEEN_REQUESTS:
       Number(process.env.TWITTER_DELAY_BETWEEN_REQUESTS) || 100_000,
+    ENABLED:
+      process.env.TWITTER_ENABLED === "true" ||
+      process.env.TWITTER_ENABLED === "1" ||
+      false,
   },
   NEWS_API: {
     KEY: String(process.env.NEWS_API_KEY) || "",
@@ -50,12 +54,20 @@ export const CONFIG = {
 
 // Warn if config is not set correctly
 Object.entries(CONFIG).map(([key, value]) => {
-  // If any nested leaf is not a string or a number print a warning
-  if (typeof value !== "string" && typeof value !== "number") {
+  // If any nested leaf is not a string, number, or boolean print a warning
+  if (
+    typeof value !== "string" &&
+    typeof value !== "number" &&
+    typeof value !== "boolean"
+  ) {
     // Check if there's a second layer nested object
     if (typeof value === "object" && value !== null) {
       Object.entries(value).map(([subKey, subValue]) => {
-        if (typeof subValue !== "string" && typeof subValue !== "number") {
+        if (
+          typeof subValue !== "string" &&
+          typeof subValue !== "number" &&
+          typeof subValue !== "boolean"
+        ) {
           console.warn(`${subKey} is not set correctly in ${key}`);
         }
         if (subValue === "") {

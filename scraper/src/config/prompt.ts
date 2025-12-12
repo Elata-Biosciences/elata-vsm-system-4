@@ -12,15 +12,16 @@ Mission Focus:
 
 Elata is focused on:
 
+- Open-source neurotechnology and brain-computer interfaces (BCIs), including EEG and other non-invasive signals
+- Building a Brain Operating System / Internet-of-Brains stack (hardware abstraction, signal processing, neuro-profiles, app ecosystems)
 - Accelerating computational neuroscience
 - New small molecule antidepressants and anxiolytics
 - Neuroimaging
 - Precision psychiatry
-- Brain-computer interfaces
 - Biohacking mental health
 - DeSci, DAOs, crypto, decentralized science and governance
 
-Elata is mainly interested in Depression, Anxiety disorders, PTSD, Panic Disorders, and also other DSM disorders, but also other mental health disorders related to precision psychiatry and computational neuroscience.
+Elata is interested in all aspects of neuroscience and biotechnology, but our main focus is on neurotechnology and brain-computer interfaces (BCIs), including EEG and other non-invasive signals. Open-source is preferred when available, but proprietary neurotech is also in scope.
 
 Your main focus should be on relevant scholarly articles related to our mission, as well as financial news from key companies in the space. You may also include news from other sources, but your main focus should be on the aforementioned.
 
@@ -32,9 +33,10 @@ The relevance score (0.000 to 1.000) should be calculated based on the following
 
 1. Core Topic Match (0.4 points max):
    Primary Category Scoring:
-   - Direct match to Elata's primary focus areas (depression, anxiety, computational neuroscience): 0.4
-   - Related mental health conditions: 0.3
-   - General neuroscience: 0.2
+   - Direct match to Elata's primary focus areas: 0.4
+   - General neuroscience: 0.3
+   - General mental health: 0.1
+   - General biotechnology: 0.1
    - Tangentially related topics: 0.1
 
    Cross-Category Consideration:
@@ -72,7 +74,7 @@ Example Scenarios:
   * Impact: 0.2 (significant improvement) + 0.05 (application bonus)
   * Total: 0.750
 
-- A breakthrough in depression treatment:
+- A breakthrough in neurotechnology (open or proprietary):
   * Core: 0.4 (direct match)
   * Depth: 0.3 (peer-reviewed)
   * Impact: 0.3 (breakthrough)
@@ -99,11 +101,11 @@ Research News:
 
 Industry News:
 - News from key companies in the space, including financial news, funding news, and other news.
-- Some key things to look for might be biotech funding, Patents, IP, news about pharmaceutical companies, or new drug development platforms.
-- This should only really be Pharma news. Industry news related to crypto goes in the DeSci, DAOs, Crypto category
+- Some key things to look for might be biotech funding, Patents, IP, news about pharmaceutical companies, or other news about the industry.
+- This should only really be industry news related to neuroscience and biotechnology. Industry news related to crypto goes in the DeSci, DAOs, Crypto category
 - This shouldn't contain any crypto news and general tech industry news should be less important and highly relevant if included at all 
 
-Biohacking Mental Health:
+Biohacking Mental Health and Experimental Treatments and other non-mainstream treatments:
 - News related to biohacking and mental health, including supplements, diets, peptides,and other natural remedies.
 - Interesting biohacks that are not mainstream yet, but have a good signal to noise ratio.
 - This might include things like new research into psychedelics, nootropics, and other natural substances.
@@ -116,11 +118,13 @@ Biohacking Mental Health:
 Computational & Precision Psychiatry:
 - News related to computational psychiatry and precision psychiatry, including machine learning, AI, and other related technologies.
 - Computational biology, bioinformatics, and other related fields relevant to other types of precision medicine may also be considered if tangential to Elata's mission
-- The main emphasis should be on computational psychiatry, but other related fields are also welcome, and this is the best place for papers from those fields
+- The main emphasis should be on computational psychiatry, but other related fields are also welcome, including computational neuroscience and signal analysis relevant to mental health or BCI; this is the best place for papers from those fields
 
 Hardware, Neuroimaging, BCIs:
-- Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware
-- The main focus should be on Neuroimaging, BCI, physcal devices over general hardware news
+- Primary focus: Brain-computer interfaces, neuroimaging devices, and neurotechnology hardware (device-agnostic platforms; open-source when available, but proprietary neurotech is also relevant)
+- The main focus should be on BCI and neuroimaging innovations and physical devices over general hardware news
+- Other hardware news that is relevant to Elata's mission should also be included here.
+- Non neurotech hardware can be included if relevant for good signal to noise ratio.
 - Also include:
   * Medical devices for mental health monitoring or treatment
   * Wearable technology with brain/mental health applications
@@ -139,7 +143,6 @@ DeSci, DAOs, Crypto:
 - The top focus should be on DeSci, followed by DAOs, followed by other decentralized and open science projects, followed by news around crypto governance, followed by high quality crypto news, followed by other crypto news.
 - News related to general crypto currency should only go in this category
 - Articles with on-topic DeSci news should always be ranked above 0.9
-- Prioritize latest DeSci updates from Twitter/X.com over other sources
 
 Off Topic Curiosities:
 - The main emphasis should be off topic things that are stakeholders (tokenholders, researchers, scientists, etc.) would get a kick out of reading and find very interesting
@@ -154,6 +157,7 @@ Off Topic Curiosities:
   * Scientific communication and collaboration
   * Open science initiatives
   * Emerging research paradigms
+  * General things people interested in Elata would like or find interesting even if not directly relevant to Elata's mission
 `;
 
 /**
@@ -319,6 +323,13 @@ Instructions:
 - When including tangentially related articles to meet the minimum requirement, clearly explain the relevance in the description
 - The output will be written directly to a JSON file, so it must be valid JSON
 - If you cannot find 5 directly relevant articles for a category, you MUST include tangentially related articles to reach the minimum of 5
+
+Ranking priorities (apply when choosing which articles to keep if space is limited):
+1) Direct relevance to neurotechnology, EEG/BCIs, or device-agnostic brain data pipelines (open-source preferred when available; proprietary still in scope)
+2) Actionability for Elata (open-source code/datasets/schematics; methods usable with consumer EEG/non-invasive devices; designs that inform hardware abstraction or signal processing)
+3) Strategic relevance for DeSci/DAO neuro ecosystems (funding, governance, data trusts, regulatory moves)
+4) Depth and quality (peer-reviewed/preprints with real results over hype; technical detail over vague claims)
+5) If ties: prefer newer items, more open/reproducible resources, and BCI/neurotech over general mental health lifestyle pieces
 
 IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission and not hallucinating.
 
