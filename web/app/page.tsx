@@ -157,7 +157,7 @@ async function AsyncNewsContent(): Promise<JSX.Element> {
         url: "https://elata.bio",
         logo: {
           "@type": "ImageObject",
-          url: "https://news.elata.bio/logo.png",
+          url: "https://news.elata.bio/logo.svg",
         },
       },
       inLanguage: "en",
