@@ -1,4 +1,4 @@
-import { Ok, Err, type Result } from "./result";
+import { Ok, Err, type Result } from "./result.js";
 
 /** Configuration for retry behavior */
 export interface RetryConfig {

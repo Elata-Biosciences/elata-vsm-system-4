@@ -220,7 +220,7 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
     // Save checkpoint after each source
     if (checkpoint) {
       try {
-        checkpoint.save("scrape", yesterday, results);
+        checkpoint.save(yesterday, "scrape", results);
       } catch {
         // Non-fatal
       }

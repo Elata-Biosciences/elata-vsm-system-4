@@ -10,8 +10,11 @@ const PHASE_ORDER: Record<PipelinePhase, number> = {
   scrape: 0,
   gpt: 1,
   enrich: 2,
-  embed: 3,
-  final: 4,
+  moderate: 3,
+  embed: 4,
+  audio: 5,
+  podcast: 6,
+  final: 7,
 };
 
 export interface CheckpointManager {
@@ -67,7 +70,7 @@ export const createCheckpointManager = (baseDir: string): CheckpointManager => {
       const files = readdirSync(baseDir);
       const prefix = `${date}_`;
       return files
-        .map((f) => (typeof f === "string" ? f : f.toString()))
+        .map((f) => String(f))
         .filter((f) => f.startsWith(prefix) && f.endsWith(".json"))
         .map((f) => f.replace(prefix, "").replace(".json", "") as PipelinePhase)
         .filter((phase) => PIPELINE_PHASES.includes(phase))

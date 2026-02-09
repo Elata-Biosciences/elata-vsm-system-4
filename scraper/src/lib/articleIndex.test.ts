@@ -6,7 +6,7 @@ import {
   filterByDateRange,
   filterBySource,
   type ArticleIndex,
-} from "./articleIndex";
+} from "./articleIndex.js";
 import type { Article } from "@elata/shared-types";
 
 const makeArticle = (overrides: Partial<Article> = {}): Article => ({
@@ -28,7 +28,7 @@ describe("buildArticleIndex", () => {
     const articles = [
       makeArticle({ id: "a1", tags: ["eeg"], source: "Nature" }),
       makeArticle({ id: "a2", tags: ["bci", "eeg"], source: "Science" }),
-      makeArticle({ id: "a3", tags: ["depression"], source: "Nature" }),
+      makeArticle({ id: "a3", tags: ["neurofeedback"], source: "Nature" }),
     ];
     const index = buildArticleIndex(articles);
     expect(index.all.length).toBe(3);
@@ -90,7 +90,7 @@ describe("searchArticles", () => {
 
 describe("filterByTags", () => {
   const articles = [
-    makeArticle({ id: "a1", tags: ["eeg", "depression"] }),
+    makeArticle({ id: "a1", tags: ["eeg", "neurofeedback"] }),
     makeArticle({ id: "a2", tags: ["bci", "neural-interfaces"] }),
     makeArticle({ id: "a3", tags: ["eeg", "bci"] }),
   ];
@@ -102,7 +102,7 @@ describe("filterByTags", () => {
   });
 
   it("filters by multiple tags (OR logic)", () => {
-    const results = filterByTags(index, ["depression", "neural-interfaces"]);
+    const results = filterByTags(index, ["neurofeedback", "neural-interfaces"]);
     expect(results.length).toBe(2);
   });
 

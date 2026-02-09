@@ -3,7 +3,7 @@ import {
   validateGptArticleResponse,
   validateGptTagResponse,
   validateGptSummaryResponse,
-} from "./gptValidator";
+} from "./gptValidator.js";
 
 describe("validateGptArticleResponse", () => {
   it("accepts valid article array", () => {

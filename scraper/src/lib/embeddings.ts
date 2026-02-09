@@ -54,7 +54,7 @@ const chunk = <T>(arr: T[], size: number): T[][] => {
 const generateBatchEmbeddings = async (
   texts: string[],
 ): Promise<Result<number[][], Error>> => {
-  const result = await embeddingCircuitBreaker.execute(async () => {
+  const result = await embeddingCircuitBreaker.execute<number[][]>(async () => {
     const retryResult = await withRetry(
       async () => {
         const response = await openAIClient.embeddings.create({

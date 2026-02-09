@@ -111,7 +111,7 @@ const extractContent = async (url: string): Promise<Result<ExtractedContent, Err
       content: article.content || "",
       textContent,
       excerpt: article.excerpt || textContent.slice(0, 300),
-      byline: article.byline,
+      byline: article.byline ?? null,
       wordCount,
     });
   } catch (error) {

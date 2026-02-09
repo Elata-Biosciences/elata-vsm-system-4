@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { withRetry, type RetryConfig } from "./retry";
+import { withRetry, type RetryConfig } from "./retry.js";
 
 describe("withRetry", () => {
   const defaultConfig: RetryConfig = {

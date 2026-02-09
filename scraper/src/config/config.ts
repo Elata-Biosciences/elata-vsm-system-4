@@ -97,7 +97,7 @@ Object.entries(CONFIG).map(([key, value]) => {
     } else {
       console.warn(`Invalid key in config: ${key}`);
     }
-  } else if (typeof value === "string" && value === "") {
+  } else if (typeof value === "string" && (value as string) === "") {
     // If it's a string, make sure that the value is not an empty string
     console.warn(`${key} is not set correctly in config`);
   }

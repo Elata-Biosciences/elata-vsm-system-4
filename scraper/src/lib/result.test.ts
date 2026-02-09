@@ -11,7 +11,7 @@ import {
   tryCatch,
   tryCatchAsync,
   type Result,
-} from "./result";
+} from "./result.js";
 
 describe("Ok", () => {
   it("creates a successful result", () => {
@@ -57,7 +57,7 @@ describe("isOk / isErr", () => {
 
 describe("mapResult", () => {
   it("maps Ok values", () => {
-    const result = mapResult(Ok(5), (x) => x * 2);
+    const result = mapResult(Ok(5), (x: number) => x * 2);
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.data).toBe(10);
   });
@@ -72,7 +72,7 @@ describe("mapResult", () => {
 
 describe("mapErr", () => {
   it("maps Err values", () => {
-    const result = mapErr(Err("error"), (e) => `wrapped: ${e}`);
+    const result = mapErr(Err("error"), (e: string) => `wrapped: ${e}`);
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe("wrapped: error");
   });
@@ -86,18 +86,19 @@ describe("mapErr", () => {
 
 describe("flatMap", () => {
   it("chains Ok results", () => {
-    const result = flatMap(Ok(5), (x) => Ok(x * 2));
+    const result = flatMap(Ok(5), (x: number) => Ok(x * 2));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.data).toBe(10);
   });
 
   it("short-circuits on Err", () => {
-    const result = flatMap(Err(new Error("first")), (_x: number) => Ok(42));
+    const err: Result<number, Error> = Err(new Error("first"));
+    const result = flatMap(err, (_x: number) => Ok(42));
     expect(result.ok).toBe(false);
   });
 
   it("propagates errors from chain function", () => {
-    const result = flatMap(Ok(5), (_x) => Err(new Error("chain failed")));
+    const result = flatMap(Ok(5), (_x: number) => Err(new Error("chain failed")));
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.message).toBe("chain failed");
   });

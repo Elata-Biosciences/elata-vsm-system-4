@@ -57,9 +57,9 @@ const parseGptResponse = (
   sourceUrl: string,
   sourceName: string,
 ): Result<ScrapingOutput, Error> => {
-  return match(raw)
-    .with(null, () => Err(new Error("GPT returned null content")))
-    .with(undefined, () => Err(new Error("GPT returned undefined content")))
+  return match<RawGptResponse, Result<ScrapingOutput, Error>>(raw)
+    .with(null, (): Result<ScrapingOutput, Error> => Err(new Error("GPT returned null content")))
+    .with(undefined, (): Result<ScrapingOutput, Error> => Err(new Error("GPT returned undefined content")))
     .otherwise((content) => {
       try {
         const parsed = typeof content === "string" ? JSON.parse(content) : content;
@@ -79,9 +79,9 @@ const parseGptResponse = (
             return Ok({
               sourceUrl: parsed.sourceUrl ?? sourceUrl,
               sourceName: parsed.sourceName ?? sourceName,
-              articles: articlesResult.data,
+              articles: articlesResult.data as unknown as ScrapingOutput["articles"],
               timestamp: parsed.timestamp ?? new Date().toISOString(),
-            });
+            } as ScrapingOutput);
           }
         }
 
@@ -127,7 +127,7 @@ export const processPageWithGPT = async (
   }
 
   // Execute with circuit breaker + retry
-  const result = await gptCircuitBreaker.execute(async () => {
+  const result = await gptCircuitBreaker.execute<ScrapingOutput>(async () => {
     const retryResult = await withRetry(
       async (attempt) => {
         if (CONFIG.VERBOSE) {

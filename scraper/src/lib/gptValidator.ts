@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Ok, Err, type Result } from "./result";
+import { Ok, Err, type Result } from "./result.js";
 import { NEWS_TAGS, type NewsTag } from "@elata/shared-types";
 
 // ── Error types ─────────────────────────────────────────────────────
