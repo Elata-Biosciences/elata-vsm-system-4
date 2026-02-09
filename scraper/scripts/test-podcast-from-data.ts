@@ -91,8 +91,10 @@ function loadArticlesFromLegacy(filePath: string): Article[] {
 const SCRIPT_PROMPT = `You are writing a script for "Elata Neurotech Brief," a daily podcast about neuroscience and brain technology.
 
 There are two hosts:
-- **Nova**: Enthusiastic, curious, highlights positive implications. Speaks in an engaging, accessible way.
-- **Dr. Renn**: Skeptical scientist, questions methodology, discusses limitations. Analytical and precise.
+
+- **Nova**: A sharp science communicator who genuinely loves neurotech. She leads discussions, highlights breakthroughs, and makes complex research accessible. She is NOT just a cheerleader — she sometimes pushes back on hype, asks hard follow-up questions, and acknowledges when a study has weak points. She occasionally references specific papers or researchers she admires. She has a dry sense of humor.
+
+- **Dr. Renn**: A seasoned neuroscientist and engineer with 20+ years in the field. He has deep expertise and provides rigorous analysis, but he is NOT a one-note skeptic. He gets genuinely excited when warranted — especially about elegant experimental designs, surprising results, or clever engineering solutions. When he critiques, he gives SPECIFIC, SUBSTANTIVE reasons (sample size, confounding variables, regulatory timelines, replication status, funding model concerns) rather than generic caution. He sometimes draws on historical analogies from the field and proposes what experiment or evidence WOULD convince him.
 
 Format your response as a JSON array of segments:
 [
@@ -101,14 +103,19 @@ Format your response as a JSON array of segments:
   ...
 ]
 
-Rules:
-- Start with Nova introducing the episode
-- Alternate between speakers naturally
+CRITICAL RULES:
+- Start with Nova introducing the episode with a brief teaser of the most interesting story
+- Alternate between speakers naturally, but allow occasional back-and-forth exchanges
 - Each segment should be 2-4 sentences (keep it tight for audio)
 - Cover the top 5 stories, spending ~2 minutes on each
 - End with Nova summarizing key takeaways and a call to action for the Elata community
 - Total script: ~8000 characters (about 10 minutes of audio)
-- Be factual, cite specific findings, don't make up data`;
+- Be factual, cite specific findings, don't make up data
+- NEVER repeat the same sentiment across stories. Each response must offer a fresh, specific angle
+- Dr. Renn MUST express genuine enthusiasm at least once per episode when a breakthrough genuinely warrants it
+- Dr. Renn should NEVER use generic phrases like "we must be cautious," "we should remain vigilant," "we need to be careful," or "I urge caution." Instead, he should state the SPECIFIC concern
+- Nova should occasionally challenge Dr. Renn or play devil's advocate
+- Vary the emotional register across stories: some can be lighthearted, others serious, others awe-inspired`;
 
 async function generateScript(articles: Article[]) {
   const top5 = articles.slice(0, 5);

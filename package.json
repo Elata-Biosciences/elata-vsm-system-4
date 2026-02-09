@@ -4,12 +4,10 @@
   "private": true,
   "workspaces": [
     "./shared-types",
-    "./scraper",
-    "./web"
+    "./scraper"
   ],
   "scripts": {
-    "build": "npm run build --workspace shared-types && npm run build --workspaces --if-present",
-    "dev": "npm run dev --workspace web",
+    "build": "npm run build --workspace shared-types && npm run build --workspace scraper",
     "scrape": "npm run start --workspace scraper",
     "serve": "npm run serve --workspace scraper"
   },

@@ -28,7 +28,6 @@ import type {
 import { SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
 import { loadGPTEnrichedTwitterData } from "./lib/twitter.js";
-import { loadRedditPosts } from "./config/redditSources.js";
 
 import { enrichTopArticles } from "./lib/contentScraper.js";
 import { moderateArticles } from "./lib/moderation.js";
@@ -124,7 +123,6 @@ const loadGPTSummaryFromCombinedData = async (
   stories: Story[],
   scrapingResults: ScrapingOutput[],
   twitter: Article[],
-  reddit: ScrapingOutput[],
 ): Promise<SummaryOutput> => {
   try {
     const combinedPrompt = `
@@ -144,16 +142,13 @@ const loadGPTSummaryFromCombinedData = async (
       typeof content === "string" ? JSON.parse(content) : content;
     const summaryList: SummaryList = SummaryListSchema.parse(parsedContent);
 
-    // Collect all articles from GPT, scraping, twitter, reddit
+    // Collect all articles from GPT, scraping, twitter
     const allRaw: Article[] = [...summaryList.articles];
 
     for (const result of scrapingResults) {
       allRaw.push(...result.articles);
     }
     allRaw.push(...twitter);
-    for (const result of reddit) {
-      allRaw.push(...result.articles);
-    }
 
     // Dedup, sort, filter
     let deduped = getDedupedArticles(allRaw)
@@ -214,9 +209,6 @@ const loadCombinedData = async () => {
   const twitter = await loadGPTEnrichedTwitterData();
   log.info("Twitter data loaded", { articles: twitter.length });
 
-  const reddit = await loadRedditPosts();
-  log.info("Reddit data loaded", { sources: reddit.length });
-
   const stories = await getStoriesFromQueries(QUERIES);
   log.info("NewsAPI data loaded", { stories: stories.length });
 
@@ -224,7 +216,7 @@ const loadCombinedData = async () => {
   log.info("Scraped data loaded", { sources: scraped.length });
 
   endLoad();
-  return { stories, scraped, twitter, reddit };
+  return { stories, scraped, twitter };
 };
 
 // ── Main pipeline ───────────────────────────────────────────────────
@@ -249,7 +241,6 @@ const main = async () => {
     let stories: Story[] = [];
     let scraped: ScrapingOutput[] = [];
     let twitter: Article[] = [];
-    let reddit: ScrapingOutput[] = [];
 
     if (shouldRun("scrape")) {
       // Check for checkpoint resume
@@ -257,11 +248,10 @@ const main = async () => {
         const existing = checkpoint.load(dateKey, "scrape");
         if (existing) {
           log.info("Resuming from scrape checkpoint");
-          const data = existing as { stories: Story[]; scraped: ScrapingOutput[]; twitter: Article[]; reddit: ScrapingOutput[] };
+          const data = existing as { stories: Story[]; scraped: ScrapingOutput[]; twitter: Article[] };
           stories = data.stories;
           scraped = data.scraped;
           twitter = data.twitter;
-          reddit = data.reddit;
         }
       }
 
@@ -270,10 +260,9 @@ const main = async () => {
         stories = data.stories;
         scraped = data.scraped;
         twitter = data.twitter;
-        reddit = data.reddit;
 
         // Save checkpoint
-        checkpoint?.save(dateKey, "scrape", { stories, scraped, twitter, reddit });
+        checkpoint?.save(dateKey, "scrape", { stories, scraped, twitter });
       }
     }
 
@@ -283,7 +272,7 @@ const main = async () => {
     if (shouldRun("gpt")) {
       log.info("Running GPT summary...");
       const endGpt = log.time("gptSummary");
-      summary = await loadGPTSummaryFromCombinedData(stories, scraped, twitter, reddit);
+      summary = await loadGPTSummaryFromCombinedData(stories, scraped, twitter);
       endGpt();
       checkpoint?.save(dateKey, "gpt", summary);
     }
