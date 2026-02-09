@@ -214,9 +214,35 @@ export default function RootLayout({
       >
         {/* Vercel Analytics for performance monitoring and user insights */}
         <Analytics />
-        
+
+        {/* Deprecation notice — redirecting users to new site */}
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 9999,
+          background: 'linear-gradient(90deg, #7c3aed, #6d28d9)',
+          color: 'white',
+          padding: '10px 16px',
+          textAlign: 'center',
+          fontSize: '14px',
+          fontFamily: 'system-ui, sans-serif',
+        }}>
+          This site has moved to{' '}
+          <a
+            href="https://elata.bio/news"
+            style={{ color: 'white', fontWeight: 'bold', textDecoration: 'underline' }}
+          >
+            elata.bio/news
+          </a>
+          {' '}— with better search, AI summaries, and more content.
+        </div>
+
         {/* Main application content - all pages render here */}
-        {children}
+        <div style={{ marginTop: '40px' }}>
+          {children}
+        </div>
       </body>
     </html>
   );

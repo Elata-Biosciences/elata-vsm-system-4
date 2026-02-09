@@ -1,4 +1,7 @@
 import NewsAPI from "newsapi";
+import { createLogger } from "./logger.js";
+
+const log = createLogger("newsApi");
 import {
   getYesterdayDate,
   getDayBeforeYesterdayDate,
@@ -36,22 +39,31 @@ export const getStoriesFromQueries = async (
 ): Promise<Story[]> => {
   // First check if the data dump file exists
   if (doesDataDumpFileExist()) {
-    console.log("Data dump file exists, loading from file...");
+    log.info("Data dump file exists, loading from file");
     return readDataDumpFromFile();
+  }
+
+  // Respect TEST_QUERIES_LIMIT in test mode
+  const effectiveQueries = CONFIG.TEST_MODE
+    ? queries.slice(0, CONFIG.TEST_QUERIES_LIMIT)
+    : queries;
+
+  if (CONFIG.TEST_MODE) {
+    log.info("TEST_MODE: limiting queries", { effective: effectiveQueries.length, total: queries.length });
   }
 
   // If it doesn't exist, we need to fetch the data from the API
   const stories = [];
 
-  for (const query of queries) {
+  for (const query of effectiveQueries) {
     try {
       const { articles } = await getStories(query);
       stories.push(...articles);
     } catch (error) {
-      console.error(`Error fetching stories for query ${query}: ${error}`);
+      log.error("Error fetching stories for query", error instanceof Error ? error : new Error(String(error)), { query });
     }
   }
-  console.log(`Found ${stories.length} stories`);
+  log.info("Found stories", { count: stories.length });
 
   writeDataDumpToFile(stories);
   return stories;

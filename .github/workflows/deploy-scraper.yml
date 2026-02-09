@@ -1,0 +1,50 @@
+name: Deploy Scraper
+
+on:
+  push:
+    branches: [main]
+
+# Only run one deploy at a time
+concurrency:
+  group: deploy-scraper
+  cancel-in-progress: true
+
+jobs:
+  # Run CI first
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: ci
+    timeout-minutes: 5
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DO_SSH_HOST }}
+          username: ${{ secrets.DO_SSH_USER }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            echo "=== Deploy started at $(date) ==="
+
+            cd /root/elata-vsm-system-4
+            git fetch origin main
+            git reset --hard origin/main
+
+            cd shared-types
+            npm ci
+            npm run build
+            cd ..
+
+            cd scraper
+            npm ci
+            npm run build
+
+            pm2 restart ecosystem.config.cjs --env production
+            pm2 save
+
+            echo "=== Deploy completed at $(date) ==="

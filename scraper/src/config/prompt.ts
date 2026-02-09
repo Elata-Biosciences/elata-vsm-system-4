@@ -206,6 +206,22 @@ When scrapping Reddit:
 
 ${RELEVANCE_SCORE_CALCULATION}
 
+TAG ASSIGNMENT:
+Instead of categories, assign 1-5 tags from this list to each article. Choose the most specific tags that apply:
+
+Neuroscience: eeg, fmri, meg, pet-imaging, dti, fnirs, neuroimaging, synaptic-plasticity, neurotransmitters, neural-circuits, cognitive-neuroscience, behavioral-neuroscience, brain-plasticity, translational-neuroscience, molecular-psychiatry
+Clinical: depression, anxiety, ptsd, adhd, ocd, bipolar-disorder, schizophrenia, autism, anhedonia, perinatal-mental-health, womens-mental-health, trauma, dissociation, substance-use, sleep-disorders
+Hardware: bci, neural-interfaces, neuralink, synchron, kernel-neuro, openbci, emotiv, muse, tdcs, tms, vagus-nerve-stimulation, closed-loop-systems
+Computational: precision-psychiatry, computational-psychiatry, digital-phenotyping, machine-learning, federated-learning, ai-diagnostics, deep-learning, brain-connectivity, neural-decoding, signal-processing, computational-neuroscience, diffusion-models
+Pharmacology: neuropharmacology, nmda-modulators, gaba-modulators, serotonin-system, rapid-acting-antidepressants, psychiatric-genomics, clinical-trials, drug-discovery, cns-therapeutics, psychopharmacology
+Biohacking: nootropics, peptides, psychedelics, biohacking, neurofeedback, meditation, red-light-therapy, cold-exposure, circadian-rhythm, supplements, microdosing, longevity
+Biomarkers: biomarkers, hpa-axis, neuroinflammation, gut-brain-axis, microbiome, epigenetics, neural-oscillations, default-mode-network, neuroendocrine, fear-extinction
+DeSci: desci, daos, ip-nft, tokenomics, blockchain-research, on-chain-governance, decentralized-irb, quadratic-voting
+Industry: pharma, biotech, startups, funding, regulatory, fda
+
+ENTITY EXTRACTION:
+Also extract key named entities (people, organizations, compounds, technologies) mentioned in each article.
+
 Format each article as:
 {
   "title": "exact title from page",
@@ -214,7 +230,8 @@ Format each article as:
   "source": "source name",
   "author": "author name or source name",
   "publishedAt": "YYYY-MM-DD",
-  "category": "most relevant category",
+  "tags": ["tag1", "tag2", "tag3"],
+  "entities": ["Entity1", "Entity2"],
   "relevanceScore": "number between 0 and 1"
 }
 

@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import fsAsPromise from "node:fs/promises";
 import path, { join } from "node:path";
+import { createLogger } from "./logger.js";
+
+const log = createLogger("utils");
 import type {
   Article,
   ScrapingOutput,
@@ -95,7 +98,7 @@ export const getFilePathForDataDump = (prefix = "data"): string => {
 export const writeDataDumpToFile = (data: any, prefix = "data"): void => {
   const filePath = getFilePathForDataDump(prefix);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  console.log(`Wrote ${prefix} dump to ${filePath}`);
+  log.info("Wrote data dump", { prefix, filePath });
 };
 
 /**
@@ -123,27 +126,26 @@ export const writeSummaryToFile = async (
   summaryData: SummaryOutput
 ): Promise<void> => {
   try {
-    // Write to scraper's data directory only
-    const scraperDataDir = path.join(__dirname, "..", "data");
-    if (!fs.existsSync(scraperDataDir)) {
-      fs.mkdirSync(scraperDataDir, { recursive: true });
+    // Use CONFIG.PATHS.DATA_DIR consistently (matches what server.ts reads from)
+    const dataDir = DATA_DIR;
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
     }
 
     // Write dated file
     const datedFilePath = path.join(
-      scraperDataDir,
+      dataDir,
       `summary_${getYesterdayDate()}.json`
     );
     fs.writeFileSync(datedFilePath, JSON.stringify(summaryData, null, 2));
-    console.log(`Wrote summary to ${datedFilePath}`);
+    log.info("Wrote summary", { filePath: datedFilePath });
 
     // Write current.json
-    const currentFilePath = path.join(scraperDataDir, "current.json");
+    const currentFilePath = path.join(dataDir, "current.json");
     fs.writeFileSync(currentFilePath, JSON.stringify(summaryData, null, 2));
-    console.log(`Wrote current summary to ${currentFilePath}`);
+    log.info("Wrote current summary", { filePath: currentFilePath });
   } catch (error) {
-    console.error("Error writing summary files:", error);
-    console.error("Current directory:", __dirname);
+    log.error("Error writing summary files", error, { dataDir: DATA_DIR });
     throw error;
   }
 };
@@ -198,7 +200,7 @@ export const writeScrapedData = (
 ): void => {
   const filePath = getScrapedDataFilePath(date);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  console.log(`Wrote scraped data to ${filePath}`);
+  log.info("Wrote scraped data", { filePath });
 };
 
 /**
@@ -366,7 +368,7 @@ export const writeTwitterData = (
 ): void => {
   const filePath = getTwitterDataFilePath(date);
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  console.log(`Wrote Twitter data to ${filePath}`);
+  log.info("Wrote Twitter data", { filePath });
 };
 
 /**

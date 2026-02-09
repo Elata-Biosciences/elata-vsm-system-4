@@ -2,8 +2,12 @@ import puppeteer, {
   type Browser,
   type PuppeteerLaunchOptions,
 } from "puppeteer";
-import { processPageWithGPT } from "./gptProcessor.js";
+import { createLogger } from "./logger.js";
+
+const log = createLogger("scraping");
+import { match, P } from "ts-pattern";
 import os from "node:os";
+import { processPageWithGPT } from "./gptProcessor.js";
 import { SCRAPING_SOURCES } from "../config/scrapingSources.js";
 import {
   getYesterdayDate,
@@ -13,26 +17,32 @@ import {
 } from "./utils.js";
 import type { ScrapingOutput } from "@elata/shared-types";
 import { CONFIG } from "../config/config.js";
+import { type Result, Ok, Err, isOk, isErr } from "./result.js";
+import { withRetry } from "./retry.js";
+import { createCheckpointManager, type CheckpointManager } from "./checkpoint.js";
 
-const REDDIT_USER_AGENT = "ElataNews (by /u/wkyleg)";
+// ── Types ───────────────────────────────────────────────────────────
 
-/**
- * Scrapes the websites for news articles and returns a CSV of the most relevant articles.
- * @returns {Promise<ScrapingOutput[]>} - The processed content
- */
-export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
-  const yesterday = getYesterdayDate();
+interface ScrapingConfig {
+  readonly sources: typeof SCRAPING_SOURCES;
+  readonly sourceTimeoutMs: number;
+  readonly idleTimeoutMs: number;
+  readonly delayBetweenSourcesMs: number;
+  readonly testMode: boolean;
+  readonly testSourcesLimit: number;
+  readonly verbose: boolean;
+}
 
-  // Check if we already have data for yesterday
-  const existingData = readScrapedData(yesterday);
-  if (existingData) {
-    console.log("Found existing scraped data for", yesterday);
-    return existingData;
-  }
+interface ScrapeSourceResult {
+  readonly source: string;
+  readonly result: Result<ScrapingOutput, Error>;
+}
 
-  console.log("Launching browser...");
+// ── Pure helpers ────────────────────────────────────────────────────
 
-  const options: PuppeteerLaunchOptions = {
+/** Build puppeteer launch options */
+const buildLaunchOptions = (): PuppeteerLaunchOptions => {
+  const base: PuppeteerLaunchOptions = {
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -43,101 +53,194 @@ export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
     ],
   };
 
-  if (os.platform() === "linux") {
-    options.executablePath = "/usr/bin/google-chrome";
-  }
+  return match(os.platform())
+    .with("linux", () => ({ ...base, executablePath: "/usr/bin/google-chrome" }))
+    .otherwise(() => base);
+};
 
-  const results: ScrapingOutput[] = [];
+/** Extract page content (strips scripts/styles) */
+const extractPageContent = async (browser: Browser, url: string, timeoutMs: number): Promise<string> => {
+  const page = await browser.newPage();
 
-  for (const source of SCRAPING_SOURCES) {
-    let browser: Browser | null = null;
-    try {
-      console.log(`Scraping ${source.name} (${source.url})`);
-      // Regular browser-based scraping for other sources
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(
-            new Error(
-              `Timeout after ${CONFIG.SCRAPPING.SOURCE_TIMEOUT_SECONDS}ms for ${source.name}`
-            )
-          );
-        }, CONFIG.SCRAPPING.SOURCE_TIMEOUT_SECONDS);
-      });
+  await page.goto(url, {
+    waitUntil: "networkidle0",
+    timeout: timeoutMs,
+  });
 
-      // Create the actual scraping promise
-      const scrapingPromise = (async () => {
-        browser = await puppeteer.launch(options);
-        const page = await browser.newPage();
+  const content = await page.evaluate(() => {
+    for (const el of document.querySelectorAll("script, style")) {
+      el.remove();
+    }
+    return document.documentElement.outerHTML;
+  });
 
-        await page.goto(source.url, {
-          waitUntil: "networkidle0",
-          timeout: CONFIG.SCRAPPING.IDLE_TIMEOUT_SECONDS,
-        });
+  await page.close();
+  return content;
+};
 
-        const content = await page.evaluate(() => {
-          // Remove scripts and styles to clean up the content
-          const scripts = Array.from(document.getElementsByTagName("script"));
-          const styles = Array.from(document.getElementsByTagName("style"));
-          for (const s of scripts) {
-            s.remove();
-          }
-          for (const s of styles) {
-            s.remove();
-          }
+/** Build config from environment */
+const buildConfig = (): ScrapingConfig => ({
+  sources: SCRAPING_SOURCES,
+  sourceTimeoutMs: CONFIG.SCRAPPING.SOURCE_TIMEOUT_SECONDS,
+  idleTimeoutMs: CONFIG.SCRAPPING.IDLE_TIMEOUT_SECONDS,
+  delayBetweenSourcesMs: CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES,
+  testMode: CONFIG.TEST_MODE,
+  testSourcesLimit: CONFIG.TEST_SOURCES_LIMIT,
+  verbose: CONFIG.VERBOSE,
+});
 
-          // Return the full HTML content
-          return document.documentElement.outerHTML;
-        });
+/** Convert a successful source scrape to ScrapingOutput */
+const errorOutput = (
+  source: { name: string; url: string },
+  error: Error,
+): ScrapingOutput => ({
+  sourceUrl: source.url,
+  sourceName: source.name,
+  articles: [],
+  timestamp: new Date().toISOString(),
+  error: `Failed to scrape: ${error.message}`,
+});
 
-        const processedData = await processPageWithGPT(
-          content,
-          source.url,
-          source.name
-        );
+// ── Scrape a single source ──────────────────────────────────────────
 
-        await page.close();
+const scrapeSource = async (
+  source: { name: string; url: string },
+  config: ScrapingConfig,
+): Promise<Result<ScrapingOutput, Error>> => {
+  let browser: Browser | null = null;
+
+  try {
+    const result = await withRetry(
+      async (attempt) => {
+        if (config.verbose) {
+          log.debug("Scrape attempt", { attempt, source: source.name });
+        }
+
+        browser = await puppeteer.launch(buildLaunchOptions());
+
+        // Race: page extraction vs timeout
+        const content = await Promise.race([
+          extractPageContent(browser, source.url, config.idleTimeoutMs),
+          new Promise<never>((_, reject) =>
+            setTimeout(
+              () => reject(new Error(`Timeout after ${config.sourceTimeoutMs}ms for ${source.name}`)),
+              config.sourceTimeoutMs,
+            ),
+          ),
+        ]);
+
+        const processed = await processPageWithGPT(content, source.url, source.name);
+
         await browser.close();
         browser = null;
 
-        return processedData;
-      })();
+        return processed;
+      },
+      { maxAttempts: 2, baseDelayMs: 5000, maxDelayMs: 30000 },
+    );
 
-      // Race between timeout and scraping
-      const processedData = await Promise.race([
-        scrapingPromise,
-        timeoutPromise,
-      ]);
-      results.push(processedData as ScrapingOutput);
-    } catch (error) {
-      console.error(`Error scraping ${source.name}:`, error);
-      results.push({
-        sourceUrl: source.url,
-        sourceName: source.name,
-        articles: [],
-        timestamp: new Date().toISOString(),
-        error: `Failed to scrape: ${
-          error instanceof Error ? error.message : "Unknown error"
-        }`,
-      });
-      if (browser) {
-        try {
-          await (browser as Browser)?.close();
-        } catch (err) {
-          console.error(`Error closing browser for ${source.name}:`, err);
-        }
+    return result;
+  } catch (error) {
+    return Err(error instanceof Error ? error : new Error(String(error)));
+  } finally {
+    if (browser) {
+      try {
+        await (browser as Browser).close();
+      } catch {
+        // Browser already closed — ignore
       }
-    } finally {
-      if (browser) {
-        try {
-          await (browser as Browser)?.close();
-        } catch (err) {
-          console.error(`Error closing browser for ${source.name}:`, err);
-        }
-      }
-      await wait(CONFIG.SCRAPPING.DELAY_BETWEEN_SOURCES);
     }
   }
+};
 
+// ── Main entry point ────────────────────────────────────────────────
+
+/**
+ * Scrape all configured sources.
+ *
+ * Features:
+ * - Result types for every source (no single failure crashes the pipeline)
+ * - Retry with backoff per source
+ * - Checkpoint save after each source completes
+ * - Test mode to limit sources
+ * - Verbose logging
+ */
+export async function scrapeWebsites(): Promise<ScrapingOutput[]> {
+  const yesterday = getYesterdayDate();
+  const config = buildConfig();
+
+  // Check cached data
+  const cached = readScrapedData(yesterday);
+  if (cached) {
+    log.info("Found existing data", { date: yesterday });
+    return cached;
+  }
+
+  // Determine sources to scrape
+  const sources = config.testMode
+    ? config.sources.slice(0, config.testSourcesLimit)
+    : config.sources;
+
+  log.info("Starting scrape", { sourceCount: sources.length, testMode: config.testMode });
+
+  // Initialize checkpoint
+  let checkpoint: CheckpointManager | undefined;
+  try {
+    checkpoint = createCheckpointManager(CONFIG.PATHS.CHECKPOINT_DIR);
+  } catch {
+    log.warn("Checkpoint manager unavailable — continuing without");
+  }
+
+  const results: ScrapingOutput[] = [];
+  let successCount = 0;
+  let failCount = 0;
+
+  for (const source of sources) {
+    log.info("Scraping source", { name: source.name, url: source.url });
+
+    const sourceResult = await scrapeSource(source, config);
+
+    const output: ScrapingOutput = match(sourceResult)
+      .with({ ok: true }, (r) => {
+        successCount++;
+        if (config.verbose) {
+          log.info("Source scraped successfully", { name: source.name, articles: r.data.articles.length });
+        }
+        return r.data;
+      })
+      .with({ ok: false }, (r) => {
+        failCount++;
+        log.error("Source scrape failed", r.error, { name: source.name });
+        return errorOutput(source, r.error);
+      })
+      .exhaustive();
+
+    results.push(output);
+
+    // Save checkpoint after each source
+    if (checkpoint) {
+      try {
+        checkpoint.save("scrape", yesterday, results);
+      } catch {
+        // Non-fatal
+      }
+    }
+
+    await wait(config.delayBetweenSourcesMs);
+  }
+
+  log.info("Scrape complete", { success: successCount, failed: failCount, total: sources.length });
+
+  // Write final results
   writeScrapedData(results, yesterday);
+
   return results;
 }
+
+/** Expose for testing */
+export const _internal = {
+  buildLaunchOptions,
+  buildConfig,
+  errorOutput,
+  scrapeSource,
+};

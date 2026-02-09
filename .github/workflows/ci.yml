@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install shared-types dependencies
+        run: npm ci
+        working-directory: shared-types
+
+      - name: Build shared-types
+        run: npm run build
+        working-directory: shared-types
+
+      - name: Install scraper dependencies
+        run: npm ci
+        working-directory: scraper
+
+      - name: Build scraper
+        run: npm run build
+        working-directory: scraper
+
+      - name: Test scraper
+        run: npm test
+        working-directory: scraper

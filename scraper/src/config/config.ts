@@ -49,7 +49,27 @@ export const CONFIG = {
   },
   PATHS: {
     DATA_DIR: process.env.ELATA_DATA_DIR || '/usr/lib/node_modules/pm2/data',
+    CHECKPOINT_DIR: process.env.CHECKPOINT_DIR || '/usr/lib/node_modules/pm2/data/checkpoints',
   },
+  // Test mode settings
+  TEST_MODE: process.env.SCRAPER_TEST_MODE === "true",
+  RESUME: process.env.SCRAPER_RESUME === "true",
+  PHASE: (process.env.SCRAPER_PHASE || "all") as "scrape" | "gpt" | "enrich" | "embed" | "moderate" | "audio" | "podcast" | "all",
+  DRY_RUN: process.env.SCRAPER_DRY_RUN === "true",
+  VERBOSE: process.env.SCRAPER_VERBOSE === "true",
+  // Limit sources in test mode
+  TEST_SOURCES_LIMIT: Number(process.env.SCRAPER_TEST_SOURCES_LIMIT) || 5,
+  TEST_QUERIES_LIMIT: Number(process.env.SCRAPER_TEST_QUERIES_LIMIT) || 3,
+  // Max articles to keep after dedup (0 = no limit)
+  MAX_ARTICLES: Number(process.env.SCRAPER_MAX_ARTICLES) || 0,
+  // Skip discord posting
+  SKIP_DISCORD: process.env.SCRAPER_SKIP_DISCORD === "true",
+  // Skip individual pipeline phases
+  SKIP_ENRICH: process.env.SCRAPER_SKIP_ENRICH === "true",
+  SKIP_MODERATE: process.env.SCRAPER_SKIP_MODERATE === "true",
+  SKIP_EMBED: process.env.SCRAPER_SKIP_EMBED === "true",
+  SKIP_AUDIO: process.env.SCRAPER_SKIP_AUDIO === "true",
+  SKIP_PODCAST: process.env.SCRAPER_SKIP_PODCAST === "true",
 } as const;
 
 // Warn if config is not set correctly
