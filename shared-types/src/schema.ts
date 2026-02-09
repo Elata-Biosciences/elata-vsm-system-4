@@ -71,10 +71,10 @@ export const ArticleSchema = z.object({
   publishedAt: z.string().optional(),
   scrapedAt: z.string(),
 
-  // Media
-  imageUrl: z.string().url().optional(),
-  audioUrl: z.string().url().optional(),
-  ogImageUrl: z.string().url().optional(),
+  // Media (plain strings — .url() format is not supported by OpenAI structured outputs)
+  imageUrl: z.string().optional(),
+  audioUrl: z.string().optional(),
+  ogImageUrl: z.string().optional(),
 
   // Metadata for RAG
   sourceType: z.enum(["newsapi", "scrape", "twitter", "reddit", "community"]).optional(),
