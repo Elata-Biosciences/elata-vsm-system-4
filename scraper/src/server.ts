@@ -353,7 +353,7 @@ app.get(
     });
 
     const stream = fs.createReadStream(filePath);
-    stream.pipe(res);
+    stream.pipe(res as unknown as NodeJS.WritableStream);
   })
 );
 
