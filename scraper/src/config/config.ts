@@ -43,7 +43,7 @@ export const CONFIG = {
   },
   PODCAST: {
     MODEL: process.env.PODCAST_MODEL || "gpt-4.1",
-    MAX_ARTICLES: Number(process.env.PODCAST_MAX_ARTICLES) || 8,
+    MAX_ARTICLES: Number(process.env.PODCAST_MAX_ARTICLES) || 5,
   },
   ELEVENLABS: {
     API_KEY: process.env.ELEVENLABS_API_KEY || "",

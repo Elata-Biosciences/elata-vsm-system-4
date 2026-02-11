@@ -25,9 +25,57 @@ import { SummaryListSchema } from "@elata/shared-types";
 import { zodResponseFormat } from "openai/helpers/zod.js";
 import { loadGPTEnrichedTwitterData } from "./lib/twitter.js";
 
+// ── Batch processing helpers ────────────────────────────────────────
+
+const BATCH_SIZE = 50;
+
+/** Split an array into chunks of `size` */
+function chunk<T>(arr: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+}
+
 /**
- * Gets a summary of the stories from the AI.
- * Returns the new flat SummaryOutput format with allArticles.
+ * Enrich a single batch of stories through GPT.
+ * The prompt instructs the model to return ALL articles, not filter them.
+ */
+const enrichBatch = async (
+  stories: Story[],
+  batchIndex: number,
+  totalBatches: number,
+): Promise<Article[]> => {
+  const csv = convertStoriesToCSV(stories);
+  const prompt = `${MAIN_PROMPT}\n\nBatch ${batchIndex + 1} of ${totalBatches} (${stories.length} articles):\n\n${csv}`;
+
+  try {
+    const response = await openAIClient.chat.completions.create({
+      model: CONFIG.SUMMARIZATION.MODEL,
+      messages: [{ role: "system", content: prompt }],
+      response_format: zodResponseFormat(SummaryListSchema, "SummaryList"),
+    });
+
+    const content = response.choices[0].message.content;
+    const parsed = typeof content === "string" ? JSON.parse(content) : content;
+    const summaryList: SummaryList = SummaryListSchema.parse(parsed);
+
+    console.log(
+      `  Batch ${batchIndex + 1}/${totalBatches}: ${stories.length} stories → ${summaryList.articles.length} articles`,
+    );
+    return summaryList.articles;
+  } catch (error) {
+    console.error(`  Batch ${batchIndex + 1}/${totalBatches} failed:`, error);
+    return [];
+  }
+};
+
+// ── Main pipeline ───────────────────────────────────────────────────
+
+/**
+ * Process all stories through GPT in batches, then combine with
+ * scraping and twitter data into a SummaryOutput.
  */
 const loadGPTSummaryFromCombinedData = async (
   stories: Story[],
@@ -35,28 +83,21 @@ const loadGPTSummaryFromCombinedData = async (
   twitter: Article[],
 ): Promise<SummaryOutput> => {
   try {
-    const combinedPrompt = `
-    ${MAIN_PROMPT}
+    // Split stories into batches of BATCH_SIZE
+    const batches = chunk(stories, BATCH_SIZE);
+    console.log(
+      `Processing ${stories.length} stories in ${batches.length} batches of ~${BATCH_SIZE} using ${CONFIG.SUMMARIZATION.MODEL}`,
+    );
 
-    ${convertStoriesToCSV(stories)}
-    `;
+    // Process each batch through GPT
+    const batchResults: Article[][] = [];
+    for (let i = 0; i < batches.length; i++) {
+      const articles = await enrichBatch(batches[i], i, batches.length);
+      batchResults.push(articles);
+    }
 
-    console.log(`Using summarization model: ${CONFIG.SUMMARIZATION.MODEL}`);
-    const summaryResponse = await openAIClient.chat.completions.create({
-      model: CONFIG.SUMMARIZATION.MODEL,
-      messages: [{ role: "system", content: combinedPrompt }],
-      response_format: zodResponseFormat(SummaryListSchema, "SummaryList"),
-    });
-
-    const content = summaryResponse.choices[0].message.content;
-    const parsedContent =
-      typeof content === "string" ? JSON.parse(content) : content;
-    const summaryList: SummaryList = SummaryListSchema.parse(parsedContent);
-
-    // Collect all articles from all sources
-    const allArticles: Article[] = [
-      ...summaryList.articles,
-    ];
+    // Combine all batch results
+    const allArticles: Article[] = batchResults.flat();
 
     // Add scraping results
     for (const result of scrapingResults) {
@@ -73,12 +114,17 @@ const loadGPTSummaryFromCombinedData = async (
     // Dedup, filter, and sort
     const processedArticles = getDedupedArticles(allArticles)
       .filter((article) => canIncludeUrlInSummary(article.url))
-      .sort((a, b) => (b.rankingScore ?? b.relevanceScore) - (a.rankingScore ?? a.relevanceScore));
+      .sort(
+        (a, b) =>
+          (b.rankingScore ?? b.relevanceScore) -
+          (a.rankingScore ?? a.relevanceScore),
+      );
 
     // Apply max articles limit if configured
-    const finalArticles = CONFIG.MAX_ARTICLES > 0
-      ? processedArticles.slice(0, CONFIG.MAX_ARTICLES)
-      : processedArticles;
+    const finalArticles =
+      CONFIG.MAX_ARTICLES > 0
+        ? processedArticles.slice(0, CONFIG.MAX_ARTICLES)
+        : processedArticles;
 
     // Build metadata
     const tagCounts: Record<string, number> = {};
@@ -87,13 +133,10 @@ const loadGPTSummaryFromCombinedData = async (
     let latest = "";
 
     for (const article of finalArticles) {
-      // Count tags
       for (const tag of article.tags) {
         tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
       }
-      // Count sources
       sourceCounts[article.source] = (sourceCounts[article.source] ?? 0) + 1;
-      // Track date range
       const date = article.publishedAt ?? article.scrapedAt;
       if (!earliest || date < earliest) earliest = date;
       if (!latest || date > latest) latest = date;
@@ -113,7 +156,9 @@ const loadGPTSummaryFromCombinedData = async (
       },
     };
 
-    console.log(`Summary produced ${finalArticles.length} articles from ${Object.keys(sourceCounts).length} sources`);
+    console.log(
+      `Summary produced ${finalArticles.length} articles from ${Object.keys(sourceCounts).length} sources`,
+    );
     return summaryOutput;
   } catch (error) {
     console.error("Error loading AI summary of stories: ", error);
@@ -122,7 +167,10 @@ const loadGPTSummaryFromCombinedData = async (
       timestamp: new Date().toISOString(),
       metadata: {
         totalArticles: 0,
-        dateRange: { from: new Date().toISOString(), to: new Date().toISOString() },
+        dateRange: {
+          from: new Date().toISOString(),
+          to: new Date().toISOString(),
+        },
         tagCounts: {},
         sourceCounts: {},
       },
@@ -131,7 +179,7 @@ const loadGPTSummaryFromCombinedData = async (
 };
 
 /**
- * Loads the stories and scraping results from the API and the scraping results from the scraping process
+ * Loads the stories and scraping results from the API and the scraping process
  */
 const loadCombinedData = async () => {
   const twitter = await loadGPTEnrichedTwitterData();
@@ -167,14 +215,22 @@ const main = async () => {
       console.log("Generating podcast episode...");
       try {
         if (summary.allArticles.length >= 2) {
-          const podcastResult = await generatePodcastEpisode(summary.allArticles, {
-            outputDir: `${CONFIG.PATHS.DATA_DIR}/podcast`,
-          });
+          const podcastResult = await generatePodcastEpisode(
+            summary.allArticles,
+            {
+              outputDir: `${CONFIG.PATHS.DATA_DIR}/podcast`,
+            },
+          );
 
           if (isOk(podcastResult)) {
-            console.log(`Podcast generated: ${podcastResult.data.title} (${podcastResult.data.charCount} chars)`);
+            console.log(
+              `Podcast generated: ${podcastResult.data.title} (${podcastResult.data.charCount} chars)`,
+            );
           } else {
-            console.error("Podcast generation failed:", podcastResult.error.message);
+            console.error(
+              "Podcast generation failed:",
+              podcastResult.error.message,
+            );
           }
         } else {
           console.log("Skipping podcast: not enough articles with summaries");

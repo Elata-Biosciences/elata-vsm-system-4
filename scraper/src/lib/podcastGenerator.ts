@@ -221,6 +221,23 @@ const isFfmpegAvailable = (): boolean => {
 };
 
 /**
+ * Get actual audio duration in seconds from an MP3 file using ffprobe.
+ * Returns null if ffprobe is not available or the file can't be read.
+ */
+const getAudioDuration = (filePath: string): number | null => {
+  try {
+    const output = execSync(
+      `ffprobe -v error -show_entries format=duration -of csv=p=0 "${filePath}"`,
+      { stdio: ["pipe", "pipe", "pipe"], encoding: "utf-8" },
+    );
+    const seconds = parseFloat(output.trim());
+    return Number.isFinite(seconds) ? Math.round(seconds) : null;
+  } catch {
+    return null;
+  }
+};
+
+/**
  * Concatenate MP3 segments using ffmpeg.
  */
 const concatenateAudio = (
@@ -386,10 +403,18 @@ export const generatePodcastEpisode = async (
   }
 
   // Step 4: Compute duration and save metadata
+  // Try to get actual duration from the MP3 via ffprobe; fall back to estimate
   const estimatedDuration = script.segments.reduce(
     (acc, s) => acc + Math.ceil(s.text.split(/\s+/).length / 150) * 60,
     0,
   );
+  const actualDuration = getAudioDuration(finalAudioPath);
+  const duration = actualDuration ?? estimatedDuration;
+  if (actualDuration !== null) {
+    log.info("Actual audio duration from ffprobe", { seconds: actualDuration });
+  } else {
+    log.warn("ffprobe unavailable, using estimated duration", { seconds: estimatedDuration });
+  }
 
   // Use relative URL path for audioUrl (served by /podcast/audio/:filename route)
   const audioFilename = `${episodeId}.mp3`;
@@ -399,7 +424,7 @@ export const generatePodcastEpisode = async (
     description: script.description,
     audioUrl: `/podcast/audio/${audioFilename}`,
     segmentFiles,
-    duration: estimatedDuration,
+    duration,
     date: new Date().toISOString(),
     articleIds: script.articleIds,
     charCount: totalChars,
@@ -413,7 +438,7 @@ export const generatePodcastEpisode = async (
   log.info("Podcast generation complete", {
     episodeId,
     segments: segmentFiles.length,
-    duration: `~${Math.ceil(estimatedDuration / 60)} minutes`,
+    duration: `${Math.ceil(duration / 60)} minutes (${duration}s)`,
     charCount: totalChars,
     outputDir,
   });

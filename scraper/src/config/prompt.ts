@@ -293,54 +293,39 @@ Remember: It is better to report fewer real articles than to include any fabrica
 `;
 
 /**
- * Prompt for the AI to summarize the news articles and convert them to a summary.
- * Updated for the flat allArticles schema — no more categories.
+ * Prompt for the AI to enrich a batch of articles with tags and relevance scores.
+ * Each batch is small (~50 articles) so the model MUST return ALL of them.
  */
 export const MAIN_PROMPT = `
 ${ELATA_MISSION_ROLE_PROMPT}
 
 Task:
 
-You will receive a CSV list of articles from the past 24 hours, obtained from NewsAPI.
+You will receive a batch of news articles in CSV format. This is one batch from a larger set.
 
-Your job is to process ALL of these articles into a flat JSON array for a news dashboard.
+You MUST return EVERY SINGLE article from the input. Do NOT skip, filter, or drop any article.
+Your job is to ENRICH each article — not to filter them. Every article you receive must appear in your output.
 
-CRITICAL REQUIREMENTS:
-- You MUST include as many articles as possible. Your goal is to return at LEAST 50 articles, ideally more.
-- DO NOT aggressively filter. If an article is even tangentially related to neuroscience, mental health, biotech, DeSci, AI, or pharmaceutical science, INCLUDE IT.
-- Merge duplicates: if multiple articles cover the exact same story, keep the best one and skip the duplicates.
-- DO NOT invent or fabricate articles. Every article must come directly from the input data.
+For EACH article in the input:
+1. Copy the title, URL, source, author, and publishedAt EXACTLY from the input.
+2. Assign 1-5 tags from the neurotech tag taxonomy based on the article's topic.
+3. Calculate a relevanceScore (0.0 to 1.0) based on how relevant it is to Elata's neuroscience/biotech mission.
+4. Calculate a rankingScore that factors in relevance AND scientific quality.
+5. Write a crisp 1-2 sentence description:
+   - If the input has a good description, keep it.
+   - If it's generic or empty, write a sharp, factual summary with subtle personality.
 
 ${ELATA_NEWS_CATEGORIES_PROMPT}
 
-ARTICLE PROCESSING INSTRUCTIONS:
-1. For EACH article in the input:
-   - Copy title, URL, source, author, and publishedAt directly from the input
-   - Assign appropriate tags from the neurotech tag taxonomy (multiple tags per article is encouraged)
-   - Calculate a relevanceScore (0.0 to 1.0) based on relevance to Elata's mission
-   - Assign a rankingScore that factors in both relevance and scientific quality
-
-2. Tag assignment:
-   - Each article should have 1-5 tags from the available tag set
-   - Tags replace the old category system — an article can span multiple topic areas
-
-3. Descriptions:
-   - If the input has a quality description, preserve it
-   - If it's generic or empty, write a crisp 1-2 sentence summary
-   - Write in a sharp, factual voice with subtle personality
-
 ${RELEVANCE_SCORE_CALCULATION}
 
-INCLUSION THRESHOLDS:
-- relevanceScore >= 0.3 → MUST include
-- relevanceScore >= 0.1 → include if there's any neuroscience, biotech, mental health, pharma, or DeSci angle
-- relevanceScore < 0.1 → only skip if truly unrelated (sports scores, celebrity gossip, pure politics)
+STRICT RULES:
+- You MUST return ALL articles from the input. Dropping articles is a failure.
+- DO NOT invent or fabricate articles. Only return what was given to you.
+- Merge exact duplicates (same title + same URL) but keep everything else.
+- The output is a flat "articles" array. Use tags for classification, not categories.
 
-The output schema is a flat "articles" array. Do NOT use categories. Use tags for classification instead.
-
-IMPORTANT: Returning fewer than 50 articles from a batch of hundreds is considered a failure. Be INCLUSIVE. The dashboard benefits from more content, and users can filter by tags.
-
-The CSV data is provided below:
+The CSV data for this batch is provided below:
 `;
 
 /**
