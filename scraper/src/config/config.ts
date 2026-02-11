@@ -38,8 +38,18 @@ export const CONFIG = {
       Number(process.env.SCRAPPING_SHUTOFF_TIMEOUT) || 60_000, // Default 60 seconds timeout for shutting off browser
   },
   SUMMARIZATION: {
-    MODEL: String(process.env.SUMMARIZATION_MODEL) || "gpt-4o",
+    MODEL: String(process.env.SUMMARIZATION_MODEL) || "gpt-5-mini",
     ARTICLES_PER_CATEGORY: Number(process.env.ARTICLES_PER_CATEGORY) || 16,
+  },
+  PODCAST: {
+    MODEL: process.env.PODCAST_MODEL || "gpt-4.1",
+    MAX_ARTICLES: Number(process.env.PODCAST_MAX_ARTICLES) || 8,
+  },
+  ELEVENLABS: {
+    API_KEY: process.env.ELEVENLABS_API_KEY || "",
+    VOICE_NOVA: process.env.ELEVENLABS_VOICE_NOVA || "EXAVITQu4vr4xnSDxMaL",
+    VOICE_RENN: process.env.ELEVENLABS_VOICE_RENN || "VR6AewLTigWG4xSOukaG",
+    MODEL: process.env.ELEVENLABS_MODEL || "eleven_multilingual_v2",
   },
   SERVER: {
     PORT: Number(process.env.SERVER_PORT) || 2_345,

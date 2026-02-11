@@ -325,6 +325,82 @@ IMPORTANT: Having fewer than 5 articles in any category is considered a failure.
 The CSV data is provided below:
 `;
 
+/**
+ * Prompt for the AI to generate podcast scripts.
+ * Uses character bibles, structural guidelines, and anti-slop rules
+ * to produce natural, engaging dialogue for TTS.
+ */
+export const PODCAST_SCRIPT_PROMPT = `You are writing a script for "Elata Neurotech Brief," a daily podcast about neuroscience, brain technology, and the future of mental health.
+
+═══ CHARACTERS ═══
+
+**Nova** (the host):
+- Former science journalist turned podcast host. Warm, curious, and sharp.
+- She drives the conversation: introduces stories, asks clarifying questions, makes connections between topics.
+- Uses accessible language without dumbing things down. Occasionally witty — dry humor, not forced jokes.
+- She isn't afraid to push back on hype or play devil's advocate against Dr. Renn.
+- She bridges the gap between expert knowledge and the general audience.
+- Sometimes references specific researchers, institutions, or papers she admires.
+
+**Dr. Renn** (the expert):
+- Computational neuroscientist with 20+ years of clinical and research experience.
+- Analytical and precise, but NOT dry or robotic. He has genuine passion that comes through.
+- Provides depth, context, and the "why this matters" angle for each story.
+- Gets authentically excited about elegant experimental designs, surprising results, or clever engineering.
+- When he critiques, he gives SPECIFIC, SUBSTANTIVE reasons: sample sizes, confounding variables, regulatory timelines, replication concerns, funding model issues. Never generic caution.
+- Draws on historical analogies from the field. Proposes what evidence WOULD convince him.
+- Occasionally challenges Nova's framing or offers a contrarian take.
+
+═══ STRUCTURE ═══
+
+1. **Cold open** (1-2 sentences from Nova): Hook the listener with the most compelling story. No "Welcome to..." — just drop them into it.
+2. **Brief intro** (1 segment): Nova quickly previews what's coming up.
+3. **Story deep dives** (3-5 stories): For each story:
+   - Nova introduces the research/news with key facts
+   - Dr. Renn provides analysis, implications, or critique
+   - Allow natural back-and-forth — follow-up questions, reactions, brief tangents
+   - Connect stories to each other when there's a genuine thread
+4. **Natural transitions**: Move between stories conversationally. "Speaking of BCIs..." or "That reminds me of..." — not "Moving on to our next story..."
+5. **Closing** (2-3 segments): Quick takes on what to watch next. Nova signs off with something memorable. Mention Elata community.
+
+═══ TONE & STYLE ═══
+
+- **Conversational, not scripted**: Use contractions. Allow reactions ("That's wild," "Wait, seriously?", "Hmm, I'm not sure I buy that"). Short interjections are fine.
+- **Specific over generic**: Reference actual numbers, researcher names, institution names, publication venues from the articles.
+- **Each segment**: 2-4 sentences, 80-200 words. Optimal for TTS pacing.
+- **Vary emotional register**: Some stories warrant excitement, others gravity, others dry humor, others genuine concern.
+- **Connect to Elata's mission** when natural: computational neuroscience, precision psychiatry, BCIs, DeSci. Don't force it.
+
+═══ ANTI-SLOP RULES (CRITICAL) ═══
+
+NEVER use these phrases or patterns:
+- "Without further ado" / "Let's dive in" / "Let's unpack" / "Before we get started"
+- "This is a really interesting development" / "This is fascinating" (without saying WHY)
+- "We need to be cautious" / "We must remain vigilant" / "I urge caution" (say the SPECIFIC concern instead)
+- "It could potentially maybe" — drop the hedging, state the uncertainty directly
+- "In today's episode, we'll be covering..." (just DO it, don't announce it)
+- "That's a great point, Nova" (show, don't tell — respond substantively instead of complimenting)
+- Repetitive structures across stories — vary how you enter and exit each topic
+
+DO:
+- Start stories in different ways (question, anecdote, surprising stat, direct statement)
+- Let Dr. Renn occasionally express genuine excitement, not just caution
+- Allow Nova to occasionally be the skeptic
+- Include at least one moment of humor or lightness per episode
+- End segments with forward-looking hooks, not summaries
+
+═══ OUTPUT FORMAT ═══
+
+Return a JSON array of segments:
+[
+  { "speaker": "nova", "text": "..." },
+  { "speaker": "dr-renn", "text": "..." },
+  ...
+]
+
+Target: ~8000-10000 total characters across all segments (~10-12 minutes of audio).
+Be factual. Cite specific findings from the provided articles. Do not hallucinate data or details.`;
+
 export const ELATA_TWITTER_SUMMARY_PROMPT = `
 Task:
 

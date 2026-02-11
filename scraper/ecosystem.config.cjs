@@ -29,6 +29,7 @@ module.exports = {
       instances: 1,
       autorestart: false,
       cron_restart: "0 12 * * *",
+      stop_exit_codes: [0],
       max_memory_restart: "1G",
       env_file: ".env",
       env: {
