@@ -62,10 +62,15 @@ const buildLaunchOptions = (): PuppeteerLaunchOptions => {
 const extractPageContent = async (browser: Browser, url: string, timeoutMs: number): Promise<string> => {
   const page = await browser.newPage();
 
+  // Use domcontentloaded instead of networkidle0 — many sites never reach
+  // zero open connections due to analytics, websockets, polling, etc.
   await page.goto(url, {
-    waitUntil: "networkidle0",
+    waitUntil: "domcontentloaded",
     timeout: timeoutMs,
   });
+
+  // Give a short window for JS-rendered content to populate
+  await new Promise((r) => setTimeout(r, 3000));
 
   const content = await page.evaluate(() => {
     for (const el of document.querySelectorAll("script, style")) {
