@@ -391,11 +391,13 @@ export const generatePodcastEpisode = async (
     0,
   );
 
+  // Use relative URL path for audioUrl (served by /podcast/audio/:filename route)
+  const audioFilename = `${episodeId}.mp3`;
   const episode: PodcastEpisode = {
     id: episodeId,
     title: script.title,
     description: script.description,
-    audioUrl: finalAudioPath,
+    audioUrl: `/podcast/audio/${audioFilename}`,
     segmentFiles,
     duration: estimatedDuration,
     date: new Date().toISOString(),

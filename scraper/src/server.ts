@@ -319,6 +319,45 @@ app.get(
 );
 
 /**
+ * GET /podcast/audio/:filename
+ * Serves podcast MP3 files from the podcast directory.
+ */
+app.get(
+  "/podcast/audio/:filename",
+  asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const fs = await import("node:fs");
+    const pathMod = await import("node:path");
+
+    const { filename } = req.params;
+
+    // Security: only allow safe MP3 filenames
+    if (!filename || !/^[\w.-]+\.mp3$/i.test(filename)) {
+      res.status(400).json({ error: "Invalid filename" });
+      return;
+    }
+
+    const podcastDir = pathMod.join(CONFIG.PATHS.DATA_DIR, "podcast");
+    const filePath = pathMod.join(podcastDir, filename);
+
+    if (!fs.existsSync(filePath)) {
+      res.status(404).json({ error: "Audio file not found" });
+      return;
+    }
+
+    const stat = fs.statSync(filePath);
+    res.set({
+      "Content-Type": "audio/mpeg",
+      "Content-Length": String(stat.size),
+      "Cache-Control": "public, max-age=86400, immutable",
+      "Accept-Ranges": "bytes",
+    });
+
+    const stream = fs.createReadStream(filePath);
+    stream.pipe(res as unknown as NodeJS.WritableStream);
+  })
+);
+
+/**
  * Health check
  */
 app.get("/health", (_req: Request, res: Response): void => {

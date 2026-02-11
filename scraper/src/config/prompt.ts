@@ -293,34 +293,52 @@ Remember: It is better to report fewer real articles than to include any fabrica
 `;
 
 /**
- * Prompt for the AI to summarize the news articles and convert them to a summary
+ * Prompt for the AI to summarize the news articles and convert them to a summary.
+ * Updated for the flat allArticles schema — no more categories.
  */
 export const MAIN_PROMPT = `
 ${ELATA_MISSION_ROLE_PROMPT}
 
 Task:
 
-You will receive a CSV list of articles from the past 24 hours. These articles are obtained form NewsAPI.
+You will receive a CSV list of articles from the past 24 hours, obtained from NewsAPI.
 
-Your job is to:
-- Analyze all articles in the CSV data.
-- Create a json object to power a dashboard to help Elata stay updated with the latest news in neuroscience and biotechnology.
-- Avoid repetition by summarizing similar articles together if they cover the same topic.
-- Exclude articles that are not relevant to Elata's mission.
-- Provide concise and informative summaries.
+Your job is to process ALL of these articles into a flat JSON array for a news dashboard.
+
+CRITICAL REQUIREMENTS:
+- You MUST include as many articles as possible. Your goal is to return at LEAST 50 articles, ideally more.
+- DO NOT aggressively filter. If an article is even tangentially related to neuroscience, mental health, biotech, DeSci, AI, or pharmaceutical science, INCLUDE IT.
+- Merge duplicates: if multiple articles cover the exact same story, keep the best one and skip the duplicates.
+- DO NOT invent or fabricate articles. Every article must come directly from the input data.
 
 ${ELATA_NEWS_CATEGORIES_PROMPT}
 
-${ELATA_SUMMARY_OUTPUT_FORMAT_DESCRIPTION}
+ARTICLE PROCESSING INSTRUCTIONS:
+1. For EACH article in the input:
+   - Copy title, URL, source, author, and publishedAt directly from the input
+   - Assign appropriate tags from the neurotech tag taxonomy (multiple tags per article is encouraged)
+   - Calculate a relevanceScore (0.0 to 1.0) based on relevance to Elata's mission
+   - Assign a rankingScore that factors in both relevance and scientific quality
 
-Instructions:
-- Each category MUST contain AT LEAST 5 articles - this is a strict requirement
-- Never output empty categories
-- When including tangentially related articles to meet the minimum requirement, clearly explain the relevance in the description
-- The output will be written directly to a JSON file, so it must be valid JSON
-- If you cannot find 5 directly relevant articles for a category, you MUST include tangentially related articles to reach the minimum of 5
+2. Tag assignment:
+   - Each article should have 1-5 tags from the available tag set
+   - Tags replace the old category system — an article can span multiple topic areas
 
-IMPORTANT: Having fewer than 5 articles in any category is considered a failure. Always meet this minimum requirement while maintaining reasonable relevance to Elata's mission and not hallucinating.
+3. Descriptions:
+   - If the input has a quality description, preserve it
+   - If it's generic or empty, write a crisp 1-2 sentence summary
+   - Write in a sharp, factual voice with subtle personality
+
+${RELEVANCE_SCORE_CALCULATION}
+
+INCLUSION THRESHOLDS:
+- relevanceScore >= 0.3 → MUST include
+- relevanceScore >= 0.1 → include if there's any neuroscience, biotech, mental health, pharma, or DeSci angle
+- relevanceScore < 0.1 → only skip if truly unrelated (sports scores, celebrity gossip, pure politics)
+
+The output schema is a flat "articles" array. Do NOT use categories. Use tags for classification instead.
+
+IMPORTANT: Returning fewer than 50 articles from a batch of hundreds is considered a failure. Be INCLUSIVE. The dashboard benefits from more content, and users can filter by tags.
 
 The CSV data is provided below:
 `;
